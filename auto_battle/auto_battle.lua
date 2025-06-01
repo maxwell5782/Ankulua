@@ -81,11 +81,12 @@ while true do
     { action = "touchUp",   target = Location(865, 235) },
     { action = "wait",      target = 1 },
     { action = "touchDown", target = Location(580, 280) },
-    { action = "touchUp",   target = Location(580, 280) }
+    { action = "touchUp",   target = Location(580, 280) },
+    { action = "wait",      target = 10 }
   })
 
   -- 打完回報
-  while Region(395, 65, 185, 120):exists(Pattern("dock.png"):similar(0.9)) == nil do
+  while Region(709, 480, 73, 36):exists(Pattern("leave.png"):similar(0.9)) == nil do
     toast(string.format("round %s wait til back to dock", rounds))
     wait(5)
   end
