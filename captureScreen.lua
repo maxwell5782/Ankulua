@@ -1,7 +1,8 @@
 -- ========== 設定 ================
 Settings:setCompareDimension(true, 960)
 Settings:setScriptDimension(true, 960)
-
+setImmersiveMode(true)
+autoGameArea(true)
 w = 30
 h = 30
 
