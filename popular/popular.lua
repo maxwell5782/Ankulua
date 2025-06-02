@@ -1,6 +1,8 @@
 -- ========== 設定 ================
 Settings:setCompareDimension(true, 960)
 Settings:setScriptDimension(true, 960)
+setImmersiveMode(true)
+autoGameArea(true)
 
 pop1 = Location(170, 70)
 sell1 = Location(120, 90)
