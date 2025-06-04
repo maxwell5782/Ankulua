@@ -6,19 +6,22 @@ setImmersiveMode(true)
 autoGameArea(true)
 
 function findImage(image, region)
+    toast(string.format("findImage(%s)", image))
     result = nil
     while result == nil do
         if region == nil then 
-            toast(string.format("findImage(%s)", image))
             result = exists(image)
         else
-            toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
             result = region:exists(image)
         end
         wait(findImageWait)
     end
     toast(string.format("found %s", image))
-    return region:getLastMatch()
+    if region == nil then 
+        return getLastMatch()
+    else
+        return region:getLastMatch()
+    end
 end
 
 function makeDeal()
