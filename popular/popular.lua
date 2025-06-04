@@ -14,6 +14,14 @@ function openMap()
     })
 end
 
+function click(location, wait)
+    manualTouch({
+        { action = "touchDown", target = location },
+        { action = "touchUp",   target = location },
+        { action = "wait",      target = wait }
+    })
+end
+
 function findImage(image, region)
     result = nil
     while result == nil do
@@ -42,6 +50,16 @@ function makeDeal()
     })
 end
 
+buyTable = {}
+buyTable[0] = Location(110, 160)
+buyTable[1] = Location(110, 300)
+buyTable[2] = Location(110, 430)
+
+sellTable = {}
+sellTable[0] = Location(210, 190)
+sellTable[1] = Location(210, 320)
+sellTable[2] = Location(210, 450)
+
 pop1 = Location(110, 160)
 sell1 = Location(210, 190)
 pop2 = Location(110, 300)
@@ -53,9 +71,9 @@ sell3 = Location(210, 450)
 dialogInit()
 addTextView("跑哪個流行")
 addRadioGroup("targetPop", 1)
-addRadioButton("流行1", 1)
-addRadioButton("流行2", 2)
-addRadioButton("流行3", 3)
+addRadioButton("流行1", 0)
+addRadioButton("流行2", 1)
+addRadioButton("流行3", 2)
 newRow()
 addTextView("買的地點位移")
 addEditNumber("offsetX", 0)
@@ -73,28 +91,48 @@ else
     sell = sell3
 end
 
+pop = buyTable[targetPop]
+sell = sellTable[targetPop]
+
 while true do
     -- 小地圖
-    openMap()
+    --openMap()
+    
+    manualTouch({
+            -- 小地圖
+        { action = "touchDown", target = Location(2130, 220) },
+        { action = "touchUp",   target = Location(2130, 220) },
+        { action = "wait",      target = 1 },
+            -- 行情
+        { action = "touchDown", target = Location(2220, 860) },
+        { action = "touchUp",   target = Location(2220, 860) },
+        { action = "wait",      target = 1 },
+            -- 要買的東西
+        { action = "touchDown", target = pop },
+        { action = "touchUp",   target = pop },
+        { action = "wait",      target = 1 }
+    })
 
     -- 點行情
-    click(findImage("1.png", Region(2187, 814, 93, 80)))
-    wait(1)
+    -- 2220,860
+    --click(findImage("1.png", Region(2187, 814, 93, 80)))
+    --wait(1)
 
-    click(pop)
-    wait(1)
+    --click(pop)
+    --wait(1)
 
     -- 找可採購港口
     match = findImage("2.png", Region(1793, 287, 520, 442))
     match:setTargetOffset(offsetX, offsetY)
     click(match)
     wait(1)
-    click(match)
-    wait(1)
+    --click(match)
+    --wait(1)
 
-    -- 找前往
-    click(findImage("3.png", Region(809, 288, 930, 464)))
-    wait(10)
+    -- 找前往1390,520
+    click(Location(1390, 520), 10)
+    --click(findImage("3.png", Region(809, 288, 930, 464)))
+    --wait(10)
 
     -- 到交易所買
     click(findImage("4.png", Region(1832, 971, 63, 55)))
