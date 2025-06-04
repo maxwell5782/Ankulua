@@ -14,14 +14,6 @@ function openMap()
     })
 end
 
-function click(location, wait)
-    manualTouch({
-        { action = "touchDown", target = location },
-        { action = "touchUp",   target = location },
-        { action = "wait",      target = wait }
-    })
-end
-
 function findImage(image, region)
     result = nil
     while result == nil do
@@ -130,7 +122,11 @@ while true do
     --wait(1)
 
     -- 找前往1390,520
-    click(Location(1390, 520), 10)
+    manualTouch({
+        { action = "touchDown", target = Location(1390, 520) },
+        { action = "touchUp",   target = Location(1390, 520) },
+        { action = "wait",      target = 10 }
+    })
     --click(findImage("3.png", Region(809, 288, 930, 464)))
     --wait(10)
 
