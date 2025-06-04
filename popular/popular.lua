@@ -132,4 +132,29 @@ while true do
     })
     makeDeal()
     wait(1)
+
+    -- 喝酒
+    manualTouch({
+            -- 小地圖
+        { action = "touchDown", target = Location(2130, 220) },
+        { action = "touchUp",   target = Location(2130, 220) },
+        { action = "wait",      target = 1 }
+    })
+    -- 到酒館
+    click(findImage("bar.png"))    
+    manualTouch({
+            -- 走到酒保位    
+        { action = "touchDown", target = Location(210, 680) },
+        { action = "wait",      target = 1 },
+        { action = "touchUp",   target = Location(210, 680) },
+        { action = "wait",      target = 1 },
+            -- 請客
+        { action = "touchDown", target = Location(1940, 1000) },
+        { action = "touchUp",   target = Location(1940, 1000) },
+        { action = "wait",      target = 1 },
+            -- 請客
+        { action = "touchDown", target = Location(1940, 790) },
+        { action = "touchUp",   target = Location(1940, 790) },
+        { action = "wait",      target = 1 }
+    })
 end
