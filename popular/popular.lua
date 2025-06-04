@@ -8,10 +8,11 @@ autoGameArea(true)
 function findImage(image, region)
     result = nil
     while result == nil do
-        toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
         if region == nil then 
+            toast(string.format("findImage(%s)", image))
             result = exists(image)
         else
+            toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
             result = region:exists(image)
         end
         wait(findImageWait)
@@ -145,7 +146,7 @@ while true do
         { action = "wait",      target = 1 }
     })
     -- 到酒館
-    click(findImage("bar.png", nil))    
+    click(findImage("bar.png"))    
     manualTouch({
             -- 走到酒保位    
         { action = "touchDown", target = Location(210, 680) },
