@@ -9,7 +9,11 @@ function findImage(image, region)
     result = nil
     while result == nil do
         toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
-        result = region:exists(image)
+        if region == nil then 
+            result = exists(image)
+        else
+            result = region:exists(image)
+        end
         wait(findImageWait)
     end
     toast(string.format("found %s", image))
