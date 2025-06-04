@@ -145,7 +145,7 @@ while true do
         { action = "wait",      target = 1 }
     })
     -- 到酒館
-    click(findImage("bar.png"))    
+    click(findImage("bar.png", nil))    
     manualTouch({
             -- 走到酒保位    
         { action = "touchDown", target = Location(210, 680) },
