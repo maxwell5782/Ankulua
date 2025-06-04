@@ -5,15 +5,6 @@ Settings:set("MinSimilarity", 0.9)
 setImmersiveMode(true)
 autoGameArea(true)
 
-function openMap()
-    toast("openMap")
-    manualTouch({
-        { action = "touchDown", target = Location(2130, 220) },
-        { action = "touchUp",   target = Location(2130, 220) },
-        { action = "wait",      target = 1 }
-    })
-end
-
 function findImage(image, region)
     result = nil
     while result == nil do
