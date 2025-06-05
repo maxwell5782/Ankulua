@@ -112,7 +112,7 @@ sell = sellTable[targetPop]
 
 round = 0
 while round < executeTimes do
-    executeTimes = executeTimes + 1
+    round = round + 1
     toast(string.format("Round %s", round))
 
     -- 點要買的東西
