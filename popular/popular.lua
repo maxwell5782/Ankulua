@@ -180,14 +180,12 @@ while round < executeTimes do
 
     -- 喝酒
     if (drink) then
-        -- 點小地圖
         manualTouch({
+            -- 點小地圖
             { action = "touchDown", target = Location(2130, 220) },
             { action = "touchUp",   target = Location(2130, 220) },
-            { action = "wait",      target = interval }
-        })
-        -- 先滑到上面
-        manualTouch({
+            { action = "wait",      target = interval },
+            -- 先滑到上面
             { action = "touchDown", target = Location(1200, 100) },
             { action = "touchMove", target = Location(1200, 600) },
             { action = "touchUp",   target = Location(1200, 600) },
@@ -212,9 +210,12 @@ while round < executeTimes do
         end
         -- 完全找不到就不喝酒了
         if result == nil then
+            toast("not found, quit drink step")
             break
         end
+        toast("found")
         -- 有找到，去酒館喝酒
+        click(getLastMatch())
         manualTouch({
             -- 等待走到酒館
             { action = "wait",      target = 15 },
