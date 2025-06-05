@@ -4,74 +4,61 @@ Settings:setScriptDimension(true, 2340)
 Settings:set("MinSimilarity", 0.9)
 setImmersiveMode(true)
 autoGameArea(true)
-setManualTouchParameter(15, 1)
+setManualTouchParameter(20, 1)
 
 interval = 1
 
-function findInMap(image)
-    toast(string.format("findInMap(%s)", image))
+regionSail = Region(1300, 630, 300, 280)
+regionGoods = Region(45, 95, 580, 660)
 
-    -- 小地圖
-    manualTouch({
-        { action = "touchDown", target = Location(2130, 220) },
-        { action = "touchUp",   target = Location(2130, 220) },
-        { action = "wait",      target = interval }
-    })
-
-    repeat
-        -- 先滑到上面
-        manualTouch({
-            { action = "touchDown", target = Location(1200, 100) },
-            { action = "touchMove", target = Location(1200, 600) },
-            { action = "touchUp",   target = Location(1200, 600) },
-            { action = "wait",      target = interval }
-        })
-        result = exists(image)
-        if result == nil then -- 找不到的話，滑到下面找
-            manualTouch({
-                { action = "touchDown", target = Location(1200, 900) },
-                { action = "touchMove", target = Location(1200, 100) },
-                { action = "touchUp",   target = Location(1200, 100) },
-                { action = "wait",      target = interval }
-            })
-            result = exists(image)
-        end
-        wait(findImageWait)
-    until result ~= nil
-
-    toast(string.format("found %s", image))
-    return getLastMatch()
-end
-
+-- 找圖
 function findImage(image, region)
     toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
 
     repeat
         result = region:exists(image)
-        wait(findImageWait)
+        wait(findImageInterval)
     until result ~= nil
 
     toast(string.format("found %s", image))
     return region:getLastMatch()
 end
 
-function sailTil(image, region)
-    toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
-
-    repeat
+-- 找交易品
+function findGoods(image)
+    toast(string.format("findGoods(%s)", image))
+    result = regionGoods:exists(image)
+    -- 找不到的話，滑到下面找
+    if result == nil then
         manualTouch({
-            { action = "touchDown", target = Location(1370, 700) },
-            { action = "touchUp",   target = Location(1370, 700) },
+            { action = "touchDown", target = Location(340, 560) },
+            { action = "touchMove", target = Location(340, 400) },
+            { action = "touchUp",   target = Location(340, 400) },
             { action = "wait",      target = interval }
         })
-        result = region:exists(image, findImageWait)
-        wait(5)
-    until result ~= nil
+        result = regionGoods:exists(image)
+    end
+    if result ~= nil then
+        toast(string.format("found %s", image))
+        return regionGoods:getLastMatch()
+    else
+        return nil
+    end
+end
 
+-- 航行到指定圖為止，過程中會一直找操帆點擊
+function sailTil(image, region)
+    toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
+    repeat
+        regionSail:existsClick("sail.png")
+        result = region:exists(image)
+        wait(findImageInterval)
+    until result ~= nil
     toast(string.format("found %s", image))
     return region:getLastMatch()
 end
 
+-- 交易-喊價-成交
 function makeDeal()
     manualTouch({
         { action = "touchDown", target = Location(2020, 960) },
@@ -112,13 +99,22 @@ addEditNumber("offsetX", 0)
 addEditNumber("offsetY", 70)
 newRow()
 addTextView("找圖間隔(秒)")
-addEditNumber("findImageWait", 10)
+addEditNumber("findImageInterval", 5)
+newRow()
+addCheckBox("drink", "喝酒", true)
+newRow()
+addTextView("執行幾次")
+addEditNumber("executeTimes", 50)
 dialogShow("設定")
 
 pop = buyTable[targetPop]
 sell = sellTable[targetPop]
 
-while true do
+round = 0
+while round < executeTimes do
+    executeTimes = executeTimes + 1
+    toast(string.format("Round %s", round))
+
     -- 點要買的東西
     manualTouch({
         -- 小地圖
@@ -143,9 +139,8 @@ while true do
 
     -- 前往
     click(findImage("3.png", Region(960, 240, 600, 600)))
-    wait(25)
-
-    -- 到交易所買
+    wait(10)
+    -- 航行到交易所
     click(sailTil("4.png", Region(1832, 971, 63, 55)))
     -- 點流行品
     click(findImage("5.png", Region(46, 190, 579, 537)))
@@ -170,9 +165,8 @@ while true do
 
     -- 前往
     click(findImage("3.png", Region(960, 240, 600, 600)))
-    wait(25)
-
-    -- 到交易所賣
+    wait(10)
+    -- 航行到交易所
     click(sailTil("6.png", Region(1834, 868, 63, 51)))
     manualTouch({
         { action = "wait",      target = interval },
@@ -185,22 +179,60 @@ while true do
     wait(interval)
 
     -- 喝酒
-    click(findInMap("bar.png"))
-    manualTouch({
-        -- 等待走到酒館
-        { action = "wait",      target = 15 },
-        -- 走到酒保位
-        { action = "touchDown", target = Location(265, 720) },
-        { action = "wait",      target = 2.5 },
-        { action = "touchUp",   target = Location(265, 720) },
-        { action = "wait",      target = interval },
-        -- 請客
-        { action = "touchDown", target = Location(1940, 1000) },
-        { action = "touchUp",   target = Location(1940, 1000) },
-        { action = "wait",      target = interval },
-        -- 請客
-        { action = "touchDown", target = Location(1940, 790) },
-        { action = "touchUp",   target = Location(1940, 790) },
-        { action = "wait",      target = interval }
-    })
+    if (drink) then
+        -- 點小地圖
+        manualTouch({
+            { action = "touchDown", target = Location(2130, 220) },
+            { action = "touchUp",   target = Location(2130, 220) },
+            { action = "wait",      target = interval }
+        })
+        -- 先滑到上面
+        manualTouch({
+            { action = "touchDown", target = Location(1200, 100) },
+            { action = "touchMove", target = Location(1200, 600) },
+            { action = "touchUp",   target = Location(1200, 600) },
+            { action = "wait",      target = interval }
+        })
+        -- 找酒館或休息站
+        result = exists("bar.png")
+        if result == nil then
+            result = exists("inn.png")
+        end
+        if result == nil then -- 兩個找不到的話，滑到下面找
+            manualTouch({
+                { action = "touchDown", target = Location(1200, 900) },
+                { action = "touchMove", target = Location(1200, 100) },
+                { action = "touchUp",   target = Location(1200, 100) },
+                { action = "wait",      target = interval }
+            })
+            result = exists("bar.png")
+            if result == nil then
+                result = exists("inn.png")
+            end
+        end
+        -- 完全找不到就不喝酒了
+        if result == nil then
+            break
+        end
+        -- 有找到，去酒館喝酒
+        manualTouch({
+            -- 等待走到酒館
+            { action = "wait",      target = 15 },
+            -- 走到酒保位
+            { action = "touchDown", target = Location(265, 720) },
+            { action = "wait",      target = 2.5 },
+            { action = "touchUp",   target = Location(265, 720) },
+            { action = "wait",      target = interval },
+            -- 請客
+            { action = "touchDown", target = Location(1940, 1000) },
+            { action = "touchUp",   target = Location(1940, 1000) },
+            { action = "wait",      target = interval },
+            -- 請客
+            { action = "touchDown", target = Location(1940, 790) },
+            { action = "touchUp",   target = Location(1940, 790) },
+            { action = "wait",      target = interval }
+        })
+    end
 end
+
+print(string.format("Total rounds %s", round))
