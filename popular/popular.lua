@@ -95,13 +95,13 @@ addRadioButton("流行2", 1)
 addRadioButton("流行3", 2)
 newRow()
 addTextView("買的地點位移")
-addEditNumber("offsetX", 0)
-addEditNumber("offsetY", 70)
+addEditNumber("offsetY", 1)
 newRow()
 addTextView("找圖間隔(秒)")
 addEditNumber("findImageInterval", 5)
 newRow()
 addCheckBox("drink", "喝酒", true)
+addCheckBox("towage", "拖航到購買點", false)
 newRow()
 addTextView("執行幾次")
 addEditNumber("executeTimes", 50)
@@ -132,18 +132,25 @@ while round < executeTimes do
     })
 
     -- 找可採購港口
-    match = findImage("2.png", Region(1793, 287, 520, 442))
-    match:setTargetOffset(offsetX, offsetY)
+    match = findImage("port.png", Region(1793, 287, 520, 442))
+    match:setTargetOffset(0, offsetY * 65)
     click(match)
     wait(interval)
 
     -- 前往
-    click(findImage("3.png", Region(960, 240, 600, 600)))
+    if towage then
+        -- 拖航過去
+        click(findImage("towage.png", Region(960, 240, 600, 600)))
+        click(findImage("confirm.png", Region(960, 240, 600, 600)))
+    else
+        -- 開過去
+        click(findImage("go.png", Region(960, 240, 600, 600)))
+    end
     wait(10)
     -- 航行到交易所
-    click(sailTil("4.png", Region(1832, 971, 63, 55)))
+    click(sailTil("buy.png", Region(1832, 971, 63, 55)))
     -- 點流行品
-    click(findImage("5.png", Region(46, 190, 579, 537)))
+    click(findImage("popular.png", Region(46, 190, 579, 537)))
     -- 買入
     makeDeal()
 
@@ -164,10 +171,10 @@ while round < executeTimes do
     })
 
     -- 前往
-    click(findImage("3.png", Region(960, 240, 600, 600)))
+    click(findImage("go.png", Region(960, 240, 600, 600)))
     wait(10)
     -- 航行到交易所
-    click(sailTil("6.png", Region(1834, 868, 63, 51)))
+    click(sailTil("sell.png", Region(1834, 868, 63, 51)))
     manualTouch({
         { action = "wait",      target = interval },
         -- 全賣
