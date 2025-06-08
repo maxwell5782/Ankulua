@@ -51,6 +51,7 @@ function sailTil(image, region)
     toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
     repeat
         regionSail:existsClick("sail.png")
+        regionSail:existsClick("boating.png")
         result = region:exists(image)
         wait(findImageInterval)
     until result ~= nil
