@@ -217,30 +217,28 @@ while round < executeTimes do
             end
         end
         -- 完全找不到就不喝酒了
-        if result == nil then
-            toast("not found, quit drink step")
-            break
+        if result ~= nil then
+            toast("found")
+            -- 有找到，去酒館喝酒
+            click(getLastMatch())
+            manualTouch({
+                -- 等待走到酒館
+                { action = "wait",      target = 15 },
+                -- 走到酒保位
+                { action = "touchDown", target = Location(265, 720) },
+                { action = "wait",      target = 2.5 },
+                { action = "touchUp",   target = Location(265, 720) },
+                { action = "wait",      target = interval },
+                -- 請客
+                { action = "touchDown", target = Location(1940, 1000) },
+                { action = "touchUp",   target = Location(1940, 1000) },
+                { action = "wait",      target = interval },
+                -- 請客
+                { action = "touchDown", target = Location(1940, 790) },
+                { action = "touchUp",   target = Location(1940, 790) },
+                { action = "wait",      target = interval }
+            })
         end
-        toast("found")
-        -- 有找到，去酒館喝酒
-        click(getLastMatch())
-        manualTouch({
-            -- 等待走到酒館
-            { action = "wait",      target = 15 },
-            -- 走到酒保位
-            { action = "touchDown", target = Location(265, 720) },
-            { action = "wait",      target = 2.5 },
-            { action = "touchUp",   target = Location(265, 720) },
-            { action = "wait",      target = interval },
-            -- 請客
-            { action = "touchDown", target = Location(1940, 1000) },
-            { action = "touchUp",   target = Location(1940, 1000) },
-            { action = "wait",      target = interval },
-            -- 請客
-            { action = "touchDown", target = Location(1940, 790) },
-            { action = "touchUp",   target = Location(1940, 790) },
-            { action = "wait",      target = interval }
-        })
     end
 end
 
