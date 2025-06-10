@@ -13,9 +13,8 @@ regionGoods = Region(45, 95, 580, 660)
 
 -- 找圖
 function findImage(image, region)
-    toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
-
     repeat
+        toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
         result = region:exists(image)
         wait(findImageInterval)
     until result ~= nil
@@ -48,8 +47,8 @@ end
 
 -- 航行到指定圖為止，過程中會一直找操帆點擊
 function sailTil(image, region)
-    toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
     repeat
+        toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
         regionSail:existsClick("sail.png")
         regionSail:existsClick("boating.png")
         result = region:exists(image)
@@ -147,11 +146,16 @@ while round < executeTimes do
         -- 開過去
         click(findImage("go.png", Region(960, 240, 600, 600)))
     end
-    wait(10)
+    wait(5)
     -- 航行到交易所
     click(sailTil("buy.png", Region(1832, 971, 63, 55)))
     -- 點流行品
-    click(findImage("popular.png", Region(46, 190, 579, 537)))
+    result = findGoods("popular.png")
+    if result == nil then
+        print(string.format("Can't find goods %s", "popular.png"))
+        break
+    end
+    click(result)
     -- 買入
     makeDeal()
 
@@ -173,7 +177,7 @@ while round < executeTimes do
 
     -- 前往
     click(findImage("go.png", Region(960, 240, 600, 600)))
-    wait(10)
+    wait(5)
     -- 航行到交易所
     click(sailTil("sell.png", Region(1834, 868, 63, 51)))
     manualTouch({
