@@ -6,7 +6,7 @@ setImmersiveMode(true)
 autoGameArea(true)
 setManualTouchParameter(20, 1)
 
-interval = 1
+interval = 2
 tmpFile = "tmp.png"
 regionTarget = Region(174, 44, 134, 40)
 regionSail = Region(1300, 630, 300, 280)
@@ -107,9 +107,9 @@ while round < executeTimes do
         { action = "touchDown", target = Location(2220, 860) },
         { action = "touchUp",   target = Location(2220, 860) },
         { action = "wait",      target = interval },
-        -- 要買的東西
-        { action = "touchDown", target = Location(520, 990) },
-        { action = "touchUp",   target = Location(520, 990) },
+        -- 貨品分類
+        { action = "touchDown", target = Location(526, 992) },
+        { action = "touchUp",   target = Location(526, 992) },
         { action = "wait",      target = interval }
     })
 
@@ -161,12 +161,32 @@ while round < executeTimes do
         { action = "touchDown", target = Location(2220, 860) },
         { action = "touchUp",   target = Location(2220, 860) },
         { action = "wait",      target = interval },
-        -- 要買的東西
-        { action = "touchDown", target = sell },
-        { action = "touchUp",   target = sell },
+        -- 貨品分類
+        { action = "touchDown", target = Location(526, 992) },
+        { action = "touchUp",   target = Location(526, 992) },
+        { action = "wait",      target = interval },
+        -- 收藏品第一個
+        { action = "touchDown", target = Location(240, 160) },
+        { action = "touchUp",   target = Location(240, 160) },
+        { action = "wait",      target = interval },
+        -- 出售
+        { action = "touchDown", target = Location(2170, 990) },
+        { action = "touchUp",   target = Location(2170, 990) },
+        { action = "wait",      target = interval },
+        -- 海域
+        { action = "touchDown", target = Location(2050, 900) },
+        { action = "touchUp",   target = Location(2050, 900) },
+        { action = "wait",      target = interval },
+        -- 西地中海
+        { action = "touchDown", target = Location(2050, 640) },
+        { action = "touchUp",   target = Location(2050, 640) },
+        { action = "wait",      target = interval },
+        -- 最高價的出貨港
+        { action = "touchDown", target = Location(1883, 380) },
+        { action = "touchUp",   target = Location(1883, 380) },
         { action = "wait",      target = interval }
     })
-
+    
     -- 前往
     click(findImage("go.png", Region(960, 240, 600, 600)))
     wait(5)
