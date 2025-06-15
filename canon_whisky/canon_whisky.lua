@@ -6,7 +6,7 @@ setImmersiveMode(true)
 autoGameArea(true)
 setManualTouchParameter(20, 1)
 
-interval = 1
+interval = 2
 
 -- 找圖
 function findImage(image, region)
@@ -296,4 +296,7 @@ while true do
     })
     -- 前往
     click(findImage("go.png", Region(960, 240, 600, 600)))
+
+    -- 航行到工坊
+    sailTil("entrust.png", Region(1832, 970, 226, 48))
 end

@@ -6,7 +6,7 @@ setImmersiveMode(true)
 autoGameArea(true)
 setManualTouchParameter(20, 1)
 
-interval = 1
+interval = 2
 
 regionSail = Region(1300, 630, 300, 280)
 regionGoods = Region(45, 95, 580, 660)
