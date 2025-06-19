@@ -61,13 +61,11 @@ dialogShow("設定")
 function findImage(image, region)
     toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
     result = region:exists(image)
-
     while result == nil do 
         toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
         wait(findImageInterval)
         result = region:exists(image)
     end
-
     toast(string.format("found %s", image))
     return region:getLastMatch()
 end
@@ -96,13 +94,14 @@ end
 
 -- 航行到指定圖為止，過程中會一直找操帆點擊
 function sailTil(image, region)
-    repeat
-        toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
-        regionSail:existsClick("sail.png")
-        regionSail:existsClick("boating.png")
-        result = region:exists(image)
+    toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
+    regionSail:existsClick("sail.png")
+    regionSail:existsClick("boating.png")
+    while result == nil do 
+        toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
         wait(findImageInterval)
-    until result ~= nil
+        result = region:exists(image)
+    end
     toast(string.format("found %s", image))
     return region:getLastMatch()
 end
