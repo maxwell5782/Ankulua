@@ -94,17 +94,13 @@ end
 
 -- 航行到指定圖為止，過程中會一直找操帆點擊
 function sailTil(image, region)
-    toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
-    regionSail:existsClick("sail.png")
-    regionSail:existsClick("boating.png")
-    result = region:exists(image)
-    while result == nil do 
-        toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
+    repeat 
         wait(findImageInterval)
+        toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
         regionSail:existsClick("sail.png")
         regionSail:existsClick("boating.png")
         result = region:exists(image)
-    end
+    until result ~= nil
     toast(string.format("found %s", image))
     return region:getLastMatch()
 end
@@ -173,7 +169,6 @@ while round < executeTimes do
         -- 開過去
         click(findImage("go.png", Region(960, 240, 600, 600)))
     end
-    wait(5)
     -- 航行到交易所
     click(sailTil("buy.png", Region(1832, 971, 63, 55)))
     -- 找到目標交易品
@@ -225,7 +220,6 @@ while round < executeTimes do
     
     -- 前往
     click(findImage("go.png", Region(960, 240, 600, 600)))
-    wait(5)
     -- 航行到交易所
     click(sailTil("sell.png", Region(1834, 868, 63, 51)))
     manualTouch({
