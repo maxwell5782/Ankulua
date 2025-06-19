@@ -122,11 +122,6 @@ function makeDeal()
     })
 end
 
-
-
-    click(sellAreas[sellArea])
-    do return end
-
 round = 0
 while round < executeTimes do
     round = round + 1
