@@ -12,6 +12,51 @@ regionTarget = Region(174, 44, 134, 40)
 regionSail = Region(1300, 630, 300, 280)
 regionGoods = Region(45, 95, 580, 660)
 
+-- 海域位置
+sellAreas = {}
+sellAreas[0] = Location(2050, 450)-- 中南美
+sellAreas[1] = Location(2050, 510)-- 北大西洋
+sellAreas[2] = Location(2050, 570)-- 北海
+sellAreas[3] = Location(2050, 630)-- 西地中海
+sellAreas[4] = Location(2050, 690)-- 東地中海
+sellAreas[5] = Location(2050, 750)-- 非洲西岸
+sellAreas[6] = Location(2050, 810)-- 加勒比
+
+-- 設定
+dialogInit()
+addRadioGroup("offsetY", 1)
+addRadioButton("1", 1)
+addRadioButton("2", 2)
+addRadioButton("3", 3)
+addRadioButton("4", 4)
+addRadioButton("5", 5)
+addRadioButton("6", 6)
+dialogShow("第幾個採購港")
+
+dialogInit()
+addRadioGroup("sellArea", 0)
+addRadioButton("中南美", 0)
+addRadioButton("北大西洋", 1)
+addRadioButton("北海", 2)
+addRadioButton("西地中海", 3)
+addRadioButton("東地中海", 4)
+addRadioButton("非洲西岸", 5)
+addRadioButton("加勒比", 6)
+dialogShow("在哪個海域賣出")
+
+dialogInit()
+addCheckBox("drink", "喝酒", true)
+addCheckBox("towage", "拖航到購買點", false)
+dialogShow("喝酒/航行方式")
+
+dialogInit()
+addTextView("找圖間隔(秒)")
+addEditNumber("findImageInterval", 5)
+newRow()
+addTextView("執行幾次")
+addEditNumber("executeTimes", 50)
+dialogShow("設定")
+
 -- 找圖
 function findImage(image, region)
     repeat
@@ -77,20 +122,10 @@ function makeDeal()
     })
 end
 
--- 設定
-dialogInit()
-addTextView("買的地點位移")
-addEditNumber("offsetY", 1)
-newRow()
-addTextView("找圖間隔(秒)")
-addEditNumber("findImageInterval", 5)
-newRow()
-addCheckBox("drink", "喝酒", true)
-addCheckBox("towage", "拖航到購買點", false)
-newRow()
-addTextView("執行幾次")
-addEditNumber("executeTimes", 50)
-dialogShow("設定")
+
+
+    click(sellAreas[sellArea])
+    do return end
 
 round = 0
 while round < executeTimes do
@@ -176,11 +211,12 @@ while round < executeTimes do
         -- 海域
         { action = "touchDown", target = Location(2050, 900) },
         { action = "touchUp",   target = Location(2050, 900) },
-        { action = "wait",      target = interval },
-        -- 西地中海
-        { action = "touchDown", target = Location(2050, 640) },
-        { action = "touchUp",   target = Location(2050, 640) },
-        { action = "wait",      target = interval },
+        { action = "wait",      target = interval }
+    })
+    -- 指定的海域
+    click(sellAreas[sellArea])
+    wait(interval)
+    manualTouch({
         -- 最高價的出貨港
         { action = "touchDown", target = Location(1883, 380) },
         { action = "touchUp",   target = Location(1883, 380) },
