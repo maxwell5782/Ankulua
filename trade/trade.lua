@@ -59,11 +59,14 @@ dialogShow("設定")
 
 -- 找圖
 function findImage(image, region)
-    repeat
+    toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
+    result = region:exists(image)
+
+    while result == nil do 
         toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
-        result = region:exists(image)
         wait(findImageInterval)
-    until result ~= nil
+        result = region:exists(image)
+    end
 
     toast(string.format("found %s", image))
     return region:getLastMatch()
