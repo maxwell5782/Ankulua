@@ -45,6 +45,16 @@ addRadioButton("加勒比", 6)
 dialogShow("在哪個海域賣出")
 
 dialogInit()
+addRadioGroup("sellIndex", 0)
+addRadioButton("1", 0)
+addRadioButton("2", 1)
+addRadioButton("3", 2)
+addRadioButton("4", 3)
+addRadioButton("5", 4)
+addRadioButton("6", 5)
+dialogShow("第幾個出售港")
+
+dialogInit()
 addCheckBox("drink", "喝酒", true)
 addCheckBox("towage", "拖航到購買點", false)
 dialogShow("喝酒/航行方式")
@@ -211,12 +221,9 @@ while round < executeTimes do
     -- 指定的海域
     click(sellAreas[sellArea])
     wait(interval)
-    manualTouch({
-        -- 最高價的出貨港
-        { action = "touchDown", target = Location(1883, 380) },
-        { action = "touchUp",   target = Location(1883, 380) },
-        { action = "wait",      target = interval }
-    })
+    -- 指定的出售港
+    click(Location(1883, 380 + (sellIndex * 65)))
+    wait(interval)
     
     -- 前往
     click(findImage("go.png", Region(960, 240, 600, 600)))
