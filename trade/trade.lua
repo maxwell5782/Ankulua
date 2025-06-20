@@ -14,13 +14,13 @@ regionGoods = Region(45, 95, 580, 660)
 
 -- 海域位置
 sellAreas = {}
-sellAreas[0] = Location(2050, 450)-- 中南美
-sellAreas[1] = Location(2050, 510)-- 北大西洋
-sellAreas[2] = Location(2050, 570)-- 北海
-sellAreas[3] = Location(2050, 630)-- 西地中海
-sellAreas[4] = Location(2050, 690)-- 東地中海
-sellAreas[5] = Location(2050, 750)-- 非洲西岸
-sellAreas[6] = Location(2050, 810)-- 加勒比
+sellAreas[0] = Location(2050, 450) -- 中南美
+sellAreas[1] = Location(2050, 510) -- 北大西洋
+sellAreas[2] = Location(2050, 570) -- 北海
+sellAreas[3] = Location(2050, 630) -- 西地中海
+sellAreas[4] = Location(2050, 690) -- 東地中海
+sellAreas[5] = Location(2050, 750) -- 非洲西岸
+sellAreas[6] = Location(2050, 810) -- 加勒比
 
 -- 設定
 dialogInit()
@@ -71,11 +71,24 @@ dialogShow("設定")
 function findImage(image, region)
     toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
     result = region:exists(image)
-    while result == nil do 
+    while result == nil do
         wait(findImageInterval)
         toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
         result = region:exists(image)
     end
+    toast(string.format("found %s", image))
+    return region:getLastMatch()
+end
+
+-- 航行到指定圖為止，過程中會一直找操帆點擊
+function sailTil(image, region)
+    repeat
+        wait(findImageInterval)
+        toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
+        regionSail:existsClick("sail.png")
+        regionSail:existsClick("boating.png")
+        result = region:exists(image)
+    until result ~= nil
     toast(string.format("found %s", image))
     return region:getLastMatch()
 end
@@ -100,19 +113,6 @@ function findGoods(image)
     else
         return nil
     end
-end
-
--- 航行到指定圖為止，過程中會一直找操帆點擊
-function sailTil(image, region)
-    repeat 
-        wait(findImageInterval)
-        toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
-        regionSail:existsClick("sail.png")
-        regionSail:existsClick("boating.png")
-        result = region:exists(image)
-    until result ~= nil
-    toast(string.format("found %s", image))
-    return region:getLastMatch()
 end
 
 -- 交易-喊價-成交
@@ -224,7 +224,7 @@ while round < executeTimes do
     -- 指定的出售港
     click(Location(1883, 380 + (sellIndex * 65)))
     wait(interval)
-    
+
     -- 前往
     click(findImage("go.png", Region(960, 240, 600, 600)))
     -- 航行到交易所

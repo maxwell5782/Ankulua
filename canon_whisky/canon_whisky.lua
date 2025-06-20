@@ -10,12 +10,26 @@ interval = 2
 
 -- 找圖
 function findImage(image, region)
-    repeat
+    toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
+    result = region:exists(image)
+    while result == nil do
+        wait(findImageInterval)
         toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
         result = region:exists(image)
-        wait(findImageInterval)
-    until result ~= nil
+    end
+    toast(string.format("found %s", image))
+    return region:getLastMatch()
+end
 
+-- 航行到指定圖為止，過程中會一直找操帆點擊
+function sailTil(image, region)
+    repeat
+        wait(findImageInterval)
+        toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
+        regionSail:existsClick("sail.png")
+        regionSail:existsClick("boating.png")
+        result = region:exists(image)
+    until result ~= nil
     toast(string.format("found %s", image))
     return region:getLastMatch()
 end
@@ -93,20 +107,6 @@ function makeDeal()
         { action = "touchUp",   target = Location(2140, 960) },
         { action = "wait",      target = interval }
     })
-end
-
--- 航行到指定圖為止，過程中會一直找操帆點擊
-function sailTil(image, region)
-    regionSail = Region(1300, 630, 300, 280)
-    repeat
-        toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
-        regionSail:existsClick("sail.png")
-        regionSail:existsClick("boating.png")
-        result = region:exists(image)
-        wait(findImageInterval)
-    until result ~= nil
-    toast(string.format("found %s", image))
-    return region:getLastMatch()
 end
 
 -- 設定
