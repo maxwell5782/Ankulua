@@ -11,12 +11,13 @@ regionFoot = Region(1615, 631, 87, 80)
 
 -- 找圖
 function findImage(image, region)
-    repeat
+    toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
+    result = region:exists(image)
+    while result == nil do
+        wait(findImageInterval)
         toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
         result = region:exists(image)
-        wait(findImageInterval)
-    until result ~= nil
-
+    end
     toast(string.format("found %s", image))
     return region:getLastMatch()
 end
