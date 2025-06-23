@@ -5,9 +5,7 @@ Settings:set("MinSimilarity", 0.9)
 setImmersiveMode(true)
 autoGameArea(true)
 setManualTouchParameter(20, 1)
---170 115 160 40
---170 230 160 40
---170 345 160 40
+
 interval = 2
 tmpFile = "tmp.png"
 regionSail = Region(1300, 630, 300, 280)
@@ -79,15 +77,11 @@ function makeDeal()
     })
 end
 
+-- 流行品文字的範圍
 popTable = {}
-popTable[0] = Region(170, 115, 160, 40)
-popTable[1] = Region(170, 230, 160, 40)
-popTable[2] = Region(170, 345, 160, 40)
-
-for i = 0, 2 do 
-popTable[i]:save(i..".png")
-end
-do return end
+popTable[0] = Region(170, 115, 150, 40)
+popTable[1] = Region(170, 245, 150, 40)
+popTable[2] = Region(170, 378, 150, 40)
 
 buyTable = {}
 buyTable[0] = Location(110, 160)
@@ -149,7 +143,13 @@ while round < executeTimes do
             -- 行情
             { action = "touchDown", target = Location(2220, 860) },
             { action = "touchUp",   target = Location(2220, 860) },
-            { action = "wait",      target = interval },
+            { action = "wait",      target = interval }
+        })
+
+        -- 截取交易品特徵
+        popTable[targetPop]:save(tmpFile)
+
+        manualTouch({
             -- 要買的東西
             { action = "touchDown", target = pop },
             { action = "touchUp",   target = pop },
@@ -175,7 +175,7 @@ while round < executeTimes do
         -- 航行到交易所
         click(sailTil("buy.png", Region(1832, 971, 63, 55)))
         -- 點流行品
-        result = findGoods("popular.png")
+        result = findGoods(tmpFile)
     until result ~= nil
     click(result)
     -- 買入
