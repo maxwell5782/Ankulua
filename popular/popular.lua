@@ -5,9 +5,11 @@ Settings:set("MinSimilarity", 0.9)
 setImmersiveMode(true)
 autoGameArea(true)
 setManualTouchParameter(20, 1)
-
+--170 115 160 40
+--170 230 160 40
+--170 345 160 40
 interval = 2
-
+tmpFile = "tmp.png"
 regionSail = Region(1300, 630, 300, 280)
 regionGoods = Region(45, 95, 580, 660)
 
@@ -76,6 +78,16 @@ function makeDeal()
         { action = "wait",      target = interval }
     })
 end
+
+popTable = {}
+popTable[0] = Region(170, 115, 160, 40)
+popTable[1] = Region(170, 230, 160, 40)
+popTable[2] = Region(170, 345, 160, 40)
+
+for i = 0, 2 do 
+popTable[i]:save(i..".png")
+end
+do return end
 
 buyTable = {}
 buyTable[0] = Location(110, 160)
