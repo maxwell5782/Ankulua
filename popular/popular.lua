@@ -79,9 +79,9 @@ end
 
 -- 流行品文字的範圍
 popTable = {}
-popTable[0] = Region(170, 115, 150, 40)
-popTable[1] = Region(170, 245, 150, 40)
-popTable[2] = Region(170, 378, 150, 40)
+popTable[0] = Region(170, 115, 125, 29)
+popTable[1] = Region(170, 250, 125, 29)
+popTable[2] = Region(170, 380, 125, 29)
 
 buyTable = {}
 buyTable[0] = Location(110, 160)
@@ -136,6 +136,10 @@ while round < executeTimes do
 
         -- 點要買的東西
         manualTouch({
+            -- 如果在交易所找不到目前的目標物，點這邊關掉交易介面重新找圖
+            { action = "touchDown", target = Location(1450, 100) },
+            { action = "touchUp",   target = Location(1450, 100) },
+            { action = "wait",      target = interval },
             -- 小地圖
             { action = "touchDown", target = Location(2130, 220) },
             { action = "touchUp",   target = Location(2130, 220) },
