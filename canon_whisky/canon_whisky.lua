@@ -23,6 +23,7 @@ end
 
 -- 航行到指定圖為止，過程中會一直找操帆點擊
 function sailTil(image, region)
+    regionSail = Region(1300, 630, 300, 280)
     repeat
         wait(findImageInterval)
         toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
