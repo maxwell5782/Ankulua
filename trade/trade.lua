@@ -9,8 +9,6 @@ setManualTouchParameter(20, 1)
 interval = 2
 tmpFile = "tmp.png"
 regionTarget = Region(174, 44, 134, 40)
-regionSail = Region(1300, 630, 300, 280)
-regionGoods = Region(45, 95, 580, 660)
 
 -- 海域位置
 sellAreas = {}
@@ -82,6 +80,7 @@ end
 
 -- 航行到指定圖為止，過程中會一直找操帆點擊
 function sailTil(image, region)
+    regionSail = Region(1300, 630, 300, 280)
     repeat
         wait(findImageInterval)
         toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
@@ -95,6 +94,7 @@ end
 
 -- 找交易品
 function findGoods(image)
+    regionGoods = Region(45, 95, 580, 660)
     toast(string.format("findGoods(%s)", image))
     result = regionGoods:exists(image)
     -- 找不到的話，滑到下面找

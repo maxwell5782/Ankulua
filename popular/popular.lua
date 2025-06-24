@@ -1,15 +1,13 @@
 -- ========== 設定 ================
 Settings:setCompareDimension(true, 2340)
 Settings:setScriptDimension(true, 2340)
-Settings:set("MinSimilarity", 0.9)
+Settings:set("MinSimilarity", 0.8)
 setImmersiveMode(true)
 autoGameArea(true)
 setManualTouchParameter(20, 1)
 
 interval = 2
 tmpFile = "tmp.png"
-regionSail = Region(1300, 630, 300, 280)
-regionGoods = Region(45, 95, 580, 660)
 
 -- 找圖
 function findImage(image, region)
@@ -26,6 +24,7 @@ end
 
 -- 航行到指定圖為止，過程中會一直找操帆點擊
 function sailTil(image, region)
+    regionSail = Region(1300, 630, 300, 280)
     repeat
         wait(findImageInterval)
         toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
@@ -39,6 +38,7 @@ end
 
 -- 找交易品
 function findGoods(image)
+    regionGoods = Region(45, 95, 580, 660)
     toast(string.format("findGoods(%s)", image))
     result = regionGoods:exists(image)
     -- 找不到的話，滑到下面找
@@ -79,9 +79,9 @@ end
 
 -- 流行品文字的範圍
 popTable = {}
-popTable[0] = Region(170, 115, 125, 29)
-popTable[1] = Region(170, 250, 125, 29)
-popTable[2] = Region(170, 380, 125, 29)
+popTable[0] = Region(175, 125, 80, 20)
+popTable[1] = Region(175, 255, 80, 20)
+popTable[2] = Region(175, 385, 80, 20)
 
 buyTable = {}
 buyTable[0] = Location(110, 160)
