@@ -222,7 +222,7 @@ while round < executeTimes do
     click(sellAreas[sellArea])
     wait(interval)
     -- 指定的出售港
-    click(Location(1883, 380 + (sellIndex * 65)))
+    click(Location(1883, 380 + (sellIndex * 75)))
     wait(interval)
 
     -- 前往

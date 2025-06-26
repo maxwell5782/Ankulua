@@ -7,8 +7,8 @@ autoGameArea(true)
 setManualTouchParameter(20, 1)
 
 actionList = { {action = "touchDown", target = Location(800,350)},
-    {action = "touchMove", target = Location(1100,350)},
-    {action = "touchUp", target = Location(1100,350)} }
+    {action = "touchMove", target = Location(1000,350)},
+    {action = "touchUp", target = Location(1000,350)} }
 
 while true do 
  if exists("fight.png", 0.5) 
