@@ -4,4 +4,6 @@
 
 /.vs
 /.gitignore
-/.gitignore
+/image
+/trade/image/tmp.png
+/popular/image/tmp.png

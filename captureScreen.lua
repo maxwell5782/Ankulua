@@ -1,8 +1,9 @@
 -- ========== 設定 ================
-Settings:setCompareDimension(true, 960)
-Settings:setScriptDimension(true, 960)
+Settings:setCompareDimension(true, 2340)
+Settings:setScriptDimension(true, 2340)
 setImmersiveMode(true)
 autoGameArea(true)
+
 w = 30
 h = 30
 
@@ -26,7 +27,7 @@ reg = Region(x, y, w, h)
 fileName = string.format("%s.png", "1")
 reg:save(fileName)
 -- 產生腳本語法
-setClipboard(string.format("Region(%s, %s, %s, %s):existsClick(\"%s\")", x, y, w, h, fileName))
+setClipboard(string.format("findImage(\"%s\", Region(%s, %s, %s, %s))", fileName, x, y, w, h))
 
 print(string.format("%s, %s, %s, %s", x, y, w, h))
 print("script copied to clipboard")
