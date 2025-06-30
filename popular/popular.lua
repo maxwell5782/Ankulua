@@ -268,6 +268,10 @@ while round < executeTimes do
                 -- 請客
                 { action = "touchDown", target = Location(1940, 790) },
                 { action = "touchUp",   target = Location(1940, 790) },
+                { action = "wait",      target = interval },
+                -- 請客
+                { action = "touchDown", target = Location(1940, 790) },
+                { action = "touchUp",   target = Location(1940, 790) },
                 { action = "wait",      target = interval }
             })
         end
