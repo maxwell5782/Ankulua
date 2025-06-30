@@ -209,9 +209,8 @@ newRow()
 addTextView("找圖間隔(秒)")
 addEditNumber("findImageInterval", 5)
 newRow()
-addTextView("執行幾次")
+addTextView("執行次數")
 addEditNumber("executeTimes", 50)
-dialogShow("喝酒/航行方式")
 dialogShow("執行設定")
 
 pop = buyTable[targetPop]
