@@ -28,12 +28,10 @@ function sailTil(image, region)
     repeat
         wait(findImageInterval)
         toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
-        matches = regionFindAll(regionSail, Pattern("sail.png"):similar(0.2))
+        matches = regionFindAllNoFindException(regionSail, Pattern("sail.png"):similar(0.5))
         for i, m in ipairs(matches) do
             click(m)
         end
-        --regionSail:existsClick("sail.png")
-        --regionSail:existsClick("boating.png")
         result = region:exists(image)
     until result ~= nil
     toast(string.format("found %s", image))
