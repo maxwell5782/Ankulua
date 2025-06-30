@@ -329,6 +329,7 @@ while true do
             result = findInMap("market.png")
         until result ~= nil
         click(getLastMatch())
+        wait(interval)
         -- 賣出
         click(findImage("sell.png", Region(1834, 868, 63, 51)))
         -- 全賣
@@ -340,6 +341,7 @@ while true do
             result = findInMap("workshop.png")
         until result ~= nil
         click(getLastMatch())
+        wait(interval)
     else
         -- 賣出
         sellCollect()
