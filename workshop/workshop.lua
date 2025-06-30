@@ -26,7 +26,7 @@ collectTextTable[4] = Region(170, 240, 130, 40)
 collectTextTable[5] = Region(170, 240, 130, 40)
 
 for i, m in ipairs(collectTextTable) do
-            m:save(tmpFile)
+            m:save(string.format("%s.png", i))
         end
 do return end
 
