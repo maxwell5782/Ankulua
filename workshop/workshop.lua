@@ -68,7 +68,8 @@ end
 function findGoods(image)
     regionGoods = Region(45, 95, 580, 660)
     toast(string.format("findGoods(%s)", image))
-    result = regionGoods:exists(image)
+    imagePattern = Pattern(image):similar(0.5)
+    result = regionGoods:exists(imagePattern)
     -- 找不到的話，滑到下面找
     if result == nil then
         manualTouch({
@@ -77,7 +78,7 @@ function findGoods(image)
             { action = "touchUp",   target = Location(340, 400) },
             { action = "wait",      target = interval }
         })
-        result = regionGoods:exists(image)
+        result = regionGoods:exists(imagePattern)
     end
     if result ~= nil then
         toast(string.format("found %s", image))
@@ -291,7 +292,7 @@ if sellLocal == false then
     dialogShow("第幾個出售港")
 end
 
--- 設定
+-- 時間設定
 dialogInit()
 addTextView("找圖間隔(秒)")
 addEditNumber("findImageInterval", 5)
@@ -300,6 +301,7 @@ dialogShow("設定")
 -- 先拍下生產品特徵
 openCollect()
 collectTextTable[prodIndex]:save(tmpFile)
+click(Location(2300, 20))
 
 while true do
     -- 等到生產完
