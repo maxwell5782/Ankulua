@@ -32,7 +32,6 @@ function findImage(image, region)
         toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
         result = region:exists(image)
     end
-    toast(string.format("found %s", image))
     return region:getLastMatch()
 end
 
@@ -48,7 +47,6 @@ function sailTil(image, region)
         end
         result = region:exists(image)
     until result ~= nil
-    toast(string.format("found %s", image))
     return region:getLastMatch()
 end
 
@@ -56,7 +54,8 @@ end
 function findGoods(image)
     regionGoods = Region(45, 95, 580, 660)
     toast(string.format("findGoods(%s)", image))
-    result = regionGoods:exists(image)
+    imagePattern = Pattern(image):similar(0.5)
+    result = regionGoods:exists(imagePattern)
     -- 找不到的話，滑到下面找
     if result == nil then
         manualTouch({
@@ -65,10 +64,9 @@ function findGoods(image)
             { action = "touchUp",   target = Location(340, 400) },
             { action = "wait",      target = interval }
         })
-        result = regionGoods:exists(image)
+        result = regionGoods:exists(imagePattern)
     end
     if result ~= nil then
-        toast(string.format("found %s", image))
         return regionGoods:getLastMatch()
     else
         return nil
@@ -179,6 +177,61 @@ function goDrink()
             { action = "wait",      target = interval }
         })
     end
+end
+
+-- 打開收藏品介面
+function openCollect()
+    manualTouch({
+        -- 小地圖
+        { action = "touchDown", target = Location(2130, 220) },
+        { action = "touchUp",   target = Location(2130, 220) },
+        { action = "wait",      target = interval },
+        -- 行情
+        { action = "touchDown", target = Location(2220, 860) },
+        { action = "touchUp",   target = Location(2220, 860) },
+        { action = "wait",      target = interval },
+        -- 貨品分類
+        { action = "touchDown", target = Location(526, 992) },
+        { action = "touchUp",   target = Location(526, 992) },
+        { action = "wait",      target = interval }
+    })
+end
+
+-- 移動到指定收藏品要出售的港
+function sellCollect()
+    -- 打開收藏品介面
+    openCollect()
+    -- 指定收藏品
+    click(collectTable[prodIndex])
+    wait(interval)
+    manualTouch({
+        -- 出售
+        { action = "touchDown", target = Location(2170, 990) },
+        { action = "touchUp",   target = Location(2170, 990) },
+        { action = "wait",      target = interval },
+        -- 海域
+        { action = "touchDown", target = Location(2050, 900) },
+        { action = "touchUp",   target = Location(2050, 900) },
+        { action = "wait",      target = interval }
+    })
+    -- 指定的海域
+    click(sellAreas[sellArea])
+    wait(interval)
+    -- 指定的出售港
+    click(Location(1883, 380 + (sellIndex * 75)))
+    wait(interval)
+    -- 前往
+    click(findImage("go.png", Region(960, 240, 600, 600)))
+    -- 航行到交易所
+    click(sailTil("sell.png", Region(1834, 868, 63, 51)))
+    manualTouch({
+        { action = "wait",      target = interval },
+        -- 全賣
+        { action = "touchDown", target = Location(535, 990) },
+        { action = "touchUp",   target = Location(535, 990) },
+        { action = "wait",      target = interval }
+    })
+    makeDeal()
 end
 
 -- 設定

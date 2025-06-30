@@ -44,7 +44,6 @@ function findImage(image, region)
         toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
         result = region:exists(image)
     end
-    toast(string.format("found %s", image))
     return region:getLastMatch()
 end
 
@@ -60,7 +59,6 @@ function sailTil(image, region)
         end
         result = region:exists(image)
     until result ~= nil
-    toast(string.format("found %s", image))
     return region:getLastMatch()
 end
 
@@ -81,7 +79,6 @@ function findGoods(image)
         result = regionGoods:exists(imagePattern)
     end
     if result ~= nil then
-        toast(string.format("found %s", image))
         return regionGoods:getLastMatch()
     else
         return nil
