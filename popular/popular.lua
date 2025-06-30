@@ -61,6 +61,35 @@ function findGoods(image)
     end
 end
 
+-- 在小地圖中找圖
+function findInMap(place)
+    toast(string.format("findInMap(%s)", place))
+    manualTouch({
+        -- 點小地圖
+        { action = "touchDown", target = Location(2130, 220) },
+        { action = "touchUp",   target = Location(2130, 220) },
+        { action = "wait",      target = interval },
+        -- 先滑到上面
+        { action = "touchDown", target = Location(1200, 100) },
+        { action = "touchMove", target = Location(1200, 500) },
+        { action = "touchUp",   target = Location(1200, 500) },
+        { action = "wait",      target = interval }
+    })
+    -- 找目標圖示
+    result = exists(place)
+    -- 找不到的話，滑到下面找
+    if result == nil then
+        manualTouch({
+            { action = "touchDown", target = Location(1200, 900) },
+            { action = "touchMove", target = Location(1200, 200) },
+            { action = "touchUp",   target = Location(1200, 200) },
+            { action = "wait",      target = interval }
+        })
+        result = exists(place)
+    end
+    return result
+end
+
 -- 交易-喊價-成交
 function makeDeal()
     manualTouch({
@@ -77,6 +106,65 @@ function makeDeal()
         { action = "touchUp",   target = Location(2140, 960) },
         { action = "wait",      target = interval }
     })
+end
+
+-- 喝酒
+function goDrink()
+    manualTouch({
+        -- 點小地圖
+        { action = "touchDown", target = Location(2130, 220) },
+        { action = "touchUp",   target = Location(2130, 220) },
+        { action = "wait",      target = interval },
+        -- 先滑到上面
+        { action = "touchDown", target = Location(1200, 100) },
+        { action = "touchMove", target = Location(1200, 500) },
+        { action = "touchUp",   target = Location(1200, 500) },
+        { action = "wait",      target = interval }
+    })
+    -- 找酒館或休息站
+    result = exists("bar.png")
+    if result == nil then
+        result = exists("inn.png")
+    end
+    if result == nil then -- 兩個找不到的話，滑到下面找
+        manualTouch({
+            { action = "touchDown", target = Location(1200, 900) },
+            { action = "touchMove", target = Location(1200, 200) },
+            { action = "touchUp",   target = Location(1200, 200) },
+            { action = "wait",      target = interval }
+        })
+        result = exists("bar.png")
+        if result == nil then
+            result = exists("inn.png")
+        end
+    end
+    -- 完全找不到就不喝酒了
+    if result ~= nil then
+        toast("found")
+        -- 有找到，去酒館喝酒
+        click(getLastMatch())
+        manualTouch({
+            -- 等待走到酒館
+            { action = "wait",      target = 15 },
+            -- 走到酒保位
+            { action = "touchDown", target = Location(265, 720) },
+            { action = "wait",      target = 2.5 },
+            { action = "touchUp",   target = Location(265, 720) },
+            { action = "wait",      target = interval },
+            -- 請客
+            { action = "touchDown", target = Location(1940, 1000) },
+            { action = "touchUp",   target = Location(1940, 1000) },
+            { action = "wait",      target = interval },
+            -- 請客
+            { action = "touchDown", target = Location(1940, 790) },
+            { action = "touchUp",   target = Location(1940, 790) },
+            { action = "wait",      target = interval },
+            -- 請客
+            { action = "touchDown", target = Location(1940, 790) },
+            { action = "touchUp",   target = Location(1940, 790) },
+            { action = "wait",      target = interval }
+        })
+    end
 end
 
 -- 流行品文字的範圍
@@ -117,15 +205,14 @@ dialogShow("第幾個採購港")
 dialogInit()
 addCheckBox("drink", "喝酒", true)
 addCheckBox("towage", "拖航到購買點", false)
-dialogShow("喝酒/航行方式")
-
-dialogInit()
+newRow()
 addTextView("找圖間隔(秒)")
 addEditNumber("findImageInterval", 5)
 newRow()
 addTextView("執行幾次")
 addEditNumber("executeTimes", 50)
-dialogShow("設定")
+dialogShow("喝酒/航行方式")
+dialogShow("執行設定")
 
 pop = buyTable[targetPop]
 sell = sellTable[targetPop]
@@ -205,7 +292,6 @@ while round < executeTimes do
 
     -- 前往
     click(findImage("go.png", Region(960, 240, 600, 600)))
-    wait(5)
     -- 航行到交易所
     click(sailTil("sell.png", Region(1834, 868, 63, 51)))
     manualTouch({
@@ -220,61 +306,7 @@ while round < executeTimes do
 
     -- 喝酒
     if (drink) then
-        manualTouch({
-            -- 點小地圖
-            { action = "touchDown", target = Location(2130, 220) },
-            { action = "touchUp",   target = Location(2130, 220) },
-            { action = "wait",      target = interval },
-            -- 先滑到上面
-            { action = "touchDown", target = Location(1200, 100) },
-            { action = "touchMove", target = Location(1200, 600) },
-            { action = "touchUp",   target = Location(1200, 600) },
-            { action = "wait",      target = interval }
-        })
-        -- 找酒館或休息站
-        result = exists("bar.png")
-        if result == nil then
-            result = exists("inn.png")
-        end
-        if result == nil then -- 兩個找不到的話，滑到下面找
-            manualTouch({
-                { action = "touchDown", target = Location(1200, 900) },
-                { action = "touchMove", target = Location(1200, 100) },
-                { action = "touchUp",   target = Location(1200, 100) },
-                { action = "wait",      target = interval }
-            })
-            result = exists("bar.png")
-            if result == nil then
-                result = exists("inn.png")
-            end
-        end
-        -- 完全找不到就不喝酒了
-        if result ~= nil then
-            toast("found")
-            -- 有找到，去酒館喝酒
-            click(getLastMatch())
-            manualTouch({
-                -- 等待走到酒館
-                { action = "wait",      target = 15 },
-                -- 走到酒保位
-                { action = "touchDown", target = Location(265, 720) },
-                { action = "wait",      target = 2.5 },
-                { action = "touchUp",   target = Location(265, 720) },
-                { action = "wait",      target = interval },
-                -- 請客
-                { action = "touchDown", target = Location(1940, 1000) },
-                { action = "touchUp",   target = Location(1940, 1000) },
-                { action = "wait",      target = interval },
-                -- 請客
-                { action = "touchDown", target = Location(1940, 790) },
-                { action = "touchUp",   target = Location(1940, 790) },
-                { action = "wait",      target = interval },
-                -- 請客
-                { action = "touchDown", target = Location(1940, 790) },
-                { action = "touchUp",   target = Location(1940, 790) },
-                { action = "wait",      target = interval }
-            })
-        end
+        goDrink();
     end
 end
 
