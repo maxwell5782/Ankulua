@@ -10,6 +10,16 @@ interval = 2
 tmpFile = "tmp.png"
 regionTarget = Region(174, 44, 134, 40)
 
+-- 海域位置
+sellAreas = {}
+sellAreas[0] = Location(2050, 450) -- 中南美
+sellAreas[1] = Location(2050, 510) -- 北大西洋
+sellAreas[2] = Location(2050, 570) -- 北海
+sellAreas[3] = Location(2050, 630) -- 西地中海
+sellAreas[4] = Location(2050, 690) -- 東地中海
+sellAreas[5] = Location(2050, 750) -- 非洲西岸
+sellAreas[6] = Location(2050, 810) -- 加勒比
+
 -- 找圖
 function findImage(image, region)
     toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
@@ -167,16 +177,6 @@ function goDrink()
         })
     end
 end
-
--- 海域位置
-sellAreas = {}
-sellAreas[0] = Location(2050, 450) -- 中南美
-sellAreas[1] = Location(2050, 510) -- 北大西洋
-sellAreas[2] = Location(2050, 570) -- 北海
-sellAreas[3] = Location(2050, 630) -- 西地中海
-sellAreas[4] = Location(2050, 690) -- 東地中海
-sellAreas[5] = Location(2050, 750) -- 非洲西岸
-sellAreas[6] = Location(2050, 810) -- 加勒比
 
 -- 設定
 dialogInit()

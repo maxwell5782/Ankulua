@@ -9,6 +9,20 @@ setManualTouchParameter(20, 1)
 interval = 2
 tmpFile = "tmp.png"
 
+-- 流行品文字的範圍
+popTable = {}
+popTable[0] = Region(175, 125, 80, 20)
+popTable[1] = Region(175, 255, 80, 20)
+popTable[2] = Region(175, 385, 80, 20)
+buyTable = {}
+buyTable[0] = Location(110, 160)
+buyTable[1] = Location(110, 300)
+buyTable[2] = Location(110, 430)
+sellTable = {}
+sellTable[0] = Location(210, 190)
+sellTable[1] = Location(210, 320)
+sellTable[2] = Location(210, 450)
+
 -- 找圖
 function findImage(image, region)
     toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
@@ -166,22 +180,6 @@ function goDrink()
         })
     end
 end
-
--- 流行品文字的範圍
-popTable = {}
-popTable[0] = Region(175, 125, 80, 20)
-popTable[1] = Region(175, 255, 80, 20)
-popTable[2] = Region(175, 385, 80, 20)
-
-buyTable = {}
-buyTable[0] = Location(110, 160)
-buyTable[1] = Location(110, 300)
-buyTable[2] = Location(110, 430)
-
-sellTable = {}
-sellTable[0] = Location(210, 190)
-sellTable[1] = Location(210, 320)
-sellTable[2] = Location(210, 450)
 
 -- 設定
 dialogInit()
