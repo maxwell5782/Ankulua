@@ -115,10 +115,8 @@ dialogInit()
 addTextView("找圖間隔(秒)")
 addEditNumber("findImageInterval", 5)
 newRow()
-addTextView("生產品")
-addEditText("goods", "lace.png")
-newRow()
 addCheckBox("drink", "喝酒", true)
+addCheckBox("towage", "拖航到購買點", false)
 dialogShow("設定")
 
 while true do
@@ -133,7 +131,7 @@ while true do
     -- 一鍵領取
     click(findImage("takeAll.png", Region(249, 955, 152, 44)))
     -- 要生產的東西
-    click(findGoods(goods))
+    click(findGoods("canon.png"))
     -- 批量
     click(findImage("batch.png", Region(2149, 814, 70, 38)))
     -- 製作
@@ -296,7 +294,14 @@ while true do
         { action = "wait",      target = interval }
     })
     -- 前往
-    click(findImage("go.png", Region(960, 240, 600, 600)))
+    if towage then
+        -- 拖航過去
+        click(findImage("towage.png", Region(960, 240, 600, 600)))
+        click(findImage("confirm.png", Region(960, 240, 600, 600)))
+    else
+        -- 開過去
+        click(findImage("go.png", Region(960, 240, 600, 600)))
+    end
 
     -- 航行到工坊
     sailTil("entrust.png", Region(1832, 970, 226, 48))
