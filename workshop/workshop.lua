@@ -6,7 +6,8 @@ setImmersiveMode(true)
 autoGameArea(true)
 setManualTouchParameter(20, 1)
 
-interval = 1
+interval = 2
+tmpFile = "tmp.png"
 
 -- 收藏品
 collectTable = {}
@@ -16,6 +17,18 @@ collectTable[2] = Location(560, 160)
 collectTable[3] = Location(240, 360)
 collectTable[4] = Location(400, 360)
 collectTable[5] = Location(560, 360)
+collectTextTable = {}
+collectTextTable[0] = Region(170, 40, 130, 40)
+collectTextTable[1] = Region(330, 40, 130, 40)
+collectTextTable[2] = Region(490, 40, 130, 40)
+collectTextTable[3] = Region(170, 240, 130, 40)
+collectTextTable[4] = Region(170, 240, 130, 40)
+collectTextTable[5] = Region(170, 240, 130, 40)
+
+for i, m in ipairs(collectTextTable) do
+            m:save(tmpFile)
+        end
+do return end
 
 -- 海域位置
 sellAreas = {}
