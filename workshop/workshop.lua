@@ -295,12 +295,10 @@ end
 dialogInit()
 addTextView("找圖間隔(秒)")
 addEditNumber("findImageInterval", 5)
-newRow()
-addTextView("生產品")
-addEditText("goods", "lace.png")
 dialogShow("設定")
 
 -- 先拍下生產品特徵
+openCollect()
 collectTextTable[prodIndex]:save(tmpFile)
 
 while true do
