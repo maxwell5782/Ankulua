@@ -9,7 +9,7 @@ setManualTouchParameter(20, 1)
 interval = 2
 tmpFile = "tmp.png"
 
--- 收藏品
+-- 收藏品定位
 collectTable = {}
 collectTable[0] = Location(240, 160)
 collectTable[1] = Location(400, 160)
@@ -18,17 +18,12 @@ collectTable[3] = Location(240, 360)
 collectTable[4] = Location(400, 360)
 collectTable[5] = Location(560, 360)
 collectTextTable = {}
-collectTextTable[0] = Region(170, 40, 130, 40)
-collectTextTable[1] = Region(330, 40, 130, 40)
-collectTextTable[2] = Region(490, 40, 130, 40)
-collectTextTable[3] = Region(170, 240, 130, 40)
-collectTextTable[4] = Region(170, 240, 130, 40)
-collectTextTable[5] = Region(170, 240, 130, 40)
-
-for i, m in ipairs(collectTextTable) do
-            m:save(string.format("%s.png", i))
-        end
-do return end
+collectTextTable[0] = Region(200, 55, 80, 20)
+collectTextTable[1] = Region(350, 55, 80, 20)
+collectTextTable[2] = Region(505, 55, 80, 20)
+collectTextTable[3] = Region(200, 260, 80, 20)
+collectTextTable[4] = Region(350, 260, 80, 20)
+collectTextTable[5] = Region(505, 260, 80, 20)
 
 -- 海域位置
 sellAreas = {}
@@ -305,6 +300,9 @@ addTextView("生產品")
 addEditText("goods", "lace.png")
 dialogShow("設定")
 
+-- 先拍下生產品特徵
+collectTextTable[prodIndex]:save(tmpFile)
+
 while true do
     -- 等到生產完
     findImage("work_done.png", Region(900, 50, 600, 400))
@@ -313,7 +311,7 @@ while true do
     -- 一鍵領取
     click(findImage("takeAll.png", Region(249, 955, 152, 44)))
     -- 要生產的東西
-    click(findGoods(goods))
+    click(findGoods(tmpFile))
     -- 批量
     click(findImage("batch.png", Region(2149, 814, 70, 38)))
     -- 製作
