@@ -53,12 +53,11 @@ function sailTil(image, region)
     repeat
         wait(findImageInterval)
         toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
-        matches = regionFindAllNoFindException(regionSail, Pattern("sail.png"):similar(0.5))
-        for i, m in ipairs(matches) do
-            click(m)
-        end
+        regionSail:existsClick("sail.png")
+        regionSail:existsClick("boating.png")
         result = region:exists(image)
     until result ~= nil
+    toast(string.format("found %s", image))
     return region:getLastMatch()
 end
 
@@ -66,7 +65,7 @@ end
 function findGoods(image)
     regionGoods = Region(45, 95, 580, 660)
     toast(string.format("findGoods(%s)", image))
-    imagePattern = Pattern(image):similar(0.5)
+    imagePattern = Pattern(image):similar(0.4)
     result = regionGoods:exists(imagePattern)
     -- 找不到的話，滑到下面找
     if result == nil then
@@ -248,26 +247,26 @@ end
 
 -- 生產設定
 dialogInit()
-    addRadioGroup("prodIndex", 0)
-    addRadioButton("1", 0)
-    addRadioButton("2", 1)
-    addRadioButton("3", 2)
-    addRadioButton("4", 3)
-    addRadioButton("5", 4)
-    addRadioButton("6", 5)
+addRadioGroup("prodIndex", 0)
+addRadioButton("1", 0)
+addRadioButton("2", 1)
+addRadioButton("3", 2)
+addRadioButton("4", 3)
+addRadioButton("5", 4)
+addRadioButton("6", 5)
 dialogShow("生產第幾個收藏品")
 dialogInit()
-    addTextView("X")
-    addEditNumber("prodX", 1880)
-    addTextView("Y")
-    addEditNumber("prodY", 400)
+addTextView("X")
+addEditNumber("prodX", 1880)
+addTextView("Y")
+addEditNumber("prodY", 400)
 dialogShow("生產港位置")
 
 -- 賣出設定
 dialogInit()
 addCheckBox("sellLocal", "原地賣出", true)
 dialogShow("賣出設定")
-if sellLocal == false then 
+if sellLocal == false then
     dialogInit()
     addRadioGroup("sellArea", 0)
     addRadioButton("中南美", 0)
@@ -291,18 +290,22 @@ end
 
 -- 時間設定
 dialogInit()
+addCheckBox("drink", "喝酒", true)
+addCheckBox("towage", "拖航到購買點", false)
+newRow()
 addTextView("找圖間隔(秒)")
 addEditNumber("findImageInterval", 5)
 dialogShow("設定")
 
 -- 先拍下生產品特徵
+toast("拍下生產品特徵")
 openCollect()
 collectTextTable[prodIndex]:save(tmpFile)
 click(Location(2300, 20))
 
 while true do
     -- 等到生產完
-    findImage("work_done.png", Region(900, 50, 600, 400))
+    findImage("work_done.png", Region(750, 50, 700, 300))
     -- 委託生產
     click(findImage("entrust.png", Region(1832, 970, 226, 48)))
     -- 一鍵領取
@@ -311,6 +314,7 @@ while true do
     click(findGoods(tmpFile))
     -- 批量
     click(findImage("batch.png", Region(2149, 814, 70, 38)))
+    --click(Location(1857,843))--+3個
     -- 製作
     click(findImage("make.png", Region(1980, 942, 76, 49)))
     -- 大量星書確認
@@ -318,8 +322,8 @@ while true do
     -- 成交
     makeDeal()
     click(Location(1370, 190))
-    
-    if sellLocal then 
+
+    if sellLocal then
         -- 到交易所
         repeat
             toast('finding market')
@@ -346,7 +350,7 @@ while true do
         if (drink) then
             goDrink()
         end
-        -- 回到工坊        
+        -- 回到工坊
         openCollect()
         -- 指定收藏品
         click(collectTable[prodIndex])
@@ -360,7 +364,14 @@ while true do
         -- 指定生產港
         click(Location(prodX, prodY))
         -- 前往
-        click(findImage("go.png", Region(960, 240, 600, 600)))
+        if towage then
+            -- 拖航過去
+            click(findImage("towage.png", Region(960, 240, 600, 600)))
+            click(findImage("confirm.png", Region(960, 240, 600, 600)))
+        else
+            -- 開過去
+            click(findImage("go.png", Region(960, 240, 600, 600)))
+        end
         -- 航行到工坊
         sailTil("entrust.png", Region(1832, 970, 226, 48))
     end
