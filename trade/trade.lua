@@ -1,7 +1,7 @@
 -- ========== 設定 ================
 Settings:setCompareDimension(true, 2340)
 Settings:setScriptDimension(true, 2340)
-Settings:set("MinSimilarity", 0.8)
+Settings:set("MinSimilarity", 0.9)
 setImmersiveMode(true)
 autoGameArea(true)
 setManualTouchParameter(20, 1)
@@ -66,7 +66,7 @@ end
 function findGoods(image)
     regionGoods = Region(45, 95, 580, 660)
     toast(string.format("findGoods(%s)", image))
-    imagePattern = Pattern(image):similar(0.7)
+    imagePattern = Pattern(image):similar(0.8)
     result = regionGoods:exists(imagePattern)
     -- 找不到的話，滑到下面找
     if result == nil then
