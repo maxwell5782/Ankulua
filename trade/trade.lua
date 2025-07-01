@@ -66,7 +66,7 @@ end
 function findGoods(image)
     regionGoods = Region(45, 95, 580, 660)
     toast(string.format("findGoods(%s)", image))
-    imagePattern = Pattern(image):similar(0.8)
+    imagePattern = Pattern(image):similar(0.7)
     result = regionGoods:exists(imagePattern)
     -- 找不到的話，滑到下面找
     if result == nil then
@@ -323,11 +323,8 @@ while round < executeTimes do
     collectTextTable[prodIndex]:save(tmpFile)
 
     -- 點交易品
-    manualTouch({
-        { action = "touchDown", target = Location(240, 160) },
-        { action = "touchUp",   target = Location(240, 160) },
-        { action = "wait",      target = interval }
-    })
+    click(collectTable[prodIndex])
+    wait(interval)
 
     -- 找可採購港口
     match = findImage("port.png", Region(1793, 287, 520, 442))
