@@ -9,21 +9,12 @@ setManualTouchParameter(20, 1)
 interval = 2
 tmpFile = "tmp.png"
 
--- 收藏品定位
-collectTable = {}
-collectTable[0] = Location(240, 160)
-collectTable[1] = Location(400, 160)
-collectTable[2] = Location(560, 160)
-collectTable[3] = Location(240, 360)
-collectTable[4] = Location(400, 360)
-collectTable[5] = Location(560, 360)
-collectTextTable = {}
-collectTextTable[0] = Region(200, 55, 80, 20)
-collectTextTable[1] = Region(350, 55, 80, 20)
-collectTextTable[2] = Region(505, 55, 80, 20)
-collectTextTable[3] = Region(200, 260, 80, 20)
-collectTextTable[4] = Region(350, 260, 80, 20)
-collectTextTable[5] = Region(505, 260, 80, 20)
+-- 生產品表
+products = {}
+products[0] = "canon.png"
+products[1] = "feather.png"
+products[2] = "ham.png"
+products[3] = "flannel.png"
 
 -- 海域位置
 sellAreas = {}
@@ -65,14 +56,14 @@ end
 function findGoods(image)
     regionGoods = Region(45, 95, 580, 660)
     toast(string.format("findGoods(%s)", image))
-    imagePattern = Pattern(image):similar(0.7)
+    imagePattern = Pattern(image):similar(0.9)
     result = regionGoods:exists(imagePattern)
     -- 找不到的話，滑到下面找
     if result == nil then
         manualTouch({
-            { action = "touchDown", target = Location(340, 560) },
-            { action = "touchMove", target = Location(340, 400) },
-            { action = "touchUp",   target = Location(340, 400) },
+            { action = "touchDown", target = Location(340, 650) },
+            { action = "touchMove", target = Location(340, 250) },
+            { action = "touchUp",   target = Location(340, 250) },
             { action = "wait",      target = interval }
         })
         result = regionGoods:exists(imagePattern)
@@ -247,20 +238,12 @@ end
 
 -- 生產設定
 dialogInit()
-addRadioGroup("prodIndex", 0)
-addRadioButton("1", 0)
-addRadioButton("2", 1)
-addRadioButton("3", 2)
-addRadioButton("4", 3)
-addRadioButton("5", 4)
-addRadioButton("6", 5)
-dialogShow("生產第幾個收藏品")
-dialogInit()
-addTextView("X")
-addEditNumber("prodX", 1880)
-addTextView("Y")
-addEditNumber("prodY", 400)
-dialogShow("生產港位置")
+addRadioGroup("productIndex", 0)
+addRadioButton("大炮", 0)
+addRadioButton("羽毛", 1)
+addRadioButton("火腿", 2)
+addRadioButton("法蘭絨", 3)
+dialogShow("生產什麼")
 
 -- 賣出設定
 dialogInit()
@@ -297,12 +280,6 @@ addTextView("找圖間隔(秒)")
 addEditNumber("findImageInterval", 5)
 dialogShow("設定")
 
--- 先拍下生產品特徵
-toast("拍下生產品特徵")
-openCollect()
-collectTextTable[prodIndex]:save(tmpFile)
-click(Location(2300, 20))
-
 while true do
     -- 等到生產完
     findImage("work_done.png", Region(750, 50, 700, 300))
@@ -311,7 +288,7 @@ while true do
     -- 一鍵領取
     click(findImage("takeAll.png", Region(249, 955, 152, 44)))
     -- 要生產的東西
-    click(findGoods(tmpFile))
+    click(findGoods(products[productIndex]))
     -- 批量
     click(findImage("batch.png", Region(2149, 814, 70, 38)))
     --click(Location(1857,843))--+3個
