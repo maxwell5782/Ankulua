@@ -10,6 +10,22 @@ interval = 2
 tmpFile = "tmp.png"
 regionTarget = Region(174, 44, 134, 40)
 
+-- 收藏品定位
+collectTable = {}
+collectTable[0] = Location(240, 160)
+collectTable[1] = Location(400, 160)
+collectTable[2] = Location(560, 160)
+collectTable[3] = Location(240, 360)
+collectTable[4] = Location(400, 360)
+collectTable[5] = Location(560, 360)
+collectTextTable = {}
+collectTextTable[0] = Region(200, 55, 80, 20)
+collectTextTable[1] = Region(350, 55, 80, 20)
+collectTextTable[2] = Region(505, 55, 80, 20)
+collectTextTable[3] = Region(200, 260, 80, 20)
+collectTextTable[4] = Region(350, 260, 80, 20)
+collectTextTable[5] = Region(505, 260, 80, 20)
+
 -- 海域位置
 sellAreas = {}
 sellAreas[0] = Location(2050, 450) -- 中南美
@@ -50,7 +66,7 @@ end
 function findGoods(image)
     regionGoods = Region(45, 95, 580, 660)
     toast(string.format("findGoods(%s)", image))
-    imagePattern = Pattern(image):similar(0.4)
+    imagePattern = Pattern(image):similar(0.8)
     result = regionGoods:exists(imagePattern)
     -- 找不到的話，滑到下面找
     if result == nil then
@@ -232,6 +248,15 @@ end
 
 -- 設定
 dialogInit()
+addRadioGroup("prodIndex", 0)
+addRadioButton("1", 0)
+addRadioButton("2", 1)
+addRadioButton("3", 2)
+addRadioButton("4", 3)
+addRadioButton("5", 4)
+addRadioButton("6", 5)
+dialogShow("第幾個收藏品")
+dialogInit()
 addRadioGroup("offsetY", 1)
 addRadioButton("1", 1)
 addRadioButton("2", 2)
@@ -278,7 +303,7 @@ while round < executeTimes do
     round = round + 1
     toast(string.format("Round %s", round))
 
-    -- 找收藏的第一個交易品
+    -- 找收藏品
     manualTouch({
         -- 小地圖
         { action = "touchDown", target = Location(2130, 220) },
@@ -295,7 +320,7 @@ while round < executeTimes do
     })
 
     -- 拍下交易品特徵
-    regionTarget:save(tmpFile)
+    collectTextTable[prodIndex]:save(tmpFile)
 
     -- 點交易品
     manualTouch({

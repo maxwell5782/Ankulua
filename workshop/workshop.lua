@@ -65,7 +65,7 @@ end
 function findGoods(image)
     regionGoods = Region(45, 95, 580, 660)
     toast(string.format("findGoods(%s)", image))
-    imagePattern = Pattern(image):similar(0.4)
+    imagePattern = Pattern(image):similar(0.7)
     result = regionGoods:exists(imagePattern)
     -- 找不到的話，滑到下面找
     if result == nil then
