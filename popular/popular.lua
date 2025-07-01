@@ -1,7 +1,7 @@
 -- ========== 設定 ================
 Settings:setCompareDimension(true, 2340)
 Settings:setScriptDimension(true, 2340)
-Settings:set("MinSimilarity", 0.8)
+Settings:set("MinSimilarity", 0.9)
 setImmersiveMode(true)
 autoGameArea(true)
 setManualTouchParameter(20, 1)
@@ -176,61 +176,6 @@ function goDrink()
             { action = "wait",      target = interval }
         })
     end
-end
-
--- 打開收藏品介面
-function openCollect()
-    manualTouch({
-        -- 小地圖
-        { action = "touchDown", target = Location(2130, 220) },
-        { action = "touchUp",   target = Location(2130, 220) },
-        { action = "wait",      target = interval },
-        -- 行情
-        { action = "touchDown", target = Location(2220, 860) },
-        { action = "touchUp",   target = Location(2220, 860) },
-        { action = "wait",      target = interval },
-        -- 貨品分類
-        { action = "touchDown", target = Location(526, 992) },
-        { action = "touchUp",   target = Location(526, 992) },
-        { action = "wait",      target = interval }
-    })
-end
-
--- 移動到指定收藏品要出售的港
-function sellCollect()
-    -- 打開收藏品介面
-    openCollect()
-    -- 指定收藏品
-    click(collectTable[prodIndex])
-    wait(interval)
-    manualTouch({
-        -- 出售
-        { action = "touchDown", target = Location(2170, 990) },
-        { action = "touchUp",   target = Location(2170, 990) },
-        { action = "wait",      target = interval },
-        -- 海域
-        { action = "touchDown", target = Location(2050, 900) },
-        { action = "touchUp",   target = Location(2050, 900) },
-        { action = "wait",      target = interval }
-    })
-    -- 指定的海域
-    click(sellAreas[sellArea])
-    wait(interval)
-    -- 指定的出售港
-    click(Location(1883, 380 + (sellIndex * 75)))
-    wait(interval)
-    -- 前往
-    click(findImage("go.png", Region(960, 240, 600, 600)))
-    -- 航行到交易所
-    click(sailTil("sell.png", Region(1834, 868, 63, 51)))
-    manualTouch({
-        { action = "wait",      target = interval },
-        -- 全賣
-        { action = "touchDown", target = Location(535, 990) },
-        { action = "touchUp",   target = Location(535, 990) },
-        { action = "wait",      target = interval }
-    })
-    makeDeal()
 end
 
 -- 設定
