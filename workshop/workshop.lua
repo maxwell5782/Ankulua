@@ -1,7 +1,7 @@
 -- ========== 設定 ================
 Settings:setCompareDimension(true, 2340)
 Settings:setScriptDimension(true, 2340)
-Settings:set("MinSimilarity", 0.8)
+Settings:set("MinSimilarity", 0.9)
 setImmersiveMode(true)
 autoGameArea(true)
 setManualTouchParameter(20, 1)
