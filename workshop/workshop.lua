@@ -16,6 +16,15 @@ products[1] = "feather.png"
 products[2] = "ham.png"
 products[3] = "flannel.png"
 
+-- 收藏品定位
+collectTable = {}
+collectTable[0] = Location(240, 160)
+collectTable[1] = Location(400, 160)
+collectTable[2] = Location(560, 160)
+collectTable[3] = Location(240, 360)
+collectTable[4] = Location(400, 360)
+collectTable[5] = Location(560, 360)
+
 -- 海域位置
 sellAreas = {}
 sellAreas[0] = Location(2050, 450) -- 中南美
@@ -244,6 +253,21 @@ addRadioButton("羽毛", 1)
 addRadioButton("火腿", 2)
 addRadioButton("法蘭絨", 3)
 dialogShow("生產什麼")
+dialogInit()
+addRadioGroup("prodIndex", 0)
+addRadioButton("1", 0)
+addRadioButton("2", 1)
+addRadioButton("3", 2)
+addRadioButton("4", 3)
+addRadioButton("5", 4)
+addRadioButton("6", 5)
+dialogShow("生產品是第幾個收藏品")
+dialogInit()
+addTextView("X")
+addEditNumber("prodX", 1880)
+addTextView("Y")
+addEditNumber("prodY", 400)
+dialogShow("生產港位置")
 
 -- 賣出設定
 dialogInit()
