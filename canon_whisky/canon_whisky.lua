@@ -128,14 +128,21 @@ addRadioButton("加勒比", 6)
 dialogShow("在哪個海域賣出")
 
 dialogInit()
-addRadioGroup("sellIndex", 0)
-addRadioButton("1", 0)
-addRadioButton("2", 1)
-addRadioButton("3", 2)
-addRadioButton("4", 3)
-addRadioButton("5", 4)
-addRadioButton("6", 5)
-dialogShow("第幾個出售港")
+addRadioGroup("sellType", 0)
+addRadioButton("依價格", 0)
+addRadioButton("指定港口", 1)
+dialogShow("出售港依據")
+if sellType == 0 then
+    dialogInit()
+    addRadioGroup("sellIndex", 0)
+    addRadioButton("1", 0)
+    addRadioButton("2", 1)
+    addRadioButton("3", 2)
+    addRadioButton("4", 3)
+    addRadioButton("5", 4)
+    addRadioButton("6", 5)
+    dialogShow("第幾個出售港")
+end
 
 dialogInit()
 addTextView("找圖間隔(秒)")
@@ -216,8 +223,32 @@ while true do
     -- 指定的海域
     click(sellAreas[sellArea])
     wait(interval)
-    -- 指定的出售港
-    click(Location(1883, 380 + (sellIndex * 75)))
+    if sellType == 0 then 
+        -- 指定的出售港
+        click(Location(1883, 380 + (sellIndex * 75)))
+    else
+        regionPort = Region(1827, 345, 195, 515)
+        res = regionPort:exists("seville.png")
+        if res == nil then 
+            manualTouch({
+                { action = "touchDown", target = Location(2033, 800) },
+                { action = "touchMove", target = Location(2033, 400) },
+                { action = "touchUp",   target = Location(2033, 400) },
+                { action = "wait",      target = interval }
+            })
+            res = regionPort:exists("seville.png")
+            if res == nil then 
+                manualTouch({
+                    { action = "touchDown", target = Location(2033, 800) },
+                    { action = "touchMove", target = Location(2033, 400) },
+                    { action = "touchUp",   target = Location(2033, 400) },
+                    { action = "wait",      target = interval }
+                })
+                res = regionPort:exists("seville.png")
+            end
+        end
+        click(res)
+    end
     wait(interval)
     -- 前往
     click(findImage("go.png", Region(960, 240, 600, 600)))
