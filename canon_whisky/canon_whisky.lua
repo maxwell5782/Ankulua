@@ -8,6 +8,16 @@ setManualTouchParameter(20, 1)
 
 interval = 2
 
+-- 海域位置
+sellAreas = {}
+sellAreas[0] = Location(2050, 450) -- 中南美
+sellAreas[1] = Location(2050, 510) -- 北大西洋
+sellAreas[2] = Location(2050, 570) -- 北海
+sellAreas[3] = Location(2050, 630) -- 西地中海
+sellAreas[4] = Location(2050, 690) -- 東地中海
+sellAreas[5] = Location(2050, 750) -- 非洲西岸
+sellAreas[6] = Location(2050, 810) -- 加勒比
+
 -- 找圖
 function findImage(image, region)
     toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
@@ -112,6 +122,27 @@ end
 
 -- 設定
 dialogInit()
+addRadioGroup("sellArea", 0)
+addRadioButton("中南美", 0)
+addRadioButton("北大西洋", 1)
+addRadioButton("北海", 2)
+addRadioButton("西地中海", 3)
+addRadioButton("東地中海", 4)
+addRadioButton("非洲西岸", 5)
+addRadioButton("加勒比", 6)
+dialogShow("在哪個海域賣出")
+
+dialogInit()
+addRadioGroup("sellIndex", 0)
+addRadioButton("1", 0)
+addRadioButton("2", 1)
+addRadioButton("3", 2)
+addRadioButton("4", 3)
+addRadioButton("5", 4)
+addRadioButton("6", 5)
+dialogShow("第幾個出售港")
+
+dialogInit()
 addTextView("找圖間隔(秒)")
 addEditNumber("findImageInterval", 5)
 newRow()
@@ -185,17 +216,14 @@ while true do
         -- 海域
         { action = "touchDown", target = Location(2050, 900) },
         { action = "touchUp",   target = Location(2050, 900) },
-        { action = "wait",      target = interval },
-        -- 西地中海
-        { action = "touchDown", target = Location(2050, 640) },
-        { action = "touchUp",   target = Location(2050, 640) },
-        { action = "wait",      target = interval },
-        -- 最高價的出貨港
-        { action = "touchDown", target = Location(1883, 380) },
-        { action = "touchUp",   target = Location(1883, 380) },
         { action = "wait",      target = interval }
     })
-
+    -- 指定的海域
+    click(sellAreas[sellArea])
+    wait(interval)
+    -- 指定的出售港
+    click(Location(1883, 380 + (sellIndex * 75)))
+    wait(interval)
     -- 前往
     click(findImage("go.png", Region(960, 240, 600, 600)))
     wait(5)
