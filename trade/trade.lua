@@ -36,6 +36,17 @@ sellAreas[4] = Location(2050, 690) -- 東地中海
 sellAreas[5] = Location(2050, 750) -- 非洲西岸
 sellAreas[6] = Location(2050, 810) -- 加勒比
 
+areaTable = {}
+areaTable[1] = {}
+areaTable[1][0] = "bordeaux.png"
+areaTable[3] = {}
+areaTable[3][0] = "seville.png"
+areaTable[4] = {}
+areaTable[4][0] = "alexander.png"
+areaTable[4][1] = "benghazi.png"
+areaTable[4][2] = "cairo.png"
+areaTable[4][3] = "famagusta.png"
+
 -- 找圖
 function findImage(image, region)
     toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
@@ -110,6 +121,32 @@ function findInMap(place)
             { action = "wait",      target = interval }
         })
         result = exists(place)
+    end
+    return result
+end
+
+-- 找指定港口
+function findPort(place)
+    toast(string.format("findPort(%s)", place))
+    regionPort = Region(1827, 345, 195, 515)
+    result = regionPort:exists(place)
+    if result == nil then
+        manualTouch({
+            { action = "touchDown", target = Location(2033, 800) },
+            { action = "touchMove", target = Location(2033, 400) },
+            { action = "touchUp",   target = Location(2033, 400) },
+            { action = "wait",      target = interval }
+        })
+        result = regionPort:exists(place)
+        if result == nil then
+            manualTouch({
+                { action = "touchDown", target = Location(2033, 800) },
+                { action = "touchMove", target = Location(2033, 400) },
+                { action = "touchUp",   target = Location(2033, 400) },
+                { action = "wait",      target = interval }
+            })
+            result = regionPort:exists(place)
+        end
     end
     return result
 end
@@ -229,8 +266,12 @@ function sellCollect()
     -- 指定的海域
     click(sellAreas[sellArea])
     wait(interval)
-    -- 指定的出售港
-    click(Location(1883, 380 + (sellIndex * 75)))
+    if sellType == 0 then
+        -- 指定的出售港
+        click(Location(1883, 380 + (sellIndex * 75)))
+    else
+        click(findPort(areaTable[sellArea][sellIndex]))
+    end
     wait(interval)
     -- 前往
     click(findImage("go.png", Region(960, 240, 600, 600)))
@@ -278,14 +319,37 @@ addRadioButton("加勒比", 6)
 dialogShow("在哪個海域賣出")
 
 dialogInit()
-addRadioGroup("sellIndex", 0)
-addRadioButton("1", 0)
-addRadioButton("2", 1)
-addRadioButton("3", 2)
-addRadioButton("4", 3)
-addRadioButton("5", 4)
-addRadioButton("6", 5)
-dialogShow("第幾個出售港")
+addRadioGroup("sellType", 0)
+addRadioButton("依價格", 0)
+addRadioButton("指定港口", 1)
+dialogShow("出售港依據")
+if sellType == 0 then
+    dialogInit()
+    addRadioGroup("sellIndex", 0)
+    addRadioButton("1", 0)
+    addRadioButton("2", 1)
+    addRadioButton("3", 2)
+    addRadioButton("4", 3)
+    addRadioButton("5", 4)
+    addRadioButton("6", 5)
+    dialogShow("第幾個出售港")
+else
+    dialogInit()
+    if sellArea == 1 then
+        addRadioGroup("sellIndex", 0)
+        addRadioButton("波爾多", 0)
+    elseif sellArea == 3 then
+        addRadioGroup("sellIndex", 0)
+        addRadioButton("塞維利亞", 0)
+    elseif sellArea == 4 then
+        addRadioGroup("sellIndex", 0)
+        addRadioButton("亞歷山大", 0)
+        addRadioButton("班加西", 1)
+        addRadioButton("開羅", 2)
+        addRadioButton("法馬古斯塔", 3)
+    end
+    dialogShow("哪個港")
+end
 
 dialogInit()
 addCheckBox("drink", "喝酒", true)
@@ -353,53 +417,8 @@ while round < executeTimes do
     -- 買入
     makeDeal()
 
-    -- 移動到賣的地方
-    manualTouch({
-        -- 小地圖
-        { action = "touchDown", target = Location(2130, 220) },
-        { action = "touchUp",   target = Location(2130, 220) },
-        { action = "wait",      target = interval },
-        -- 行情
-        { action = "touchDown", target = Location(2220, 860) },
-        { action = "touchUp",   target = Location(2220, 860) },
-        { action = "wait",      target = interval },
-        -- 貨品分類
-        { action = "touchDown", target = Location(526, 992) },
-        { action = "touchUp",   target = Location(526, 992) },
-        { action = "wait",      target = interval },
-        -- 收藏品第一個
-        { action = "touchDown", target = Location(240, 160) },
-        { action = "touchUp",   target = Location(240, 160) },
-        { action = "wait",      target = interval },
-        -- 出售
-        { action = "touchDown", target = Location(2170, 990) },
-        { action = "touchUp",   target = Location(2170, 990) },
-        { action = "wait",      target = interval },
-        -- 海域
-        { action = "touchDown", target = Location(2050, 900) },
-        { action = "touchUp",   target = Location(2050, 900) },
-        { action = "wait",      target = interval }
-    })
-    -- 指定的海域
-    click(sellAreas[sellArea])
-    wait(interval)
-    -- 指定的出售港
-    click(Location(1883, 380 + (sellIndex * 75)))
-    wait(interval)
-
-    -- 前往
-    click(findImage("go.png", Region(960, 240, 600, 600)))
-    -- 航行到交易所
-    click(sailTil("sell.png", Region(1834, 868, 63, 51)))
-    manualTouch({
-        { action = "wait",      target = interval },
-        -- 全賣
-        { action = "touchDown", target = Location(535, 990) },
-        { action = "touchUp",   target = Location(535, 990) },
-        { action = "wait",      target = interval }
-    })
-    makeDeal()
-    wait(interval)
+    -- 到指定港口賣出
+    sellCollect()
 
     -- 喝酒
     if (drink) then
