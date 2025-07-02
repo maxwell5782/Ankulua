@@ -27,7 +27,6 @@ function findImage(image, region)
         toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
         result = region:exists(image)
     end
-    toast(string.format("found %s", image))
     return region:getLastMatch()
 end
 
@@ -45,6 +44,30 @@ function sailTil(image, region)
     return region:getLastMatch()
 end
 
+-- 找交易品
+function findGoods(image)
+    regionGoods = Region(45, 95, 580, 660)
+    toast(string.format("findGoods(%s)", image))
+    imagePattern = Pattern(image):similar(0.8)
+    result = regionGoods:exists(imagePattern)
+    -- 找不到的話，滑到下面找
+    if result == nil then
+        manualTouch({
+            { action = "touchDown", target = Location(340, 560) },
+            { action = "touchMove", target = Location(340, 400) },
+            { action = "touchUp",   target = Location(340, 400) },
+            { action = "wait",      target = interval }
+        })
+        result = regionGoods:exists(imagePattern)
+    end
+    if result ~= nil then
+        return regionGoods:getLastMatch()
+    else
+        return nil
+    end
+end
+
+-- 在小地圖中找圖
 function findInMap(place)
     toast(string.format("findInMap(%s)", place))
     manualTouch({
@@ -54,8 +77,8 @@ function findInMap(place)
         { action = "wait",      target = interval },
         -- 先滑到上面
         { action = "touchDown", target = Location(1200, 100) },
-        { action = "touchMove", target = Location(1200, 600) },
-        { action = "touchUp",   target = Location(1200, 600) },
+        { action = "touchMove", target = Location(1200, 500) },
+        { action = "touchUp",   target = Location(1200, 500) },
         { action = "wait",      target = interval }
     })
     -- 找目標圖示
@@ -64,41 +87,13 @@ function findInMap(place)
     if result == nil then
         manualTouch({
             { action = "touchDown", target = Location(1200, 900) },
-            { action = "touchMove", target = Location(1200, 100) },
-            { action = "touchUp",   target = Location(1200, 100) },
+            { action = "touchMove", target = Location(1200, 200) },
+            { action = "touchUp",   target = Location(1200, 200) },
             { action = "wait",      target = interval }
         })
         result = exists(place)
     end
     return result
-end
-
--- 找交易品
-function findGoods(image)
-    regionGoods = Region(45, 95, 580, 660)
-    repeat
-        toast(string.format("findGoods(%s)", image))
-        -- 滑到上面
-        manualTouch({
-            { action = "touchDown", target = Location(340, 400) },
-            { action = "touchMove", target = Location(340, 560) },
-            { action = "touchUp",   target = Location(340, 560) },
-            { action = "wait",      target = interval }
-        })
-        result = regionGoods:exists(image)
-        -- 找不到的話，滑到下面找
-        if result == nil then
-            manualTouch({
-                { action = "touchDown", target = Location(340, 560) },
-                { action = "touchMove", target = Location(340, 400) },
-                { action = "touchUp",   target = Location(340, 400) },
-                { action = "wait",      target = interval }
-            })
-            result = regionGoods:exists(image)
-        end
-    until result ~= nil
-    toast(string.format("found %s", image))
-    return regionGoods:getLastMatch()
 end
 
 -- 交易-喊價-成交
@@ -191,7 +186,7 @@ while true do
     click(findGoods("whisky.png"))
     makeDeal()
 
-    -- 去西地中海賣
+    -- 去指定海域賣
     manualTouch({
         -- 小地圖
         { action = "touchDown", target = Location(2130, 220) },
