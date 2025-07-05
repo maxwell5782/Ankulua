@@ -267,11 +267,11 @@ function openCollect()
 end
 
 -- 移動到指定收藏品要出售的港
-function sellCollect(collectIndex, sellIndex)
+function sellCollect(collect, area, port)
     -- 打開收藏品介面
     openCollect()
     -- 指定收藏品
-    click(collectTable[collectIndex])
+    click(collectTable[collect])
     wait(interval)
     manualTouch({
         -- 出售
@@ -284,15 +284,16 @@ function sellCollect(collectIndex, sellIndex)
         { action = "wait",      target = interval }
     })
     -- 指定的海域
-    click(sellAreas[sellArea])
+    click(sellAreas[area])
     wait(interval)
     if sellType == 0 then
         -- 指定的出售港
-        click(Location(1883, 380 + (sellIndex * 75)))
-        click(Location(1883, 380 + (sellIndex * 75)))
+        click(Location(1883, 380 + (port * 75)))
+        click(Location(1883, 380 + (port * 75)))
     else
-        click(findPort(areaTable[sellArea][sellIndex]))
-        click(findPort(areaTable[sellArea][sellIndex]))
+        res = findPort(areaTable[area][port])
+        click(res)
+        click(res)
     end
     wait(interval)
     -- 前往
@@ -481,7 +482,7 @@ while round < executeTimes do
     -- 喝酒
     goDrink()
     -- 到指定港口賣出
-    sellCollect(prodIndex, sellIndex)
+    sellCollect(prodIndex, sellArea, sellIndex)
 
     -- 回程
     if backTrade then
@@ -513,7 +514,7 @@ while round < executeTimes do
         -- 喝酒
         goDrink()
         -- 到指定港口賣出
-        sellCollect(prodIndex2, sellIndex2)
+    sellCollect(prodIndex2, sellArea2, sellIndex2)
     end
 end
 
