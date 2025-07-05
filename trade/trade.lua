@@ -8,6 +8,7 @@ setManualTouchParameter(20, 1)
 
 interval = 2
 tmpFile = "tmp.png"
+backFile = "tmp2.png"
 regionTarget = Region(174, 44, 134, 40)
 
 -- 收藏品定位
@@ -151,6 +152,23 @@ function findPort(place)
     return result
 end
 
+-- 前往選中的港口
+function goToPort()
+    region = Region(960, 240, 600, 600)
+    if region:exists("here.png") then
+        click(Location(2271, 47))
+    else
+        if towage then
+            -- 拖航過去
+            click(findImage("towage.png", region))
+            click(findImage("confirm.png", region))
+        else
+            -- 開過去
+            click(findImage("go.png", region))
+        end
+    end
+end
+
 -- 交易-喊價-成交
 function makeDeal()
     manualTouch({
@@ -171,60 +189,62 @@ end
 
 -- 喝酒
 function goDrink()
-    manualTouch({
-        -- 點小地圖
-        { action = "touchDown", target = Location(2130, 220) },
-        { action = "touchUp",   target = Location(2130, 220) },
-        { action = "wait",      target = interval },
-        -- 先滑到上面
-        { action = "touchDown", target = Location(1200, 100) },
-        { action = "touchMove", target = Location(1200, 500) },
-        { action = "touchUp",   target = Location(1200, 500) },
-        { action = "wait",      target = interval }
-    })
-    -- 找酒館或休息站
-    result = exists("bar.png")
-    if result == nil then
-        result = exists("inn.png")
-    end
-    if result == nil then -- 兩個找不到的話，滑到下面找
+    if drink then
         manualTouch({
-            { action = "touchDown", target = Location(1200, 900) },
-            { action = "touchMove", target = Location(1200, 200) },
-            { action = "touchUp",   target = Location(1200, 200) },
+            -- 點小地圖
+            { action = "touchDown", target = Location(2130, 220) },
+            { action = "touchUp",   target = Location(2130, 220) },
+            { action = "wait",      target = interval },
+            -- 先滑到上面
+            { action = "touchDown", target = Location(1200, 100) },
+            { action = "touchMove", target = Location(1200, 500) },
+            { action = "touchUp",   target = Location(1200, 500) },
             { action = "wait",      target = interval }
         })
+        -- 找酒館或休息站
         result = exists("bar.png")
         if result == nil then
             result = exists("inn.png")
         end
-    end
-    -- 完全找不到就不喝酒了
-    if result ~= nil then
-        toast("found")
-        -- 有找到，去酒館喝酒
-        click(getLastMatch())
-        manualTouch({
-            -- 等待走到酒館
-            { action = "wait",      target = 15 },
-            -- 走到酒保位
-            { action = "touchDown", target = Location(265, 720) },
-            { action = "wait",      target = 2.5 },
-            { action = "touchUp",   target = Location(265, 720) },
-            { action = "wait",      target = interval },
-            -- 請客
-            { action = "touchDown", target = Location(1940, 1000) },
-            { action = "touchUp",   target = Location(1940, 1000) },
-            { action = "wait",      target = interval },
-            -- 請客
-            { action = "touchDown", target = Location(1940, 790) },
-            { action = "touchUp",   target = Location(1940, 790) },
-            { action = "wait",      target = interval },
-            -- 請客
-            { action = "touchDown", target = Location(1940, 790) },
-            { action = "touchUp",   target = Location(1940, 790) },
-            { action = "wait",      target = interval }
-        })
+        if result == nil then -- 兩個找不到的話，滑到下面找
+            manualTouch({
+                { action = "touchDown", target = Location(1200, 900) },
+                { action = "touchMove", target = Location(1200, 200) },
+                { action = "touchUp",   target = Location(1200, 200) },
+                { action = "wait",      target = interval }
+            })
+            result = exists("bar.png")
+            if result == nil then
+                result = exists("inn.png")
+            end
+        end
+        -- 完全找不到就不喝酒了
+        if result ~= nil then
+            toast("found")
+            -- 有找到，去酒館喝酒
+            click(getLastMatch())
+            manualTouch({
+                -- 等待走到酒館
+                { action = "wait",      target = 15 },
+                -- 走到酒保位
+                { action = "touchDown", target = Location(265, 720) },
+                { action = "wait",      target = 2.5 },
+                { action = "touchUp",   target = Location(265, 720) },
+                { action = "wait",      target = interval },
+                -- 請客
+                { action = "touchDown", target = Location(1940, 1000) },
+                { action = "touchUp",   target = Location(1940, 1000) },
+                { action = "wait",      target = interval },
+                -- 請客
+                { action = "touchDown", target = Location(1940, 790) },
+                { action = "touchUp",   target = Location(1940, 790) },
+                { action = "wait",      target = interval },
+                -- 請客
+                { action = "touchDown", target = Location(1940, 790) },
+                { action = "touchUp",   target = Location(1940, 790) },
+                { action = "wait",      target = interval }
+            })
+        end
     end
 end
 
@@ -247,11 +267,11 @@ function openCollect()
 end
 
 -- 移動到指定收藏品要出售的港
-function sellCollect()
+function sellCollect(collectIndex)
     -- 打開收藏品介面
     openCollect()
     -- 指定收藏品
-    click(collectTable[prodIndex])
+    click(collectTable[collectIndex])
     wait(interval)
     manualTouch({
         -- 出售
@@ -296,7 +316,7 @@ addRadioButton("3", 2)
 addRadioButton("4", 3)
 addRadioButton("5", 4)
 addRadioButton("6", 5)
-dialogShow("第幾個收藏品")
+dialogShow("去程買第幾個收藏品")
 dialogInit()
 addRadioGroup("offsetY", 1)
 addRadioButton("1", 1)
@@ -306,7 +326,6 @@ addRadioButton("4", 4)
 addRadioButton("5", 5)
 addRadioButton("6", 6)
 dialogShow("第幾個採購港")
-
 dialogInit()
 addRadioGroup("sellArea", 0)
 addRadioButton("中南美", 0)
@@ -317,7 +336,6 @@ addRadioButton("東地中海", 4)
 addRadioButton("非洲西岸", 5)
 addRadioButton("加勒比", 6)
 dialogShow("在哪個海域賣出")
-
 dialogInit()
 addRadioGroup("sellType", 0)
 addRadioButton("依價格", 0)
@@ -352,6 +370,72 @@ else
 end
 
 dialogInit()
+addCheckBox("backTrade", "回程要買交易品嗎", false)
+dialogShow("回程設定")
+if backTrade then
+    dialogInit()
+    addRadioGroup("prodIndex2", 0)
+    addRadioButton("1", 0)
+    addRadioButton("2", 1)
+    addRadioButton("3", 2)
+    addRadioButton("4", 3)
+    addRadioButton("5", 4)
+    addRadioButton("6", 5)
+    dialogShow("回程買第幾個收藏品")
+    dialogInit()
+    addRadioGroup("offsetY2", 1)
+    addRadioButton("1", 1)
+    addRadioButton("2", 2)
+    addRadioButton("3", 3)
+    addRadioButton("4", 4)
+    addRadioButton("5", 5)
+    addRadioButton("6", 6)
+    dialogShow("第幾個採購港")
+    dialogInit()
+    addRadioGroup("sellArea2", 0)
+    addRadioButton("中南美", 0)
+    addRadioButton("北大西洋", 1)
+    addRadioButton("北海", 2)
+    addRadioButton("西地中海", 3)
+    addRadioButton("東地中海", 4)
+    addRadioButton("非洲西岸", 5)
+    addRadioButton("加勒比", 6)
+    dialogShow("在哪個海域賣出")
+    dialogInit()
+    addRadioGroup("sellType2", 0)
+    addRadioButton("依價格", 0)
+    addRadioButton("指定港口", 1)
+    dialogShow("出售港依據")
+    if sellType2 == 0 then
+        dialogInit()
+        addRadioGroup("sellIndex2", 0)
+        addRadioButton("1", 0)
+        addRadioButton("2", 1)
+        addRadioButton("3", 2)
+        addRadioButton("4", 3)
+        addRadioButton("5", 4)
+        addRadioButton("6", 5)
+        dialogShow("第幾個出售港")
+    else
+        dialogInit()
+        if sellArea == 1 then
+            addRadioGroup("sellIndex2", 0)
+            addRadioButton("波爾多", 0)
+        elseif sellArea == 3 then
+            addRadioGroup("sellIndex2", 0)
+            addRadioButton("塞維利亞", 0)
+        elseif sellArea == 4 then
+            addRadioGroup("sellIndex2", 0)
+            addRadioButton("亞歷山大", 0)
+            addRadioButton("班加西", 1)
+            addRadioButton("開羅", 2)
+            addRadioButton("法馬古斯塔", 3)
+        end
+        dialogShow("哪個港")
+    end
+end
+
+dialogInit()
 addCheckBox("drink", "喝酒", true)
 addCheckBox("towage", "拖航到購買點", false)
 newRow()
@@ -368,43 +452,19 @@ while round < executeTimes do
     toast(string.format("Round %s", round))
 
     -- 找收藏品
-    manualTouch({
-        -- 小地圖
-        { action = "touchDown", target = Location(2130, 220) },
-        { action = "touchUp",   target = Location(2130, 220) },
-        { action = "wait",      target = interval },
-        -- 行情
-        { action = "touchDown", target = Location(2220, 860) },
-        { action = "touchUp",   target = Location(2220, 860) },
-        { action = "wait",      target = interval },
-        -- 貨品分類
-        { action = "touchDown", target = Location(526, 992) },
-        { action = "touchUp",   target = Location(526, 992) },
-        { action = "wait",      target = interval }
-    })
-
+    openCollect()
     -- 拍下交易品特徵
     collectTextTable[prodIndex]:save(tmpFile)
-
     -- 點交易品
     click(collectTable[prodIndex])
     wait(interval)
-
     -- 找可採購港口
     match = findImage("port.png", Region(1793, 287, 520, 442))
     match:setTargetOffset(0, offsetY * 65)
     click(match)
     wait(interval)
-
     -- 前往
-    if towage then
-        -- 拖航過去
-        click(findImage("towage.png", Region(960, 240, 600, 600)))
-        click(findImage("confirm.png", Region(960, 240, 600, 600)))
-    else
-        -- 開過去
-        click(findImage("go.png", Region(960, 240, 600, 600)))
-    end
+    goToPort()
     -- 航行到交易所
     click(sailTil("buy.png", Region(1832, 971, 63, 55)))
     -- 找到目標交易品
@@ -416,13 +476,42 @@ while round < executeTimes do
     click(result)
     -- 買入
     makeDeal()
-
-    -- 到指定港口賣出
-    sellCollect()
-
     -- 喝酒
-    if (drink) then
+    goDrink()
+    -- 到指定港口賣出
+    sellCollect(prodIndex)
+
+    -- 回程
+    if backTrade then
+        -- 找收藏品
+        openCollect()
+        -- 拍下交易品特徵
+        collectTextTable[prodIndex2]:save(backFile)
+        -- 點交易品
+        click(collectTable[prodIndex2])
+        wait(interval)
+        -- 找可採購港口
+        match = findImage("port.png", Region(1793, 287, 520, 442))
+        match:setTargetOffset(0, offsetY2 * 65)
+        click(match)
+        wait(interval)
+        -- 前往
+        goToPort()
+        -- 航行到交易所
+        click(sailTil("buy.png", Region(1832, 971, 63, 55)))
+        -- 找到目標交易品
+        result = findGoods(backFile)
+        if result == nil then
+            print(string.format("Can't find goods %s", backFile2))
+            break
+        end
+        click(result)
+        -- 買入
+        makeDeal()
+        -- 喝酒
         goDrink()
+        -- 到指定港口賣出
+        sellCollect(prodIndex2)
     end
 end
 
