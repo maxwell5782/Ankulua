@@ -482,7 +482,7 @@ while round < executeTimes do
     -- 喝酒
     goDrink()
     -- 到指定港口賣出
-    sellCollect(prodIndex, sellType, sellArea, sellIndex)
+    sellCollect(prodIndex, sellArea, sellType, sellIndex)
 
     -- 回程
     if backTrade then
@@ -514,7 +514,7 @@ while round < executeTimes do
         -- 喝酒
         goDrink()
         -- 到指定港口賣出
-        sellCollect(prodIndex2, sellType2, sellArea2, sellIndex2)
+        sellCollect(prodIndex2, sellArea2, sellType2, sellIndex2)
     end
 end
 
