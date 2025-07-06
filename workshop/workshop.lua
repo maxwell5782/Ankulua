@@ -15,6 +15,7 @@ products[0] = "canon.png"
 products[1] = "feather.png"
 products[2] = "ham.png"
 products[3] = "flannel.png"
+products[4] = "lace.png"
 
 -- 收藏品定位
 collectTable = {}
@@ -252,6 +253,7 @@ addRadioButton("大炮", 0)
 addRadioButton("羽毛", 1)
 addRadioButton("火腿", 2)
 addRadioButton("法蘭絨", 3)
+addRadioButton("蕾絲花邊", 4)
 dialogShow("生產什麼")
 dialogInit()
 addRadioGroup("prodIndex", 0)
