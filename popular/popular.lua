@@ -101,6 +101,23 @@ function findInMap(place)
     return result
 end
 
+-- 前往選中的港口
+function goToPort()
+    region = Region(960, 240, 600, 600)
+    if region:exists("here.png") then
+        click(Location(2271, 47))
+    else
+        if towage then
+            -- 拖航過去
+            click(findImage("towage.png", region))
+            click(findImage("confirm.png", region))
+        else
+            -- 開過去
+            click(findImage("go.png", region))
+        end
+    end
+end
+
 -- 交易-喊價-成交
 function makeDeal()
     manualTouch({
@@ -247,19 +264,12 @@ while round < executeTimes do
         match = findImage("port.png", Region(1793, 287, 520, 442))
         match:setTargetOffset(0, offsetY * 65)
         click(match)
+        wait(interval)
         click(match)
         wait(interval)
 
         -- 前往
-        if towage then
-            -- 拖航過去
-            click(findImage("towage.png", Region(960, 240, 600, 600)))
-            click(findImage("confirm.png", Region(960, 240, 600, 600)))
-        else
-            -- 開過去
-            click(findImage("go.png", Region(960, 240, 600, 600)))
-        end
-        wait(5)
+        goToPort()
         -- 航行到交易所
         click(sailTil("buy.png", Region(1832, 971, 63, 55)))
         -- 點流行品
