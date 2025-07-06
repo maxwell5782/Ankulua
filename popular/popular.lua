@@ -247,6 +247,7 @@ while round < executeTimes do
         match = findImage("port.png", Region(1793, 287, 520, 442))
         match:setTargetOffset(0, offsetY * 65)
         click(match)
+        click(match)
         wait(interval)
 
         -- 前往
@@ -278,7 +279,10 @@ while round < executeTimes do
         { action = "touchDown", target = Location(2220, 860) },
         { action = "touchUp",   target = Location(2220, 860) },
         { action = "wait",      target = interval },
-        -- 要買的東西
+        -- 要賣的東西
+        { action = "touchDown", target = sell },
+        { action = "touchUp",   target = sell },
+        { action = "wait",      target = interval },
         { action = "touchDown", target = sell },
         { action = "touchUp",   target = sell },
         { action = "wait",      target = interval }
