@@ -303,10 +303,12 @@ function sellCollect(collect, area, type, port)
     if type == 0 then
         -- 指定的出售港
         click(Location(1883, 380 + (port * 75)))
+        wait(interval)
         click(Location(1883, 380 + (port * 75)))
     else
         res = findPort(areaTable[area][port])
         click(res)
+        wait(interval)
         click(res)
     end
     wait(interval)
