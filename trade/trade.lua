@@ -27,7 +27,7 @@ collectTextTable[3] = Region(200, 260, 80, 20)
 collectTextTable[4] = Region(350, 260, 80, 20)
 collectTextTable[5] = Region(505, 260, 80, 20)
 
--- 海域位置
+-- 海域
 areas = {}
 areas[0] = "北海"
 areas[1] = "北大西洋" 
@@ -36,7 +36,7 @@ areas[3] = "東地中海"
 areas[4] = "非洲西岸" 
 areas[5] = "加勒比" 
 areas[6] = "中南美" 
-
+-- 港口
 cities = {}
 cities[1] = {}
 cities[1][0] = "bordeaux.png"
@@ -371,19 +371,10 @@ if sellType == 0 then
     addRadioButton("6", 5)
     dialogShow("第幾個出售港")
 else
-    dialogInit()
-    if areas[sellArea] == "北大西洋" then
-        addRadioGroup("sellPort", 0)
-        addRadioButton("波爾多", 0)
-    elseif areas[sellArea] == "西地中海" then
-        addRadioGroup("sellPort", 0)
-        addRadioButton("塞維利亞", 0)
-    elseif areas[sellArea] == "東地中海" then
-        addRadioGroup("sellPort", 0)
-        addRadioButton("亞歷山大", 0)
-        addRadioButton("班加西", 1)
-        addRadioButton("開羅", 2)
-        addRadioButton("法馬古斯塔", 3)
+    dialogInit()        
+    addRadioGroup("sellPort", 0)
+    for i, name in pairs(cities[sellArea]) do
+        addRadioButton(name, i)
     end
     dialogShow("哪個出售港")
 end

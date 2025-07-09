@@ -15,7 +15,10 @@ products[0] = "canon.png"
 products[1] = "feather.png"
 products[2] = "ham.png"
 products[3] = "flannel.png"
-products[4] = "lace.png"
+products[4] = {}
+products[4][0] = "lace.png"
+products[4][1] = 1886
+products[4][2] = 388
 
 -- 收藏品定位
 collectTable = {}
@@ -26,15 +29,26 @@ collectTable[3] = Location(240, 360)
 collectTable[4] = Location(400, 360)
 collectTable[5] = Location(560, 360)
 
--- 海域位置
-sellAreas = {}
-sellAreas[0] = Location(2050, 450) -- 中南美
-sellAreas[1] = Location(2050, 510) -- 北大西洋
-sellAreas[2] = Location(2050, 570) -- 北海
-sellAreas[3] = Location(2050, 630) -- 西地中海
-sellAreas[4] = Location(2050, 690) -- 東地中海
-sellAreas[5] = Location(2050, 750) -- 非洲西岸
-sellAreas[6] = Location(2050, 810) -- 加勒比
+-- 海域
+areas = {}
+areas[0] = "北海"
+areas[1] = "北大西洋" 
+areas[2] = "西地中海" 
+areas[3] = "東地中海" 
+areas[4] = "非洲西岸" 
+areas[5] = "加勒比" 
+areas[6] = "中南美" 
+-- 港口
+cities = {}
+cities[1] = {}
+cities[1][0] = "bordeaux.png"
+cities[2] = {}
+cities[2][0] = "seville.png"
+cities[3] = {}
+cities[3][0] = "alexander.png"
+cities[3][1] = "benghazi.png"
+cities[3][2] = "cairo.png"
+cities[3][3] = "famagusta.png"
 
 -- 找圖
 function findImage(image, region)
@@ -210,11 +224,11 @@ function openCollect()
 end
 
 -- 移動到指定收藏品要出售的港
-function sellCollect()
+function sellCollect(collect, area, type, port)
     -- 打開收藏品介面
     openCollect()
     -- 指定收藏品
-    click(collectTable[prodIndex])
+    click(collectTable[collect])
     wait(interval)
     manualTouch({
         -- 出售
@@ -227,10 +241,21 @@ function sellCollect()
         { action = "wait",      target = interval }
     })
     -- 指定的海域
-    click(sellAreas[sellArea])
+    click(findImage(areas[area]..".png", Region(1940, 426, 212, 439)))
     wait(interval)
-    -- 指定的出售港
-    click(Location(1883, 380 + (sellIndex * 75)))
+        -- 指定的港口
+    if type == 0 then
+    -- 依價格
+        click(Location(1883, 380 + (port * 75)))
+        wait(interval)
+        click(Location(1883, 380 + (port * 75)))
+    else
+    -- 指定港口名稱
+        res = findPort(cities[area][port])
+        click(res)
+        wait(interval)
+        click(res)
+    end
     wait(interval)
     -- 前往
     click(findImage("go.png", Region(960, 240, 600, 600)))
@@ -245,6 +270,7 @@ function sellCollect()
     })
     makeDeal()
 end
+end
 
 -- 生產設定
 dialogInit()
@@ -255,8 +281,10 @@ addRadioButton("火腿", 2)
 addRadioButton("法蘭絨", 3)
 addRadioButton("蕾絲花邊", 4)
 dialogShow("生產什麼")
+prodX = products[productIndex][1]
+prodY = products[productIndex][2]
 dialogInit()
-addRadioGroup("prodIndex", 0)
+addRadioGroup("collectIndex", 0)
 addRadioButton("1", 0)
 addRadioButton("2", 1)
 addRadioButton("3", 2)
@@ -264,12 +292,6 @@ addRadioButton("4", 3)
 addRadioButton("5", 4)
 addRadioButton("6", 5)
 dialogShow("生產品是第幾個收藏品")
-dialogInit()
-addTextView("X")
-addEditNumber("prodX", 1880)
-addTextView("Y")
-addEditNumber("prodY", 400)
-dialogShow("生產港位置")
 
 -- 賣出設定
 dialogInit()
@@ -278,23 +300,33 @@ dialogShow("賣出設定")
 if sellLocal == false then
     dialogInit()
     addRadioGroup("sellArea", 0)
-    addRadioButton("中南美", 0)
-    addRadioButton("北大西洋", 1)
-    addRadioButton("北海", 2)
-    addRadioButton("西地中海", 3)
-    addRadioButton("東地中海", 4)
-    addRadioButton("非洲西岸", 5)
-    addRadioButton("加勒比", 6)
+    for i, name in pairs(areas) do
+        addRadioButton(name, i)
+    end
     dialogShow("在哪個海域賣出")
     dialogInit()
-    addRadioGroup("sellIndex", 0)
-    addRadioButton("1", 0)
-    addRadioButton("2", 1)
-    addRadioButton("3", 2)
-    addRadioButton("4", 3)
-    addRadioButton("5", 4)
-    addRadioButton("6", 5)
-    dialogShow("第幾個出售港")
+    addRadioGroup("sellType", 0)
+    addRadioButton("依價格", 0)
+    addRadioButton("指定港口", 1)
+    dialogShow("出售港依據")
+    if sellType == 0 then
+        dialogInit()
+        addRadioGroup("sellPort", 0)
+        addRadioButton("1", 0)
+        addRadioButton("2", 1)
+        addRadioButton("3", 2)
+        addRadioButton("4", 3)
+        addRadioButton("5", 4)
+        addRadioButton("6", 5)
+        dialogShow("第幾個出售港")
+    else
+        dialogInit()        
+        addRadioGroup("sellPort", 0)
+        for i, name in pairs(cities[sellArea]) do
+            addRadioButton(name, i)
+        end
+        dialogShow("哪個出售港")
+    end
 end
 
 -- 時間設定
@@ -314,7 +346,7 @@ while true do
     -- 一鍵領取
     click(findImage("takeAll.png", Region(249, 955, 152, 44)))
     -- 要生產的東西
-    click(findGoods(products[productIndex]))
+    click(findGoods(products[productIndex][0]))
     -- 批量
     click(findImage("batch.png", Region(2149, 814, 70, 38)))
     --click(Location(1857,843))--+3個
@@ -348,7 +380,7 @@ while true do
         wait(interval)
     else
         -- 賣出
-        sellCollect()
+        sellCollect(collectIndex, sellArea, sellType, sellPort)
         -- 喝酒
         if (drink) then
             goDrink()
@@ -356,7 +388,7 @@ while true do
         -- 回到工坊
         openCollect()
         -- 指定收藏品
-        click(collectTable[prodIndex])
+        click(collectTable[collectIndex])
         wait(interval)
         manualTouch({
             -- 獲取
