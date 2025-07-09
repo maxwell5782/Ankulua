@@ -11,5 +11,5 @@ regionSail = Region(1300, 630, 300, 280)
 while true do
     regionSail:existsClick("sail.png")
     regionSail:existsClick("boating.png")
-    wait(2)
+    wait(4)
 end
