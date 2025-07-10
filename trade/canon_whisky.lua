@@ -8,15 +8,36 @@ setManualTouchParameter(20, 1)
 
 interval = 2
 
--- 海域位置
-sellAreas = {}
-sellAreas[0] = Location(2050, 450) -- 中南美
-sellAreas[1] = Location(2050, 510) -- 北大西洋
-sellAreas[2] = Location(2050, 570) -- 北海
-sellAreas[3] = Location(2050, 630) -- 西地中海
-sellAreas[4] = Location(2050, 690) -- 東地中海
-sellAreas[5] = Location(2050, 750) -- 非洲西岸
-sellAreas[6] = Location(2050, 810) -- 加勒比
+-- 海域
+areas = {}
+areas[0] = "北海"
+areas[1] = "北大西洋"
+areas[2] = "西地中海"
+areas[3] = "東地中海"
+areas[4] = "非洲西岸"
+areas[5] = "加勒比"
+areas[6] = "中南美"
+-- 港口
+cities = {}
+cities[0] = {}
+cities[0][0] = "倫敦.png"
+cities[0][1] = "多佛.png"
+cities[0][2] = "阿姆斯特丹.png"
+cities[0][3] = "海爾德.png"
+cities[0][4] = "奧斯陸.png"
+cities[1] = {}
+cities[1][0] = "波爾多.png"
+cities[1][1] = "里斯本.png"
+cities[2] = {}
+cities[2][0] = "塞維利亞.png"
+cities[2][1] = "休達.png"
+cities[2][2] = "阿爾及爾.png"
+cities[3] = {}
+cities[3][0] = "亞歷山大.png"
+cities[3][1] = "班加西.png"
+cities[3][2] = "開羅.png"
+cities[3][3] = "法馬古斯塔.png"
+cities[3][4] = "貝魯特.png"
 
 -- 找圖
 function findImage(image, region)
@@ -96,6 +117,46 @@ function findInMap(place)
     return result
 end
 
+-- 找指定港口
+function findPort(place)
+    regionPort = Region(1827, 345, 195, 515)
+    result = regionPort:exists(place)
+    while result == nil do
+        toast(string.format("findPort(%s)", place))
+        manualTouch({
+            { action = "touchDown", target = Location(2033, 400) },
+            { action = "touchMove", target = Location(2033, 800) },
+            { action = "touchUp",   target = Location(2033, 800) },
+            { action = "wait",      target = interval },
+            { action = "touchDown", target = Location(2033, 400) },
+            { action = "touchMove", target = Location(2033, 800) },
+            { action = "touchUp",   target = Location(2033, 800) },
+            { action = "wait",      target = interval }
+        })
+        result = regionPort:exists(place)
+        if result == nil then
+            manualTouch({
+                { action = "touchDown", target = Location(2033, 800) },
+                { action = "touchMove", target = Location(2033, 400) },
+                { action = "touchUp",   target = Location(2033, 400) },
+                { action = "wait",      target = interval }
+            })
+            result = regionPort:exists(place)
+            if result == nil then
+                manualTouch({
+                    { action = "touchDown", target = Location(2033, 800) },
+                    { action = "touchMove", target = Location(2033, 400) },
+                    { action = "touchUp",   target = Location(2033, 400) },
+                    { action = "wait",      target = interval }
+                })
+                result = regionPort:exists(place)
+            end
+        end
+        wait(findImageInterval)
+    end
+    return result
+end
+
 -- 交易-喊價-成交
 function makeDeal()
     toast("makeDeal")
@@ -115,16 +176,73 @@ function makeDeal()
     })
 end
 
+-- 喝酒
+function goDrink()
+    if drink then
+        manualTouch({
+            -- 點小地圖
+            { action = "touchDown", target = Location(2130, 220) },
+            { action = "touchUp",   target = Location(2130, 220) },
+            { action = "wait",      target = interval },
+            -- 先滑到上面
+            { action = "touchDown", target = Location(1200, 100) },
+            { action = "touchMove", target = Location(1200, 500) },
+            { action = "touchUp",   target = Location(1200, 500) },
+            { action = "wait",      target = interval }
+        })
+        -- 找酒館或休息站
+        result = exists("bar.png")
+        if result == nil then
+            result = exists("inn.png")
+        end
+        if result == nil then -- 兩個找不到的話，滑到下面找
+            manualTouch({
+                { action = "touchDown", target = Location(1200, 900) },
+                { action = "touchMove", target = Location(1200, 200) },
+                { action = "touchUp",   target = Location(1200, 200) },
+                { action = "wait",      target = interval }
+            })
+            result = exists("bar.png")
+            if result == nil then
+                result = exists("inn.png")
+            end
+        end
+        -- 完全找不到就不喝酒了
+        if result ~= nil then
+            toast("found")
+            -- 有找到，去酒館喝酒
+            click(getLastMatch())
+            manualTouch({
+                -- 等待走到酒館
+                { action = "wait",      target = 15 },
+                -- 走到酒保位
+                { action = "touchDown", target = Location(265, 720) },
+                { action = "wait",      target = 2.5 },
+                { action = "touchUp",   target = Location(265, 720) },
+                { action = "wait",      target = interval },
+                -- 請客
+                { action = "touchDown", target = Location(1940, 1000) },
+                { action = "touchUp",   target = Location(1940, 1000) },
+                { action = "wait",      target = interval },
+                -- 請客
+                { action = "touchDown", target = Location(1940, 790) },
+                { action = "touchUp",   target = Location(1940, 790) },
+                { action = "wait",      target = interval },
+                -- 請客
+                { action = "touchDown", target = Location(1940, 790) },
+                { action = "touchUp",   target = Location(1940, 790) },
+                { action = "wait",      target = interval }
+            })
+        end
+    end
+end
+
 -- 設定
 dialogInit()
 addRadioGroup("sellArea", 0)
-addRadioButton("中南美", 6)
-addRadioButton("北大西洋", 1)
-addRadioButton("北海", 0)
-addRadioButton("西地中海", 2)
-addRadioButton("東地中海", 3)
-addRadioButton("非洲西岸", 4)
-addRadioButton("加勒比", 5)
+for i, name in pairs(areas) do
+    addRadioButton(name, i)
+end
 dialogShow("在哪個海域賣出")
 
 dialogInit()
@@ -166,7 +284,7 @@ while true do
     -- 一鍵領取
     click(findImage("takeAll.png", Region(249, 955, 152, 44)))
     -- 要生產的東西
-    click(findGoods("canon.png"))
+    click(findGoods("大炮.png"))
     -- 批量
     click(findImage("batch.png", Region(2149, 814, 70, 38)))
     -- 製作
@@ -175,6 +293,7 @@ while true do
     Region(1326, 677, 66, 35):existsClick("confirm.png")
     -- 成交
     makeDeal()
+    -- 確保關閉視窗
     click(Location(1370, 190))
 
     -- 到交易所
@@ -192,7 +311,7 @@ while true do
 
     -- 買威士忌
     click(findImage("buy.png", Region(1832, 971, 63, 55)))
-    click(findGoods("whisky.png"))
+    click(findGoods("威士忌.png"))
     makeDeal()
 
     -- 去指定海域賣
@@ -223,38 +342,23 @@ while true do
         { action = "wait",      target = interval }
     })
     -- 指定的海域
-    click(sellAreas[sellArea])
+    click(findImage(areas[sellArea] .. ".png", Region(1940, 426, 212, 439)))
     wait(interval)
     if sellType == 0 then
-        -- 指定的出售港
+        -- 依價格
+        click(Location(1883, 380 + (sellIndex * 75)))
+        wait(interval)
         click(Location(1883, 380 + (sellIndex * 75)))
     else
-        regionPort = Region(1827, 345, 195, 515)
-        res = regionPort:exists("seville.png")
-        if res == nil then
-            manualTouch({
-                { action = "touchDown", target = Location(2033, 800) },
-                { action = "touchMove", target = Location(2033, 400) },
-                { action = "touchUp",   target = Location(2033, 400) },
-                { action = "wait",      target = interval }
-            })
-            res = regionPort:exists("seville.png")
-            if res == nil then
-                manualTouch({
-                    { action = "touchDown", target = Location(2033, 800) },
-                    { action = "touchMove", target = Location(2033, 400) },
-                    { action = "touchUp",   target = Location(2033, 400) },
-                    { action = "wait",      target = interval }
-                })
-                res = regionPort:exists("seville.png")
-            end
-        end
+        -- 指定港口名稱
+        res = findPort(cities[sellArea][sellIndex])
+        click(res)
+        wait(interval)
         click(res)
     end
     wait(interval)
     -- 前往
     click(findImage("go.png", Region(960, 240, 600, 600)))
-    wait(5)
     -- 航行到交易所
     click(sailTil("sell.png", Region(1834, 868, 63, 51)))
     manualTouch({
@@ -268,59 +372,7 @@ while true do
     wait(interval)
 
     -- 喝酒
-    if (drink) then
-        manualTouch({
-            -- 點小地圖
-            { action = "touchDown", target = Location(2130, 220) },
-            { action = "touchUp",   target = Location(2130, 220) },
-            { action = "wait",      target = interval },
-            -- 先滑到上面
-            { action = "touchDown", target = Location(1200, 100) },
-            { action = "touchMove", target = Location(1200, 600) },
-            { action = "touchUp",   target = Location(1200, 600) },
-            { action = "wait",      target = interval }
-        })
-        -- 找酒館或休息站
-        result = exists("bar.png")
-        if result == nil then
-            result = exists("inn.png")
-        end
-        if result == nil then -- 兩個找不到的話，滑到下面找
-            manualTouch({
-                { action = "touchDown", target = Location(1200, 900) },
-                { action = "touchMove", target = Location(1200, 100) },
-                { action = "touchUp",   target = Location(1200, 100) },
-                { action = "wait",      target = interval }
-            })
-            result = exists("bar.png")
-            if result == nil then
-                result = exists("inn.png")
-            end
-        end
-        -- 完全找不到就不喝酒了
-        if result ~= nil then
-            toast("found")
-            -- 有找到，去酒館喝酒
-            click(getLastMatch())
-            manualTouch({
-                -- 等待走到酒館
-                { action = "wait",      target = 15 },
-                -- 走到酒保位
-                { action = "touchDown", target = Location(265, 720) },
-                { action = "wait",      target = 2.5 },
-                { action = "touchUp",   target = Location(265, 720) },
-                { action = "wait",      target = interval },
-                -- 請客
-                { action = "touchDown", target = Location(1940, 1000) },
-                { action = "touchUp",   target = Location(1940, 1000) },
-                { action = "wait",      target = interval },
-                -- 請客
-                { action = "touchDown", target = Location(1940, 790) },
-                { action = "touchUp",   target = Location(1940, 790) },
-                { action = "wait",      target = interval }
-            })
-        end
-    end
+    goDrink()
 
     -- 回到都柏林工坊
     manualTouch({
