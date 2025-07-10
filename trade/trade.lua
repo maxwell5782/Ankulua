@@ -30,23 +30,33 @@ collectTextTable[5] = Region(505, 260, 80, 20)
 -- 海域
 areas = {}
 areas[0] = "北海"
-areas[1] = "北大西洋" 
-areas[2] = "西地中海" 
-areas[3] = "東地中海" 
-areas[4] = "非洲西岸" 
-areas[5] = "加勒比" 
-areas[6] = "中南美" 
+areas[1] = "北大西洋"
+areas[2] = "西地中海"
+areas[3] = "東地中海"
+areas[4] = "非洲西岸"
+areas[5] = "加勒比"
+areas[6] = "中南美"
 -- 港口
 cities = {}
+cities[0] = {}
+cities[0][0] = "倫敦.png"
+cities[0][1] = "多佛.png"
+cities[0][2] = "阿姆斯特丹.png"
+cities[0][3] = "海爾德.png"
+cities[0][4] = "奧斯陸.png"
 cities[1] = {}
-cities[1][0] = "bordeaux.png"
+cities[1][0] = "波爾多.png"
+cities[1][1] = "里斯本.png"
 cities[2] = {}
-cities[2][0] = "seville.png"
+cities[2][0] = "塞維利亞.png"
+cities[2][1] = "休達.png"
+cities[2][2] = "阿爾及爾.png"
 cities[3] = {}
-cities[3][0] = "alexander.png"
-cities[3][1] = "benghazi.png"
-cities[3][2] = "cairo.png"
-cities[3][3] = "famagusta.png"
+cities[3][0] = "亞歷山大.png"
+cities[3][1] = "班加西.png"
+cities[3][2] = "開羅.png"
+cities[3][3] = "法馬古斯塔.png"
+cities[3][4] = "貝魯特.png"
 
 -- 找圖
 function findImage(image, region)
@@ -298,16 +308,16 @@ function sellCollect(collect, area, type, port)
         { action = "wait",      target = interval }
     })
     -- 指定的海域
-    click(findImage(areas[area]..".png", Region(1940, 426, 212, 439)))
+    click(findImage(areas[area] .. ".png", Region(1940, 426, 212, 439)))
     wait(interval)
-        -- 指定的港口
+    -- 指定的港口
     if type == 0 then
-    -- 依價格
+        -- 依價格
         click(Location(1883, 380 + (port * 75)))
         wait(interval)
         click(Location(1883, 380 + (port * 75)))
     else
-    -- 指定港口名稱
+        -- 指定港口名稱
         res = findPort(cities[area][port])
         click(res)
         wait(interval)
@@ -331,21 +341,16 @@ end
 -- 設定
 dialogInit()
 addRadioGroup("buyIndex", 0)
-addRadioButton("1", 0)
-addRadioButton("2", 1)
-addRadioButton("3", 2)
-addRadioButton("4", 3)
-addRadioButton("5", 4)
-addRadioButton("6", 5)
+for i = 1, 6 do
+    addRadioButton(tostring(i), i - 1)
+end
 dialogShow("買第幾個收藏品")
+
 dialogInit()
 addRadioGroup("buyPort", 1)
-addRadioButton("1", 1)
-addRadioButton("2", 2)
-addRadioButton("3", 3)
-addRadioButton("4", 4)
-addRadioButton("5", 5)
-addRadioButton("6", 6)
+for i = 1, 6 do
+    addRadioButton(tostring(i), i)
+end
 dialogShow("第幾個採購港")
 
 -- 出售設定
@@ -355,29 +360,25 @@ for i, name in pairs(areas) do
     addRadioButton(name, i)
 end
 dialogShow("在哪個海域賣出")
+
 dialogInit()
 addRadioGroup("sellType", 0)
 addRadioButton("依價格", 0)
 addRadioButton("指定港口", 1)
 dialogShow("出售港依據")
+
+dialogInit()
+addRadioGroup("sellPort", 0)
 if sellType == 0 then
-    dialogInit()
-    addRadioGroup("sellPort", 0)
-    addRadioButton("1", 0)
-    addRadioButton("2", 1)
-    addRadioButton("3", 2)
-    addRadioButton("4", 3)
-    addRadioButton("5", 4)
-    addRadioButton("6", 5)
-    dialogShow("第幾個出售港")
+    for i = 1, 6 do
+        addRadioButton(tostring(i), i - 1)
+    end
 else
-    dialogInit()        
-    addRadioGroup("sellPort", 0)
     for i, name in pairs(cities[sellArea]) do
         addRadioButton(name, i)
     end
-    dialogShow("哪個出售港")
 end
+dialogShow("哪個出售港")
 
 dialogInit()
 addCheckBox("backTrade", "回程買交易品", false)
@@ -385,64 +386,43 @@ dialogShow("回程設定")
 if backTrade then
     dialogInit()
     addRadioGroup("buyIndex2", 0)
-    addRadioButton("1", 0)
-    addRadioButton("2", 1)
-    addRadioButton("3", 2)
-    addRadioButton("4", 3)
-    addRadioButton("5", 4)
-    addRadioButton("6", 5)
-    dialogShow("回程買第幾個收藏品")
+    for i = 1, 6 do
+        addRadioButton(tostring(i), i - 1)
+    end
+    dialogShow("買第幾個收藏品")
+
     dialogInit()
     addRadioGroup("buyPort2", 1)
-    addRadioButton("1", 1)
-    addRadioButton("2", 2)
-    addRadioButton("3", 3)
-    addRadioButton("4", 4)
-    addRadioButton("5", 5)
-    addRadioButton("6", 6)
+    for i = 1, 6 do
+        addRadioButton(tostring(i), i)
+    end
     dialogShow("第幾個採購港")
+
     dialogInit()
     addRadioGroup("sellArea2", 0)
-    addRadioButton("中南美", 0)
-    addRadioButton("北大西洋", 1)
-    addRadioButton("北海", 2)
-    addRadioButton("西地中海", 3)
-    addRadioButton("東地中海", 4)
-    addRadioButton("非洲西岸", 5)
-    addRadioButton("加勒比", 6)
+    for i, name in pairs(areas) do
+        addRadioButton(name, i)
+    end
     dialogShow("在哪個海域賣出")
+
     dialogInit()
     addRadioGroup("sellType2", 0)
     addRadioButton("依價格", 0)
     addRadioButton("指定港口", 1)
     dialogShow("出售港依據")
+
+    dialogInit()
+    addRadioGroup("sellPort2", 0)
     if sellType2 == 0 then
-        dialogInit()
-        addRadioGroup("sellPort2", 0)
-        addRadioButton("1", 0)
-        addRadioButton("2", 1)
-        addRadioButton("3", 2)
-        addRadioButton("4", 3)
-        addRadioButton("5", 4)
-        addRadioButton("6", 5)
-        dialogShow("第幾個出售港")
-    else
-        dialogInit()
-        if sellArea == 1 then
-            addRadioGroup("sellPort2", 0)
-            addRadioButton("波爾多", 0)
-        elseif sellArea == 3 then
-            addRadioGroup("sellPort2", 0)
-            addRadioButton("塞維利亞", 0)
-        elseif sellArea == 4 then
-            addRadioGroup("sellPort2", 0)
-            addRadioButton("亞歷山大", 0)
-            addRadioButton("班加西", 1)
-            addRadioButton("開羅", 2)
-            addRadioButton("法馬古斯塔", 3)
+        for i = 1, 6 do
+            addRadioButton(tostring(i), i - 1)
         end
-        dialogShow("哪個港")
+    else
+        for i, name in pairs(cities[sellArea2]) do
+            addRadioButton(name, i)
+        end
     end
+    dialogShow("哪個出售港")
 end
 
 dialogInit()
