@@ -132,17 +132,19 @@ addRadioGroup("sellType", 0)
 addRadioButton("依價格", 0)
 addRadioButton("指定港口", 1)
 dialogShow("出售港依據")
+
+dialogInit()
+addRadioGroup("sellIndex", 0)
 if sellType == 0 then
-    dialogInit()
-    addRadioGroup("sellIndex", 0)
-    addRadioButton("1", 0)
-    addRadioButton("2", 1)
-    addRadioButton("3", 2)
-    addRadioButton("4", 3)
-    addRadioButton("5", 4)
-    addRadioButton("6", 5)
-    dialogShow("第幾個出售港")
+    for i = 1, 6 do
+        addRadioButton(tostring(i), i - 1)
+    end
+else
+    for i, name in pairs(cities[sellArea]) do
+        addRadioButton(name, i)
+    end
 end
+dialogShow("第幾個出售港")
 
 dialogInit()
 addTextView("找圖間隔(秒)")
@@ -223,13 +225,13 @@ while true do
     -- 指定的海域
     click(sellAreas[sellArea])
     wait(interval)
-    if sellType == 0 then 
+    if sellType == 0 then
         -- 指定的出售港
         click(Location(1883, 380 + (sellIndex * 75)))
     else
         regionPort = Region(1827, 345, 195, 515)
         res = regionPort:exists("seville.png")
-        if res == nil then 
+        if res == nil then
             manualTouch({
                 { action = "touchDown", target = Location(2033, 800) },
                 { action = "touchMove", target = Location(2033, 400) },
@@ -237,7 +239,7 @@ while true do
                 { action = "wait",      target = interval }
             })
             res = regionPort:exists("seville.png")
-            if res == nil then 
+            if res == nil then
                 manualTouch({
                     { action = "touchDown", target = Location(2033, 800) },
                     { action = "touchMove", target = Location(2033, 400) },
