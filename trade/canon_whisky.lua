@@ -8,6 +8,11 @@ setManualTouchParameter(20, 1)
 
 interval = 2
 
+-- 產品
+products = {}
+products[0] = "大炮.png"
+products[1] = "短槍.png"
+
 -- 海域
 areas = {}
 areas[0] = "北海"
@@ -239,6 +244,13 @@ end
 
 -- 設定
 dialogInit()
+addRadioGroup("productIndex", 0)
+for i, name in pairs(products) do
+    addRadioButton(name, i)
+end
+dialogShow("生產什麼")
+
+dialogInit()
 addRadioGroup("sellArea", 0)
 for i, name in pairs(areas) do
     addRadioButton(name, i)
@@ -284,7 +296,7 @@ while true do
     -- 一鍵領取
     click(findImage("takeAll.png", Region(249, 955, 152, 44)))
     -- 要生產的東西
-    click(findGoods("大炮.png"))
+    click(findGoods(products[productIndex]))
     -- 批量
     click(findImage("batch.png", Region(2149, 814, 70, 38)))
     -- 製作
