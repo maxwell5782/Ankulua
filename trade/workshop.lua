@@ -274,8 +274,21 @@ function sellCollect(collect, area, type, port)
         click(res)
     end
     wait(interval)
-    -- 前往
-    click(findImage("go.png", Region(960, 240, 600, 600)))
+
+    regionHere = Region(960, 240, 600, 600)
+    if regionHere:exists("here.png") then
+        click(Location(2271, 47))
+        -- 到交易所
+        repeat
+            toast('finding market')
+            result = findInMap("market.png")
+        until result ~= nil
+        -- 點交易所圖示
+        click(getLastMatch())
+    else
+        -- 前往
+        click(findImage("go.png", Region(960, 240, 600, 600)))
+    end
     -- 航行到交易所
     click(sailTil("sell.png", Region(1834, 868, 63, 51)))
     manualTouch({
