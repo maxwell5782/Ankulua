@@ -26,6 +26,9 @@ products[3][1] = Location(1887, 453)
 products[4] = {}
 products[4][0] = "蕾絲花邊.png"
 products[4][1] = Location(1886, 388)
+products[5] = {}
+products[5][0] = "石像.png"
+products[5][1] = Location(1886, 388)
 
 -- 收藏品定位
 collectTable = {}
