@@ -275,6 +275,10 @@ end
 -- 打開收藏品介面
 function openCollect()
     manualTouch({
+        -- 如果在交易所找不到目前的目標物，點這邊關掉交易介面重新找圖
+        { action = "touchDown", target = Location(1450, 130) },
+        { action = "touchUp",   target = Location(1450, 130) },
+        { action = "wait",      target = interval },
         -- 小地圖
         { action = "touchDown", target = Location(2130, 220) },
         { action = "touchUp",   target = Location(2130, 220) },
@@ -431,38 +435,29 @@ addCheckBox("towage", "拖航到購買點", false)
 newRow()
 addTextView("找圖間隔(秒)")
 addEditNumber("findImageInterval", 5)
-newRow()
-addTextView("執行次數")
-addEditNumber("executeTimes", 50)
 dialogShow("執行設定")
 
-round = 0
-while round < executeTimes do
-    round = round + 1
-    toast(string.format("Round %s", round))
-
-    -- 找收藏品
-    openCollect()
-    -- 拍下交易品特徵
-    collectTextTable[buyIndex]:save(tmpFile)
-    -- 點交易品
-    click(collectTable[buyIndex])
-    wait(interval)
-    -- 找可採購港口
-    match = findImage("port.png", Region(1793, 287, 520, 442))
-    match:setTargetOffset(0, buyPort * 65)
-    click(match)
-    wait(interval)
-    -- 前往
-    goToPort()
-    -- 航行到交易所
-    click(sailTil("buy.png", Region(1832, 971, 63, 55)))
-    -- 找到目標交易品
-    result = findGoods(tmpFile)
-    if result == nil then
-        print(string.format("Can't find goods %s", tmpFile))
-        break
-    end
+while true do
+    repeat
+        -- 找收藏品
+        openCollect()
+        -- 拍下交易品特徵
+        collectTextTable[buyIndex]:save(tmpFile)
+        -- 點交易品
+        click(collectTable[buyIndex])
+        wait(interval)
+        -- 找可採購港口
+        match = findImage("port.png", Region(1793, 287, 520, 442))
+        match:setTargetOffset(0, buyPort * 65)
+        click(match)
+        wait(interval)
+        -- 前往
+        goToPort()
+        -- 航行到交易所
+        click(sailTil("buy.png", Region(1832, 971, 63, 55)))
+        -- 找到目標交易品
+        result = findGoods(tmpFile)
+    until result ~= nil
     click(result)
     -- 買入
     makeDeal()
@@ -504,5 +499,3 @@ while round < executeTimes do
         sellCollect(buyIndex2, sellArea2, sellType2, sellPort2)
     end
 end
-
-print(string.format("Total rounds %s", round))
