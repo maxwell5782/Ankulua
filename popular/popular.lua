@@ -8,12 +8,14 @@ setManualTouchParameter(20, 1)
 
 interval = 2
 tmpFile = "tmp.png"
+charWidth = 28
+charHeight = 26
 
 -- 流行品文字的範圍
 popTable = {}
-popTable[0] = Region(175, 125, 80, 20)
-popTable[1] = Region(175, 255, 80, 20)
-popTable[2] = Region(175, 385, 80, 20)
+popTable[0] = Location(172, 121)
+popTable[1] = Location(172, 252)
+popTable[2] = Location(172, 384)
 buyTable = {}
 buyTable[0] = Location(110, 160)
 buyTable[1] = Location(110, 300)
@@ -201,10 +203,12 @@ addRadioGroup("targetPop", 0)
 addRadioButton("流行1", 0)
 addRadioButton("流行2", 1)
 addRadioButton("流行3", 2)
+newRow()
+addTextView("交易品字數")
+addEditNumber("goodChars", 3)
 dialogShow("跑哪個流行")
 
 dialogInit()
-newRow()
 addRadioGroup("offsetY", 1)
 addRadioButton("1", 1)
 addRadioButton("2", 2)
@@ -251,7 +255,7 @@ while round < executeTimes do
         })
 
         -- 截取交易品特徵
-        popTable[targetPop]:save(tmpFile)
+        Region(popTable[targetPop].x, popTable[targetPop].y, charWidth * goodChars, charHeight):save(tmpFile)
 
         manualTouch({
             -- 要買的東西
