@@ -44,19 +44,28 @@ cities[0][1] = "多佛.png"
 cities[0][2] = "阿姆斯特丹.png"
 cities[0][3] = "海爾德.png"
 cities[0][4] = "奧斯陸.png"
+cities[0][5] = "普利茅斯.png"
+cities[0][6] = "愛丁堡.png"
 cities[1] = {}
 cities[1][0] = "波爾多.png"
 cities[1][1] = "里斯本.png"
+cities[1][2] = "法魯.png"
+cities[1][3] = "波多.png"
+cities[1][4] = "卡薩布蘭卡.png"
+cities[1][5] = "希洪.png"
+cities[1][6] = "南特.png"
 cities[2] = {}
 cities[2][0] = "塞維利亞.png"
 cities[2][1] = "休達.png"
 cities[2][2] = "阿爾及爾.png"
+cities[2][3] = "熱那亞.png"
 cities[3] = {}
 cities[3][0] = "亞歷山大.png"
 cities[3][1] = "班加西.png"
 cities[3][2] = "開羅.png"
 cities[3][3] = "法馬古斯塔.png"
 cities[3][4] = "貝魯特.png"
+cities[3][5] = "伊斯坦堡.png"
 
 -- 找圖
 function findImage(image, region)
