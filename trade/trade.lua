@@ -60,6 +60,7 @@ cities[2][0] = "塞維利亞.png"
 cities[2][1] = "休達.png"
 cities[2][2] = "阿爾及爾.png"
 cities[2][3] = "熱那亞.png"
+cities[2][4] = "比薩.png"
 cities[3] = {}
 cities[3][0] = "亞歷山大.png"
 cities[3][1] = "班加西.png"
