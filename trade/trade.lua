@@ -46,6 +46,7 @@ cities[0][3] = "海爾德.png"
 cities[0][4] = "奧斯陸.png"
 cities[0][5] = "普利茅斯.png"
 cities[0][6] = "愛丁堡.png"
+cities[0][7] = "卑爾根.png"
 cities[1] = {}
 cities[1][0] = "波爾多.png"
 cities[1][1] = "里斯本.png"
