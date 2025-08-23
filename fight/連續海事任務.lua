@@ -31,6 +31,20 @@ function findImage(image, region)
     return region:getLastMatch()
 end
 
+-- 航行到指定圖為止，過程中會一直找操帆點擊
+function sailTil(image, region)
+    regionSail = Region(1300, 630, 300, 280)
+    repeat
+        wait(findImageInterval)
+        toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x,
+                            region.y, region.w, region.h))
+        regionSail:existsClick("sail.png")
+        regionSail:existsClick("boating.png")
+        result = region:exists(image)
+    until result ~= nil
+    return region:getLastMatch()
+end
+
 -- 在小地圖中找圖
 function findInMap(place)
     toast(string.format("findInMap(%s)", place))
@@ -134,10 +148,10 @@ while true do
     -- 前往  
     result = exists("前往.png")
     click(result)
-    wait(findImageInterval)
+    wait(interval)
 
     -- 等到打完
-    click(findImage("回報.png", Region(1819, 749, 101, 189)))
+    click(sailTil("回報.png", Region(1819, 749, 101, 189)))
     manualTouch({
         {action = "touchDown", target = Location(1360, 700)},
         {action = "touchUp", target = Location(1360, 700)},
