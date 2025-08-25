@@ -16,6 +16,7 @@ regionMission = Region(38, 93, 595, 737)
 missions = {}
 missions[0] = "海岸的封鎖.png"
 missions[1] = "大海盜再臨.png"
+missions[2] = "討伐西班牙罪犯.png"
 
 -- 找圖
 function findImage(image, region)
@@ -110,11 +111,8 @@ while true do
     wait(interval)
     -- 關閉委託介面
     manualTouch({
-        {action = "touchDown", target = Location(1360, 700)},
-        {action = "touchUp", target = Location(1360, 700)},
-        {action = "wait", target = interval},
-        {action = "touchDown", target = Location(1360, 700)},
-        {action = "touchUp", target = Location(1360, 700)},
+        {action = "touchDown", target = Location(1360, 300)},
+        {action = "touchUp", target = Location(1360, 300)},
         {action = "wait", target = interval}
     })
     -- 小地圖
