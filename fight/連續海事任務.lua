@@ -14,9 +14,18 @@ regionMission = Region(38, 93, 595, 737)
 
 -- 可用任務
 missions = {}
-missions[0] = "海岸的封鎖.png"
-missions[1] = "大海盜再臨.png"
-missions[2] = "討伐西班牙罪犯.png"
+missions[0] = {}
+missions[0][0] = "海岸的封鎖.png"
+missions[0][1] = 0
+missions[1] = {}
+missions[1][0] = "大海盜再臨.png"
+missions[1][1] = 0
+missions[2] = {}
+missions[2][0] = "討伐西班牙罪犯.png"
+missions[2][1] = 400
+missions[3] = {}
+missions[3][0] = "私掠者的剿滅.png"
+missions[3][1] = 0
 
 -- 找圖
 function findImage(image, region)
@@ -76,7 +85,7 @@ end
 
 dialogInit()
 addRadioGroup("missionIndex", 0)
-for i, name in pairs(missions) do addRadioButton(name, i) end
+for i, mission in pairs(missions) do addRadioButton(mission[0], i) end
 dialogShow("哪個任務")
 
 while true do
@@ -84,7 +93,7 @@ while true do
     click(findImage("委託任務.png", Region(1829, 973, 232, 51)))
     wait(interval)
     -- 找指定任務
-    result = regionMission:exists(missions[missionIndex])
+    result = regionMission:exists(missions[missionIndex][0])
     wait(interval)
     -- 找不到的話，往下滑找
     if result == nil then
@@ -94,11 +103,11 @@ while true do
             {action = "touchUp", target = Location(350, 300)},
             {action = "wait", target = interval}
         })
-        result = regionMission:exists(missions[missionIndex])
+        result = regionMission:exists(missions[missionIndex][0])
         -- 還找不到的話，點更新任務
         while result == nil do
             click(findImage("更新任務.png", Region(257, 957, 146, 43)))
-            result = regionMission:exists(missions[missionIndex])
+            result = regionMission:exists(missions[missionIndex][0])
             wait(interval)
         end
     end
@@ -127,8 +136,8 @@ while true do
     -- 往下滑一點
     manualTouch({
         {action = "touchDown", target = Location(1300, 800)},
-        {action = "touchMove", target = Location(1300, 400)},
-        {action = "touchUp", target = Location(1300, 400)},
+        {action = "touchMove", target = Location(1300, 800 - missions[missionIndex][1])},
+        {action = "touchUp", target = Location(1300, 800 - missions[missionIndex][1])},
         {action = "wait", target = interval}
     })
 
