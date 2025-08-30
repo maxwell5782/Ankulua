@@ -60,6 +60,7 @@ cities[0][5] = "普利茅斯.png"
 cities[0][6] = "愛丁堡.png"
 cities[0][7] = "卑爾根.png"
 cities[0][8] = "哥本哈根.png"
+cities[0][9] = "都柏林.png"
 cities[1] = {}
 cities[1][0] = "波爾多.png"
 cities[1][1] = "里斯本.png"
@@ -156,6 +157,46 @@ function findInMap(place)
             { action = "wait",      target = interval }
         })
         result = exists(place)
+    end
+    return result
+end
+
+-- 找指定港口
+function findPort(place)
+    regionPort = Region(1827, 345, 195, 515)
+    result = regionPort:exists(place)
+    while result == nil do
+        toast(string.format("findPort(%s)", place))
+        manualTouch({
+            { action = "touchDown", target = Location(2033, 400) },
+            { action = "touchMove", target = Location(2033, 800) },
+            { action = "touchUp",   target = Location(2033, 800) },
+            { action = "wait",      target = interval },
+            { action = "touchDown", target = Location(2033, 400) },
+            { action = "touchMove", target = Location(2033, 800) },
+            { action = "touchUp",   target = Location(2033, 800) },
+            { action = "wait",      target = interval }
+        })
+        result = regionPort:exists(place)
+        if result == nil then
+            manualTouch({
+                { action = "touchDown", target = Location(2033, 800) },
+                { action = "touchMove", target = Location(2033, 400) },
+                { action = "touchUp",   target = Location(2033, 400) },
+                { action = "wait",      target = interval }
+            })
+            result = regionPort:exists(place)
+            if result == nil then
+                manualTouch({
+                    { action = "touchDown", target = Location(2033, 800) },
+                    { action = "touchMove", target = Location(2033, 400) },
+                    { action = "touchUp",   target = Location(2033, 400) },
+                    { action = "wait",      target = interval }
+                })
+                result = regionPort:exists(place)
+            end
+        end
+        wait(findImageInterval)
     end
     return result
 end
