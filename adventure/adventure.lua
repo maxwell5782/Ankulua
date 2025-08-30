@@ -9,6 +9,11 @@ setManualTouchParameter(20, 1)
 interval = 2
 regionFoot = Region(1615, 631, 87, 80)
 
+-- 主要路線
+routes = {}
+routes[0] = "標誌物.png"
+routes[1] = "採集.png"
+
 -- 找圖
 function findImage(image, region)
     toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
@@ -23,6 +28,13 @@ function findImage(image, region)
 end
 
 -- 設定
+dialogInit()
+addRadioGroup("routeIdx", 0)
+for i, name in pairs(routes) do
+    addRadioButton(name, i)
+end
+dialogShow("目標路線")
+
 dialogInit()
 addTextView("找圖間隔(秒)")
 addEditNumber("findImageInterval", 5)
@@ -51,7 +63,7 @@ while true do
         toast("auto adventure")
         result = Region(2190, 685, 85, 85):exists("auto.png")
         -- 這邊自動冒險中，換層如果有目標路線就點
-        Region(560, 274, 1209, 290):existsClick("marker.png")
+        Region(560, 274, 1209, 290):existsClick(routes[routeIdx])
         wait(findImageInterval)
     until result ~= nil
 
