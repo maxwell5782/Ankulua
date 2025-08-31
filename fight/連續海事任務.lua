@@ -82,6 +82,64 @@ function findInMap(place)
     end
     return result
 end
+-- 喝酒
+function goDrink()
+    manualTouch({
+        -- 點小地圖
+        { action = "touchDown", target = Location(2130, 220) },
+        { action = "touchUp",   target = Location(2130, 220) },
+        { action = "wait",      target = interval },
+        -- 先滑到上面
+        { action = "touchDown", target = Location(1200, 100) },
+        { action = "touchMove", target = Location(1200, 500) },
+        { action = "touchUp",   target = Location(1200, 500) },
+        { action = "wait",      target = interval }
+    })
+    -- 找酒館或休息站
+    result = exists("bar.png")
+    if result == nil then
+        result = exists("inn.png")
+    end
+    if result == nil then -- 兩個找不到的話，滑到下面找
+        manualTouch({
+            { action = "touchDown", target = Location(1200, 900) },
+            { action = "touchMove", target = Location(1200, 200) },
+            { action = "touchUp",   target = Location(1200, 200) },
+            { action = "wait",      target = interval }
+        })
+        result = exists("bar.png")
+        if result == nil then
+            result = exists("inn.png")
+        end
+    end
+    -- 完全找不到就不喝酒了
+    if result ~= nil then
+        toast("found")
+        -- 有找到，去酒館喝酒
+        click(getLastMatch())
+        manualTouch({
+            -- 等待走到酒館
+            { action = "wait",      target = 15 },
+            -- 走到酒保位
+            { action = "touchDown", target = Location(265, 720) },
+            { action = "wait",      target = 2.5 },
+            { action = "touchUp",   target = Location(265, 720) },
+            { action = "wait",      target = interval },
+            -- 請客
+            { action = "touchDown", target = Location(1940, 1000) },
+            { action = "touchUp",   target = Location(1940, 1000) },
+            { action = "wait",      target = interval },
+            -- 請客
+            { action = "touchDown", target = Location(1940, 790) },
+            { action = "touchUp",   target = Location(1940, 790) },
+            { action = "wait",      target = interval },
+            -- 請客
+            { action = "touchDown", target = Location(1940, 790) },
+            { action = "touchUp",   target = Location(1940, 790) },
+            { action = "wait",      target = interval }
+        })
+    end
+end
 
 dialogInit()
 addRadioGroup("missionIndex", 0)
@@ -124,6 +182,9 @@ while true do
         {action = "touchUp", target = Location(1360, 300)},
         {action = "wait", target = interval}
     })
+
+    goDrink()
+
     -- 小地圖
     manualTouch({
         {action = "touchDown", target = Location(2130, 220)},
