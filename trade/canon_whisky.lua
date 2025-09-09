@@ -366,7 +366,7 @@ while true do
         { action = "wait",      target = interval }
     })
     -- 指定的海域
-    click(findImage(areas[sellArea] .. ".png", Region(1940, 426, 212, 439)))
+    click(findImage(areas[sellArea] .. ".png", Region(1940, 226, 212, 439)))
     wait(interval)
     if sellType == 0 then
         -- 依價格

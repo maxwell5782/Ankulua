@@ -325,7 +325,7 @@ function sellCollect(collect, area, type, port)
         {action = "wait", target = interval}
     })
     -- 指定的海域
-    click(findImage(areas[area] .. ".png", Region(1940, 426, 212, 439)))
+    click(findImage(areas[area] .. ".png", Region(1940, 226, 212, 439)))
     wait(interval)
     -- 指定的港口
     if type == 0 then
