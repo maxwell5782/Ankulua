@@ -26,6 +26,9 @@ missions[2][1] = 400
 missions[3] = {}
 missions[3][0] = "私掠者的剿滅.png"
 missions[3][1] = 0
+missions[4] = {}
+missions[4][0] = "日益減少的商船.png"
+missions[4][1] = 0
 
 -- 找圖
 function findImage(image, region)
