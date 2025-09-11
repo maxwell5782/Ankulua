@@ -42,6 +42,10 @@ missions[6] = {}
 missions[6][0] = "7級二連.png"
 missions[6][1] = 0
 missions[6][2] = 0
+missions[7] = {}
+missions[7][0] = "水妖.png"
+missions[7][1] = 0
+missions[7][2] = 1
 
 -- 找圖
 function findImage(image, region)
