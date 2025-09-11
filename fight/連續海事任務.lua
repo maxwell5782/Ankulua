@@ -17,21 +17,31 @@ missions = {}
 missions[0] = {}
 missions[0][0] = "海岸的封鎖.png"
 missions[0][1] = 0
+missions[0][2] = 1
 missions[1] = {}
 missions[1][0] = "大海盜再臨.png"
 missions[1][1] = 0
+missions[1][2] = 1
 missions[2] = {}
 missions[2][0] = "討伐西班牙罪犯.png"
 missions[2][1] = 400
+missions[2][2] = 1
 missions[3] = {}
 missions[3][0] = "私掠者的剿滅.png"
 missions[3][1] = 0
+missions[3][2] = 1
 missions[4] = {}
 missions[4][0] = "日益減少的商船.png"
 missions[4][1] = 0
+missions[4][2] = 1
 missions[5] = {}
-missions[5][0] = "1.png"
+missions[5][0] = "海盜皮靴.png"
 missions[5][1] = 400
+missions[5][2] = 1
+missions[6] = {}
+missions[6][0] = "7級二連.png"
+missions[6][1] = 0
+missions[6][2] = 0
 
 -- 找圖
 function findImage(image, region)
@@ -226,14 +236,18 @@ while true do
 
     -- 等到打完
     click(sailTil("回報.png", Region(1819, 749, 101, 189)))
-    manualTouch({
-        {action = "touchDown", target = Location(1360, 700)},
-        {action = "touchUp", target = Location(1360, 700)},
-        {action = "wait", target = interval},
-        {action = "touchDown", target = Location(1360, 700)},
-        {action = "touchUp", target = Location(1360, 700)},
-        {action = "wait", target = interval}
-    })
+
+    -- 如果接的任務要回報
+    if missions[missionIndex][2] == 1 then 
+        manualTouch({
+            {action = "touchDown", target = Location(1360, 700)},
+            {action = "touchUp", target = Location(1360, 700)},
+            {action = "wait", target = interval},
+            {action = "touchDown", target = Location(1360, 700)},
+            {action = "touchUp", target = Location(1360, 700)},
+            {action = "wait", target = interval}
+        })
+    end
 
     -- 找委託介紹人
     click(findInMap("航海委託.png"))
