@@ -1,7 +1,7 @@
 -- ========== 設定 ================
 Settings:setCompareDimension(true, 2340)
 Settings:setScriptDimension(true, 2340)
-Settings:set("MinSimilarity", 0.95)
+Settings:set("MinSimilarity", 0.8)
 setImmersiveMode(true)
 autoGameArea(true)
 setManualTouchParameter(20, 1)
@@ -15,37 +15,21 @@ regionMission = Region(38, 93, 595, 737)
 -- 可用任務
 missions = {}
 missions[0] = {}
-missions[0][0] = "海岸的封鎖.png"
+missions[0][0] = "14軍神.png"
 missions[0][1] = 0
-missions[0][2] = 1
+missions[0][2] = 2
 missions[1] = {}
-missions[1][0] = "大海盜再臨.png"
+missions[1][0] = "韋拉二連.png"
 missions[1][1] = 0
-missions[1][2] = 1
+missions[1][2] = 0
 missions[2] = {}
-missions[2][0] = "討伐西班牙罪犯.png"
+missions[2][0] = "聖多方盾.png"
 missions[2][1] = 400
 missions[2][2] = 1
 missions[3] = {}
-missions[3][0] = "私掠者的剿滅.png"
+missions[3][0] = "韋拉水妖.png"
 missions[3][1] = 0
 missions[3][2] = 1
-missions[4] = {}
-missions[4][0] = "日益減少的商船.png"
-missions[4][1] = 0
-missions[4][2] = 1
-missions[5] = {}
-missions[5][0] = "海盜皮靴.png"
-missions[5][1] = 400
-missions[5][2] = 1
-missions[6] = {}
-missions[6][0] = "7級二連.png"
-missions[6][1] = 0
-missions[6][2] = 0
-missions[7] = {}
-missions[7][0] = "水妖.png"
-missions[7][1] = 0
-missions[7][2] = 1
 
 -- 找圖
 function findImage(image, region)
@@ -254,8 +238,25 @@ while true do
         })
     end
 
-    -- 找委託介紹人
-    click(findInMap("航海委託.png"))
-    wait(interval)
+    if missions[missionIndex][2] == 2 then 
+        -- 14特別流程
+        -- 點公會
+        click(findInMap("公會.png"))
+        wait(6)
+        manualTouch({
+            { action = "touchDown", target = Location(1200, 200) },
+            { action = "touchMove", target = Location(1450, 200) },
+            { action = "touchUp",   target = Location(1450, 200) },
+            { action = "wait",      target = interval }
+        })
+        -- 點委託介紹人
+        match = findImage("委託介紹人.png", Region(1232, 188, 740, 250))
+        match:setTargetOffset(0, 100)
+        click(match)
+    else
+        -- 找委託介紹人
+        click(findInMap("航海委託.png"))
+        wait(interval)
+    end
 
 end
