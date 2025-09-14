@@ -72,11 +72,13 @@ cities[3][5] = "伊斯坦堡.png"
 
 -- 找圖
 function findImage(image, region)
-    toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
+    toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x,
+                        region.y, region.w, region.h))
     result = region:exists(image)
     while result == nil do
         wait(findImageInterval)
-        toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
+        toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x,
+                            region.y, region.w, region.h))
         result = region:exists(image)
     end
     return region:getLastMatch()
@@ -87,7 +89,8 @@ function sailTil(image, region)
     regionSail = Region(1300, 630, 300, 280)
     repeat
         wait(findImageInterval)
-        toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
+        toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x,
+                            region.y, region.w, region.h))
         regionSail:existsClick("sail.png")
         regionSail:existsClick("boating.png")
         result = region:exists(image)
@@ -105,10 +108,10 @@ function findGoods(image)
     -- 找不到的話，滑到下面找
     if result == nil then
         manualTouch({
-            { action = "touchDown", target = Location(340, 560) },
-            { action = "touchMove", target = Location(340, 400) },
-            { action = "touchUp",   target = Location(340, 400) },
-            { action = "wait",      target = interval }
+            {action = "touchDown", target = Location(340, 560)},
+            {action = "touchMove", target = Location(340, 400)},
+            {action = "touchUp", target = Location(340, 400)},
+            {action = "wait", target = interval}
         })
         result = regionGoods:exists(imagePattern)
     end
@@ -124,24 +127,23 @@ function findInMap(place)
     toast(string.format("findInMap(%s)", place))
     manualTouch({
         -- 點小地圖
-        { action = "touchDown", target = Location(2130, 220) },
-        { action = "touchUp",   target = Location(2130, 220) },
-        { action = "wait",      target = interval },
-        -- 先滑到上面
-        { action = "touchDown", target = Location(1200, 100) },
-        { action = "touchMove", target = Location(1200, 500) },
-        { action = "touchUp",   target = Location(1200, 500) },
-        { action = "wait",      target = interval }
+        {action = "touchDown", target = Location(2130, 220)},
+        {action = "touchUp", target = Location(2130, 220)},
+        {action = "wait", target = interval}, -- 先滑到上面
+        {action = "touchDown", target = Location(1200, 100)},
+        {action = "touchMove", target = Location(1200, 500)},
+        {action = "touchUp", target = Location(1200, 500)},
+        {action = "wait", target = interval}
     })
     -- 找目標圖示
     result = exists(place)
     -- 找不到的話，滑到下面找
     if result == nil then
         manualTouch({
-            { action = "touchDown", target = Location(1200, 900) },
-            { action = "touchMove", target = Location(1200, 200) },
-            { action = "touchUp",   target = Location(1200, 200) },
-            { action = "wait",      target = interval }
+            {action = "touchDown", target = Location(1200, 900)},
+            {action = "touchMove", target = Location(1200, 200)},
+            {action = "touchUp", target = Location(1200, 200)},
+            {action = "wait", target = interval}
         })
         result = exists(place)
     end
@@ -155,30 +157,30 @@ function findPort(place)
     while result == nil do
         toast(string.format("findPort(%s)", place))
         manualTouch({
-            { action = "touchDown", target = Location(2033, 400) },
-            { action = "touchMove", target = Location(2033, 800) },
-            { action = "touchUp",   target = Location(2033, 800) },
-            { action = "wait",      target = interval },
-            { action = "touchDown", target = Location(2033, 400) },
-            { action = "touchMove", target = Location(2033, 800) },
-            { action = "touchUp",   target = Location(2033, 800) },
-            { action = "wait",      target = interval }
+            {action = "touchDown", target = Location(2033, 400)},
+            {action = "touchMove", target = Location(2033, 800)},
+            {action = "touchUp", target = Location(2033, 800)},
+            {action = "wait", target = interval},
+            {action = "touchDown", target = Location(2033, 400)},
+            {action = "touchMove", target = Location(2033, 800)},
+            {action = "touchUp", target = Location(2033, 800)},
+            {action = "wait", target = interval}
         })
         result = regionPort:exists(place)
         if result == nil then
             manualTouch({
-                { action = "touchDown", target = Location(2033, 800) },
-                { action = "touchMove", target = Location(2033, 400) },
-                { action = "touchUp",   target = Location(2033, 400) },
-                { action = "wait",      target = interval }
+                {action = "touchDown", target = Location(2033, 800)},
+                {action = "touchMove", target = Location(2033, 400)},
+                {action = "touchUp", target = Location(2033, 400)},
+                {action = "wait", target = interval}
             })
             result = regionPort:exists(place)
             if result == nil then
                 manualTouch({
-                    { action = "touchDown", target = Location(2033, 800) },
-                    { action = "touchMove", target = Location(2033, 400) },
-                    { action = "touchUp",   target = Location(2033, 400) },
-                    { action = "wait",      target = interval }
+                    {action = "touchDown", target = Location(2033, 800)},
+                    {action = "touchMove", target = Location(2033, 400)},
+                    {action = "touchUp", target = Location(2033, 400)},
+                    {action = "wait", target = interval}
                 })
                 result = regionPort:exists(place)
             end
@@ -208,18 +210,18 @@ end
 -- 交易-喊價-成交
 function makeDeal()
     manualTouch({
-        { action = "touchDown", target = Location(2020, 960) },
-        { action = "touchUp",   target = Location(2020, 960) },
-        { action = "wait",      target = interval },
-        { action = "touchDown", target = Location(1900, 960) },
-        { action = "touchUp",   target = Location(1900, 960) },
-        { action = "wait",      target = interval },
-        { action = "touchDown", target = Location(1900, 960) },
-        { action = "touchUp",   target = Location(1900, 960) },
-        { action = "wait",      target = interval },
-        { action = "touchDown", target = Location(2140, 960) },
-        { action = "touchUp",   target = Location(2140, 960) },
-        { action = "wait",      target = interval }
+        {action = "touchDown", target = Location(2020, 960)},
+        {action = "touchUp", target = Location(2020, 960)},
+        {action = "wait", target = interval},
+        {action = "touchDown", target = Location(1900, 960)},
+        {action = "touchUp", target = Location(1900, 960)},
+        {action = "wait", target = interval},
+        {action = "touchDown", target = Location(1900, 960)},
+        {action = "touchUp", target = Location(1900, 960)},
+        {action = "wait", target = interval},
+        {action = "touchDown", target = Location(2140, 960)},
+        {action = "touchUp", target = Location(2140, 960)},
+        {action = "wait", target = interval}
     })
 end
 
@@ -228,31 +230,26 @@ function goDrink()
     if drink then
         manualTouch({
             -- 點小地圖
-            { action = "touchDown", target = Location(2130, 220) },
-            { action = "touchUp",   target = Location(2130, 220) },
-            { action = "wait",      target = interval },
-            -- 先滑到上面
-            { action = "touchDown", target = Location(1200, 100) },
-            { action = "touchMove", target = Location(1200, 500) },
-            { action = "touchUp",   target = Location(1200, 500) },
-            { action = "wait",      target = interval }
+            {action = "touchDown", target = Location(2130, 220)},
+            {action = "touchUp", target = Location(2130, 220)},
+            {action = "wait", target = interval}, -- 先滑到上面
+            {action = "touchDown", target = Location(1200, 100)},
+            {action = "touchMove", target = Location(1200, 500)},
+            {action = "touchUp", target = Location(1200, 500)},
+            {action = "wait", target = interval}
         })
         -- 找酒館或休息站
         result = exists("bar.png")
-        if result == nil then
-            result = exists("inn.png")
-        end
+        if result == nil then result = exists("inn.png") end
         if result == nil then -- 兩個找不到的話，滑到下面找
             manualTouch({
-                { action = "touchDown", target = Location(1200, 900) },
-                { action = "touchMove", target = Location(1200, 200) },
-                { action = "touchUp",   target = Location(1200, 200) },
-                { action = "wait",      target = interval }
+                {action = "touchDown", target = Location(1200, 900)},
+                {action = "touchMove", target = Location(1200, 200)},
+                {action = "touchUp", target = Location(1200, 200)},
+                {action = "wait", target = interval}
             })
             result = exists("bar.png")
-            if result == nil then
-                result = exists("inn.png")
-            end
+            if result == nil then result = exists("inn.png") end
         end
         -- 完全找不到就不喝酒了
         if result ~= nil then
@@ -261,24 +258,20 @@ function goDrink()
             click(getLastMatch())
             manualTouch({
                 -- 等待走到酒館
-                { action = "wait",      target = 15 },
-                -- 走到酒保位
-                { action = "touchDown", target = Location(265, 720) },
-                { action = "wait",      target = 2.5 },
-                { action = "touchUp",   target = Location(265, 720) },
-                { action = "wait",      target = interval },
-                -- 請客
-                { action = "touchDown", target = Location(1940, 1000) },
-                { action = "touchUp",   target = Location(1940, 1000) },
-                { action = "wait",      target = interval },
-                -- 請客
-                { action = "touchDown", target = Location(1940, 790) },
-                { action = "touchUp",   target = Location(1940, 790) },
-                { action = "wait",      target = interval },
-                -- 請客
-                { action = "touchDown", target = Location(1940, 790) },
-                { action = "touchUp",   target = Location(1940, 790) },
-                { action = "wait",      target = interval }
+                {action = "wait", target = 15}, -- 走到酒保位
+                {action = "touchDown", target = Location(265, 720)},
+                {action = "wait", target = 2.5},
+                {action = "touchUp", target = Location(265, 720)},
+                {action = "wait", target = interval}, -- 請客
+                {action = "touchDown", target = Location(1940, 1000)},
+                {action = "touchUp", target = Location(1940, 1000)},
+                {action = "wait", target = interval}, -- 請客
+                {action = "touchDown", target = Location(1940, 790)},
+                {action = "touchUp", target = Location(1940, 790)},
+                {action = "wait", target = interval}, -- 請客
+                {action = "touchDown", target = Location(1940, 790)},
+                {action = "touchUp", target = Location(1940, 790)},
+                {action = "wait", target = interval}
             })
         end
     end
@@ -288,21 +281,18 @@ end
 function openCollect()
     manualTouch({
         -- 如果在交易所找不到目前的目標物，點這邊關掉交易介面重新找圖
-        { action = "touchDown", target = Location(1450, 130) },
-        { action = "touchUp",   target = Location(1450, 130) },
-        { action = "wait",      target = interval },
-        -- 小地圖
-        { action = "touchDown", target = Location(2130, 220) },
-        { action = "touchUp",   target = Location(2130, 220) },
-        { action = "wait",      target = interval },
-        -- 行情
-        { action = "touchDown", target = Location(2220, 860) },
-        { action = "touchUp",   target = Location(2220, 860) },
-        { action = "wait",      target = interval },
-        -- 貨品分類
-        { action = "touchDown", target = Location(526, 992) },
-        { action = "touchUp",   target = Location(526, 992) },
-        { action = "wait",      target = interval }
+        {action = "touchDown", target = Location(1450, 130)},
+        {action = "touchUp", target = Location(1450, 130)},
+        {action = "wait", target = interval}, -- 小地圖
+        {action = "touchDown", target = Location(2130, 220)},
+        {action = "touchUp", target = Location(2130, 220)},
+        {action = "wait", target = interval}, -- 行情
+        {action = "touchDown", target = Location(2220, 860)},
+        {action = "touchUp", target = Location(2220, 860)},
+        {action = "wait", target = interval}, -- 貨品分類
+        {action = "touchDown", target = Location(526, 992)},
+        {action = "touchUp", target = Location(526, 992)},
+        {action = "wait", target = interval}
     })
 end
 
@@ -315,13 +305,12 @@ function sellCollect(collect, area, type, port)
     wait(interval)
     manualTouch({
         -- 出售
-        { action = "touchDown", target = Location(2170, 990) },
-        { action = "touchUp",   target = Location(2170, 990) },
-        { action = "wait",      target = interval },
-        -- 海域
-        { action = "touchDown", target = Location(2050, 900) },
-        { action = "touchUp",   target = Location(2050, 900) },
-        { action = "wait",      target = interval }
+        {action = "touchDown", target = Location(2170, 990)},
+        {action = "touchUp", target = Location(2170, 990)},
+        {action = "wait", target = interval}, -- 海域
+        {action = "touchDown", target = Location(2050, 900)},
+        {action = "touchUp", target = Location(2050, 900)},
+        {action = "wait", target = interval}
     })
     -- 指定的海域
     click(findImage(areas[area] .. ".png", Region(1940, 226, 212, 439)))
@@ -345,100 +334,79 @@ function sellCollect(collect, area, type, port)
     -- 航行到交易所
     click(sailTil("sell.png", Region(1834, 868, 63, 51)))
     manualTouch({
-        { action = "wait",      target = interval },
-        -- 全賣
-        { action = "touchDown", target = Location(535, 990) },
-        { action = "touchUp",   target = Location(535, 990) },
-        { action = "wait",      target = interval }
+        {action = "wait", target = interval}, -- 全賣
+        {action = "touchDown", target = Location(535, 990)},
+        {action = "touchUp", target = Location(535, 990)},
+        {action = "wait", target = interval}
     })
     makeDeal()
 end
 
 -- 設定
 dialogInit()
+addTextView("採購收藏品")
 addRadioGroup("buyIndex", 0)
-for i = 1, 6 do
-    addRadioButton(tostring(i), i - 1)
-end
-dialogShow("買第幾個收藏品")
-
-dialogInit()
+for i = 1, 6 do addRadioButton(tostring(i), i - 1) end
+newRow()
+addTextView("採購港")
 addRadioGroup("buyPort", 1)
-for i = 1, 6 do
-    addRadioButton(tostring(i), i)
-end
-dialogShow("第幾個採購港")
-
--- 出售設定
+for i = 1, 6 do addRadioButton(tostring(i), i) end
+dialogShow("去程")
 dialogInit()
+addTextView("出售海域")
 addRadioGroup("sellArea", 0)
-for i, name in pairs(areas) do
-    addRadioButton(name, i)
-end
-dialogShow("在哪個海域賣出")
-
-dialogInit()
+for i, name in pairs(areas) do addRadioButton(name, i) end
+newRow()
+addTextView("出售依據")
 addRadioGroup("sellType", 0)
-addRadioButton("依價格", 0)
+addRadioButton("價格", 0)
 addRadioButton("指定港口", 1)
-dialogShow("出售港依據")
+dialogShow("去程")
 
 dialogInit()
+addTextView("出售港")
 addRadioGroup("sellPort", 0)
 if sellType == 0 then
-    for i = 1, 6 do
-        addRadioButton(tostring(i), i - 1)
-    end
+    for i = 1, 6 do addRadioButton(tostring(i), i - 1) end
 else
-    for i, name in pairs(cities[sellArea]) do
-        addRadioButton(name, i)
-    end
+    for i, name in pairs(cities[sellArea]) do addRadioButton(name, i) end
 end
-dialogShow("哪個出售港")
-
-dialogInit()
+newRow()
 addCheckBox("backTrade", "回程買交易品", false)
-dialogShow("回程設定")
+dialogShow("去程")
+
 if backTrade then
     dialogInit()
+    addTextView("採購收藏品")
     addRadioGroup("buyIndex2", 0)
-    for i = 1, 6 do
-        addRadioButton(tostring(i), i - 1)
-    end
-    dialogShow("買第幾個收藏品")
-
-    dialogInit()
+    for i = 1, 6 do addRadioButton(tostring(i), i - 1) end
+    newRow()
+    addTextView("採購港")
     addRadioGroup("buyPort2", 1)
-    for i = 1, 6 do
-        addRadioButton(tostring(i), i)
-    end
-    dialogShow("第幾個採購港")
-
+    for i = 1, 6 do addRadioButton(tostring(i), i) end
+    dialogShow("回程")
     dialogInit()
+    addTextView("出售海域")
     addRadioGroup("sellArea2", 0)
-    for i, name in pairs(areas) do
-        addRadioButton(name, i)
-    end
-    dialogShow("在哪個海域賣出")
-
-    dialogInit()
+    for i, name in pairs(areas) do addRadioButton(name, i) end
+    newRow()
+    addTextView("出售依據")
     addRadioGroup("sellType2", 0)
     addRadioButton("依價格", 0)
     addRadioButton("指定港口", 1)
-    dialogShow("出售港依據")
+    dialogShow("回程")
 
     dialogInit()
+    addTextView("出售港")
     addRadioGroup("sellPort2", 0)
     if sellType2 == 0 then
-        for i = 1, 6 do
-            addRadioButton(tostring(i), i - 1)
-        end
+        for i = 1, 6 do addRadioButton(tostring(i), i - 1) end
     else
         for i, name in pairs(cities[sellArea2]) do
             addRadioButton(name, i)
         end
     end
-    dialogShow("哪個出售港")
+    dialogShow("回程")
 end
 
 dialogInit()
