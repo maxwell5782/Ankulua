@@ -243,6 +243,46 @@ function goDrink()
     end
 end
 
+-- 找指定港口
+function findPort(place)
+    regionPort = Region(1827, 345, 195, 515)
+    result = regionPort:exists(place, AutoWaitTimeout)
+    while result == nil do
+        toast(string.format("findPort(%s)", place))
+        manualTouch({
+            { action = "touchDown", target = Location(2033, 400) },
+            { action = "touchMove", target = Location(2033, 800) },
+            { action = "touchUp",   target = Location(2033, 800) },
+            { action = "wait",      target = interval },
+            { action = "touchDown", target = Location(2033, 400) },
+            { action = "touchMove", target = Location(2033, 800) },
+            { action = "touchUp",   target = Location(2033, 800) },
+            { action = "wait",      target = interval }
+        })
+        result = regionPort:exists(place, AutoWaitTimeout)
+        if result == nil then
+            manualTouch({
+                { action = "touchDown", target = Location(2033, 800) },
+                { action = "touchMove", target = Location(2033, 400) },
+                { action = "touchUp",   target = Location(2033, 400) },
+                { action = "wait",      target = interval }
+            })
+            result = regionPort:exists(place, AutoWaitTimeout)
+            if result == nil then
+                manualTouch({
+                    { action = "touchDown", target = Location(2033, 800) },
+                    { action = "touchMove", target = Location(2033, 400) },
+                    { action = "touchUp",   target = Location(2033, 400) },
+                    { action = "wait",      target = interval }
+                })
+                result = regionPort:exists(place, AutoWaitTimeout)
+            end
+        end
+        wait(findImageInterval)
+    end
+    return result
+end
+
 -- 打開收藏品介面
 function openCollect()
     manualTouch({
