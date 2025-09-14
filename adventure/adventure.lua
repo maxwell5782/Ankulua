@@ -30,13 +30,14 @@ end
 
 -- 設定
 dialogInit()
-addTextView("找圖間隔(秒)")
-addEditNumber("findImageInterval", 5)
 addTextView("目標路線")
 addRadioGroup("routeIdx", 0)
 for i, name in pairs(routes) do
     addRadioButton(name, i)
 end
+newRow()
+addTextView("找圖間隔(秒)")
+addEditNumber("findImageInterval", 5)
 dialogShow("")
 
 while true do

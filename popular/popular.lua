@@ -199,16 +199,14 @@ end
 
 -- 設定
 dialogInit()
+addTextView("流行")
 addRadioGroup("targetPop", 0)
-addRadioButton("流行1", 0)
-addRadioButton("流行2", 1)
-addRadioButton("流行3", 2)
-newRow()
-addTextView("交易品字數")
-addEditNumber("goodChars", 3)
-dialogShow("跑哪個流行")
+addRadioButton("1", 0)
+addRadioButton("2", 1)
+addRadioButton("3", 2)
 
-dialogInit()
+newRow()
+addTextView("採購港")
 addRadioGroup("offsetY", 1)
 addRadioButton("1", 1)
 addRadioButton("2", 2)
@@ -216,18 +214,23 @@ addRadioButton("3", 3)
 addRadioButton("4", 4)
 addRadioButton("5", 5)
 addRadioButton("6", 6)
-dialogShow("第幾個採購港")
 
-dialogInit()
+newRow()
+addTextView("交易品字數")
+addEditNumber("goodChars", 3)
+
+newRow()
 addCheckBox("drink", "喝酒", true)
 addCheckBox("towage", "拖航到購買點", false)
+
 newRow()
 addTextView("找圖間隔(秒)")
 addEditNumber("findImageInterval", 5)
+
 newRow()
 addTextView("執行次數")
 addEditNumber("executeTimes", 50)
-dialogShow("執行設定")
+dialogShow("")
 
 pop = buyTable[targetPop]
 sell = sellTable[targetPop]
