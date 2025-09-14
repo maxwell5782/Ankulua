@@ -226,7 +226,7 @@ while true do
     sailTil("回報.png", Region(1819, 749, 101, 189))
 
     -- 如果接的任務要回報
-    if missions[missionIndex][2] == 1 then 
+    if missions[missionIndex][2] >= 1 then 
         click(findImage("回報.png", Region(1819, 749, 101, 189)))
         manualTouch({
             {action = "touchDown", target = Location(1360, 700)},
