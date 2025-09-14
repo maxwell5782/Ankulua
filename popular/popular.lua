@@ -7,6 +7,7 @@ autoGameArea(true)
 setManualTouchParameter(20, 1)
 
 interval = 2
+AutoWaitTimeout = 1
 tmpFile = "tmp.png"
 charWidth = 28
 charHeight = 26
@@ -28,11 +29,11 @@ sellTable[2] = Location(210, 450)
 -- 找圖
 function findImage(image, region)
     toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
-    result = region:exists(image)
+    result = region:exists(image, AutoWaitTimeout)
     while result == nil do
         wait(findImageInterval)
         toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
-        result = region:exists(image)
+        result = region:exists(image, AutoWaitTimeout)
     end
     return region:getLastMatch()
 end
@@ -43,9 +44,9 @@ function sailTil(image, region)
     repeat
         wait(findImageInterval)
         toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
-        regionSail:existsClick("sail.png")
-        regionSail:existsClick("boating.png")
-        result = region:exists(image)
+        regionSail:existsClick("sail.png", AutoWaitTimeout)
+        regionSail:existsClick("boating.png", AutoWaitTimeout)
+        result = region:exists(image, AutoWaitTimeout)
     until result ~= nil
     toast(string.format("found %s", image))
     return region:getLastMatch()
@@ -56,7 +57,7 @@ function findGoods(image)
     regionGoods = Region(45, 95, 580, 660)
     toast(string.format("findGoods(%s)", image))
     imagePattern = Pattern(image):similar(0.8)
-    result = regionGoods:exists(imagePattern)
+    result = regionGoods:exists(imagePattern, AutoWaitTimeout)
     -- 找不到的話，滑到下面找
     if result == nil then
         manualTouch({
@@ -65,7 +66,7 @@ function findGoods(image)
             { action = "touchUp",   target = Location(340, 400) },
             { action = "wait",      target = interval }
         })
-        result = regionGoods:exists(imagePattern)
+        result = regionGoods:exists(imagePattern, AutoWaitTimeout)
     end
     if result ~= nil then
         return regionGoods:getLastMatch()
@@ -106,7 +107,7 @@ end
 -- 前往選中的港口
 function goToPort()
     region = Region(960, 240, 600, 600)
-    if region:exists("here.png") then
+    if region:exists("here.png", AutoWaitTimeout) then
         click(Location(2271, 47))
     else
         if towage then
@@ -152,9 +153,9 @@ function goDrink()
         { action = "wait",      target = interval }
     })
     -- 找酒館或休息站
-    result = exists("bar.png")
+    result = exists("bar.png", AutoWaitTimeout)
     if result == nil then
-        result = exists("inn.png")
+        result = exists("inn.png", AutoWaitTimeout)
     end
     if result == nil then -- 兩個找不到的話，滑到下面找
         manualTouch({
@@ -163,9 +164,9 @@ function goDrink()
             { action = "touchUp",   target = Location(1200, 200) },
             { action = "wait",      target = interval }
         })
-        result = exists("bar.png")
+        result = exists("bar.png", AutoWaitTimeout)
         if result == nil then
-            result = exists("inn.png")
+            result = exists("inn.png", AutoWaitTimeout)
         end
     end
     -- 完全找不到就不喝酒了

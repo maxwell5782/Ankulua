@@ -9,7 +9,7 @@ setManualTouchParameter(20, 1)
 regionSail = Region(1300, 630, 300, 280)
 
 while true do
-    regionSail:existsClick("sail.png")
-    regionSail:existsClick("boating.png")
+    regionSail:existsClick("sail.png", 1)
+    regionSail:existsClick("boating.png", 1)
     wait(4)
 end
