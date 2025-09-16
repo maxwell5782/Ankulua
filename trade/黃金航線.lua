@@ -26,6 +26,9 @@ goods[2][1] = 2
 goods[3] = {}
 goods[3][0] = "大馬士革錦緞.png"
 goods[3][1] = 2
+goods[4] = {}
+goods[4][0] = "天鵝絨.png"
+goods[4][1] = 3
 
 -- 收藏品定位
 collectTable = {}
