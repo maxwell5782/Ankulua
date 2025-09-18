@@ -77,7 +77,7 @@ while true do
     end
 
     -- 離開副本
-    click(findImage("exit.png", Region(1980, 93, 29, 35)))
+    click(Location(2000, 115))
     click(findImage("exit_adv.png", Region(804, 828, 132, 37)))
     click(findImage("confirm.png", Region(1310, 670, 94, 51)))
 
