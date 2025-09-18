@@ -75,8 +75,8 @@ while true do
         Region(560, 274, 1209, 290):existsClick(routes[routeIdx], AutoWaitTimeout)
         wait(findImageInterval)
     end
-
     -- 離開副本
+    wait(2)
     click(Location(2000, 115))
     click(findImage("exit_adv.png", Region(804, 828, 132, 37)))
     click(findImage("confirm.png", Region(1310, 670, 94, 51)))
