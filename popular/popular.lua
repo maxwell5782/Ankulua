@@ -322,7 +322,7 @@ while round < executeTimes do
 
     -- 喝酒
     if (drink) then
-        goDrink();
+        goDrink()
     end
 end
 
