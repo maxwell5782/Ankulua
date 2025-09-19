@@ -73,11 +73,13 @@ cities[3][5] = "伊斯坦堡.png"
 
 -- 找圖
 function findImage(image, region)
-    toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
+    toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x,
+                        region.y, region.w, region.h))
     result = region:exists(image, AutoWaitTimeout)
     while result == nil do
         wait(findImageInterval)
-        toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
+        toast(string.format("findImage(%s, [%s,%s,%s,%s])", image, region.x,
+                            region.y, region.w, region.h))
         result = region:exists(image, AutoWaitTimeout)
     end
     return region:getLastMatch()
@@ -88,7 +90,8 @@ function sailTil(image, region)
     regionSail = Region(1300, 630, 300, 280)
     repeat
         wait(findImageInterval)
-        toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x, region.y, region.w, region.h))
+        toast(string.format("sailTil(%s, [%s,%s,%s,%s])", image, region.x,
+                            region.y, region.w, region.h))
         regionSail:existsClick("sail.png", AutoWaitTimeout)
         regionSail:existsClick("boating.png", AutoWaitTimeout)
         result = region:exists(image, AutoWaitTimeout)
@@ -106,10 +109,10 @@ function findGoods(image)
     -- 找不到的話，滑到下面找
     if result == nil then
         manualTouch({
-            { action = "touchDown", target = Location(340, 560) },
-            { action = "touchMove", target = Location(340, 400) },
-            { action = "touchUp",   target = Location(340, 400) },
-            { action = "wait",      target = interval }
+            {action = "touchDown", target = Location(340, 560)},
+            {action = "touchMove", target = Location(340, 400)},
+            {action = "touchUp", target = Location(340, 400)},
+            {action = "wait", target = interval}
         })
         result = regionGoods:exists(imagePattern, AutoWaitTimeout)
     end
@@ -125,24 +128,23 @@ function findInMap(place)
     toast(string.format("findInMap(%s)", place))
     manualTouch({
         -- 點小地圖
-        { action = "touchDown", target = Location(2130, 220) },
-        { action = "touchUp",   target = Location(2130, 220) },
-        { action = "wait",      target = interval },
-        -- 先滑到上面
-        { action = "touchDown", target = Location(1200, 100) },
-        { action = "touchMove", target = Location(1200, 500) },
-        { action = "touchUp",   target = Location(1200, 500) },
-        { action = "wait",      target = interval }
+        {action = "touchDown", target = Location(2130, 220)},
+        {action = "touchUp", target = Location(2130, 220)},
+        {action = "wait", target = interval}, -- 先滑到上面
+        {action = "touchDown", target = Location(1200, 100)},
+        {action = "touchMove", target = Location(1200, 500)},
+        {action = "touchUp", target = Location(1200, 500)},
+        {action = "wait", target = interval}
     })
     -- 找目標圖示
     result = exists(place)
     -- 找不到的話，滑到下面找
     if result == nil then
         manualTouch({
-            { action = "touchDown", target = Location(1200, 900) },
-            { action = "touchMove", target = Location(1200, 200) },
-            { action = "touchUp",   target = Location(1200, 200) },
-            { action = "wait",      target = interval }
+            {action = "touchDown", target = Location(1200, 900)},
+            {action = "touchMove", target = Location(1200, 200)},
+            {action = "touchUp", target = Location(1200, 200)},
+            {action = "wait", target = interval}
         })
         result = exists(place)
     end
@@ -169,18 +171,18 @@ end
 -- 交易-喊價-成交
 function makeDeal()
     manualTouch({
-        { action = "touchDown", target = Location(2020, 960) },
-        { action = "touchUp",   target = Location(2020, 960) },
-        { action = "wait",      target = interval },
-        { action = "touchDown", target = Location(1900, 960) },
-        { action = "touchUp",   target = Location(1900, 960) },
-        { action = "wait",      target = interval },
-        { action = "touchDown", target = Location(1900, 960) },
-        { action = "touchUp",   target = Location(1900, 960) },
-        { action = "wait",      target = interval },
-        { action = "touchDown", target = Location(2140, 960) },
-        { action = "touchUp",   target = Location(2140, 960) },
-        { action = "wait",      target = interval }
+        {action = "touchDown", target = Location(2020, 960)},
+        {action = "touchUp", target = Location(2020, 960)},
+        {action = "wait", target = interval},
+        {action = "touchDown", target = Location(1900, 960)},
+        {action = "touchUp", target = Location(1900, 960)},
+        {action = "wait", target = interval},
+        {action = "touchDown", target = Location(1900, 960)},
+        {action = "touchUp", target = Location(1900, 960)},
+        {action = "wait", target = interval},
+        {action = "touchDown", target = Location(2140, 960)},
+        {action = "touchUp", target = Location(2140, 960)},
+        {action = "wait", target = interval}
     })
 end
 
@@ -188,31 +190,26 @@ end
 function goDrink()
     manualTouch({
         -- 點小地圖
-        { action = "touchDown", target = Location(2130, 220) },
-        { action = "touchUp",   target = Location(2130, 220) },
-        { action = "wait",      target = interval },
-        -- 先滑到上面
-        { action = "touchDown", target = Location(1200, 100) },
-        { action = "touchMove", target = Location(1200, 500) },
-        { action = "touchUp",   target = Location(1200, 500) },
-        { action = "wait",      target = interval }
+        {action = "touchDown", target = Location(2130, 220)},
+        {action = "touchUp", target = Location(2130, 220)},
+        {action = "wait", target = interval}, -- 先滑到上面
+        {action = "touchDown", target = Location(1200, 100)},
+        {action = "touchMove", target = Location(1200, 500)},
+        {action = "touchUp", target = Location(1200, 500)},
+        {action = "wait", target = interval}
     })
     -- 找酒館或休息站
     result = exists("bar.png", AutoWaitTimeout)
-    if result == nil then
-        result = exists("inn.png", AutoWaitTimeout)
-    end
+    if result == nil then result = exists("inn.png", AutoWaitTimeout) end
     if result == nil then -- 兩個找不到的話，滑到下面找
         manualTouch({
-            { action = "touchDown", target = Location(1200, 900) },
-            { action = "touchMove", target = Location(1200, 200) },
-            { action = "touchUp",   target = Location(1200, 200) },
-            { action = "wait",      target = interval }
+            {action = "touchDown", target = Location(1200, 900)},
+            {action = "touchMove", target = Location(1200, 200)},
+            {action = "touchUp", target = Location(1200, 200)},
+            {action = "wait", target = interval}
         })
         result = exists("bar.png", AutoWaitTimeout)
-        if result == nil then
-            result = exists("inn.png", AutoWaitTimeout)
-        end
+        if result == nil then result = exists("inn.png", AutoWaitTimeout) end
     end
     -- 完全找不到就不喝酒了
     if result ~= nil then
@@ -221,24 +218,20 @@ function goDrink()
         click(getLastMatch())
         manualTouch({
             -- 等待走到酒館
-            { action = "wait",      target = 15 },
-            -- 走到酒保位
-            { action = "touchDown", target = Location(265, 720) },
-            { action = "wait",      target = 2.5 },
-            { action = "touchUp",   target = Location(265, 720) },
-            { action = "wait",      target = interval },
-            -- 請客
-            { action = "touchDown", target = Location(1940, 1000) },
-            { action = "touchUp",   target = Location(1940, 1000) },
-            { action = "wait",      target = interval },
-            -- 請客
-            { action = "touchDown", target = Location(1940, 790) },
-            { action = "touchUp",   target = Location(1940, 790) },
-            { action = "wait",      target = interval },
-            -- 請客
-            { action = "touchDown", target = Location(1940, 790) },
-            { action = "touchUp",   target = Location(1940, 790) },
-            { action = "wait",      target = interval }
+            {action = "wait", target = 15}, -- 走到酒保位
+            {action = "touchDown", target = Location(265, 720)},
+            {action = "wait", target = 2.5},
+            {action = "touchUp", target = Location(265, 720)},
+            {action = "wait", target = interval}, -- 請客
+            {action = "touchDown", target = Location(1940, 1000)},
+            {action = "touchUp", target = Location(1940, 1000)},
+            {action = "wait", target = interval}, -- 請客
+            {action = "touchDown", target = Location(1940, 790)},
+            {action = "touchUp", target = Location(1940, 790)},
+            {action = "wait", target = interval}, -- 請客
+            {action = "touchDown", target = Location(1940, 790)},
+            {action = "touchUp", target = Location(1940, 790)},
+            {action = "wait", target = interval}
         })
     end
 end
@@ -250,30 +243,30 @@ function findPort(place)
     while result == nil do
         toast(string.format("findPort(%s)", place))
         manualTouch({
-            { action = "touchDown", target = Location(2033, 400) },
-            { action = "touchMove", target = Location(2033, 800) },
-            { action = "touchUp",   target = Location(2033, 800) },
-            { action = "wait",      target = interval },
-            { action = "touchDown", target = Location(2033, 400) },
-            { action = "touchMove", target = Location(2033, 800) },
-            { action = "touchUp",   target = Location(2033, 800) },
-            { action = "wait",      target = interval }
+            {action = "touchDown", target = Location(2033, 400)},
+            {action = "touchMove", target = Location(2033, 800)},
+            {action = "touchUp", target = Location(2033, 800)},
+            {action = "wait", target = interval},
+            {action = "touchDown", target = Location(2033, 400)},
+            {action = "touchMove", target = Location(2033, 800)},
+            {action = "touchUp", target = Location(2033, 800)},
+            {action = "wait", target = interval}
         })
         result = regionPort:exists(place, AutoWaitTimeout)
         if result == nil then
             manualTouch({
-                { action = "touchDown", target = Location(2033, 800) },
-                { action = "touchMove", target = Location(2033, 400) },
-                { action = "touchUp",   target = Location(2033, 400) },
-                { action = "wait",      target = interval }
+                {action = "touchDown", target = Location(2033, 800)},
+                {action = "touchMove", target = Location(2033, 400)},
+                {action = "touchUp", target = Location(2033, 400)},
+                {action = "wait", target = interval}
             })
             result = regionPort:exists(place, AutoWaitTimeout)
             if result == nil then
                 manualTouch({
-                    { action = "touchDown", target = Location(2033, 800) },
-                    { action = "touchMove", target = Location(2033, 400) },
-                    { action = "touchUp",   target = Location(2033, 400) },
-                    { action = "wait",      target = interval }
+                    {action = "touchDown", target = Location(2033, 800)},
+                    {action = "touchMove", target = Location(2033, 400)},
+                    {action = "touchUp", target = Location(2033, 400)},
+                    {action = "wait", target = interval}
                 })
                 result = regionPort:exists(place, AutoWaitTimeout)
             end
@@ -448,7 +441,7 @@ while true do
     -- 買入
     makeDeal()
     -- 喝酒
-    goDrink()
+    if (drink) then goDrink() end
     -- 到指定港口賣出
     sellCollect(buyIndex, sellArea, sellType, sellPort)
 
@@ -480,7 +473,7 @@ while true do
         -- 買入
         makeDeal()
         -- 喝酒
-        goDrink()
+        if (drink) then goDrink() end
         -- 到指定港口賣出
         sellCollect(buyIndex2, sellArea2, sellType2, sellPort2)
     end
