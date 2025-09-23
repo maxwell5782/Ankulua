@@ -432,6 +432,7 @@ while true do
         wait(interval)
         -- 前往
         goToPort()
+        wait(3)
         -- 航行到交易所
         click(sailTil("buy.png", Region(1832, 971, 63, 55)))
         -- 找到目標交易品
@@ -447,28 +448,27 @@ while true do
 
     -- 回程
     if backTrade then
-        -- 找收藏品
-        openCollect()
-        -- 拍下交易品特徵
-        collectTextTable[buyIndex2]:save(backFile)
-        -- 點交易品
-        click(collectTable[buyIndex2])
-        wait(interval)
-        -- 找可採購港口
-        match = findImage("port.png", Region(1793, 287, 520, 442))
-        match:setTargetOffset(0, buyPort2 * 65)
-        click(match)
-        wait(interval)
-        -- 前往
-        goToPort()
-        -- 航行到交易所
-        click(sailTil("buy.png", Region(1832, 971, 63, 55)))
-        -- 找到目標交易品
-        result = findGoods(backFile)
-        if result == nil then
-            print(string.format("Can't find goods %s", backFile2))
-            break
-        end
+        repeat
+            -- 找收藏品
+            openCollect()
+            -- 拍下交易品特徵
+            collectTextTable[buyIndex2]:save(backFile)
+            -- 點交易品
+            click(collectTable[buyIndex2])
+            wait(interval)
+            -- 找可採購港口
+            match = findImage("port.png", Region(1793, 287, 520, 442))
+            match:setTargetOffset(0, buyPort2 * 65)
+            click(match)
+            wait(interval)
+            -- 前往
+            goToPort()
+            wait(3)
+            -- 航行到交易所
+            click(sailTil("buy.png", Region(1832, 971, 63, 55)))
+            -- 找到目標交易品
+            result = findGoods(backFile)
+        until result ~= nil
         click(result)
         -- 買入
         makeDeal()
