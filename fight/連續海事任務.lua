@@ -12,7 +12,7 @@ findImageInterval = 5
 -- 任務欄範圍
 regionMission = Region(38, 93, 595, 737)
 
--- 可用任務
+-- 可用任務0=團隊任務,1=一般任務,2=14任務
 missions = {}
 missions[0] = {}
 missions[0][0] = "14軍神.png"
@@ -38,6 +38,10 @@ missions[5] = {}
 missions[5][0] = "14功能室.png"
 missions[5][1] = 0
 missions[5][2] = 2
+missions[6] = {}
+missions[6][0] = "聖多指揮官劍.png"
+missions[6][1] = 400
+missions[6][2] = 0
 
 -- 找圖
 function findImage(image, region)
