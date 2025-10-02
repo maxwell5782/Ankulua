@@ -245,8 +245,8 @@ while round < executeTimes do
         -- 點要買的東西
         manualTouch({
             -- 如果在交易所找不到目前的目標物，點這邊關掉交易介面重新找圖
-            { action = "touchDown", target = Location(1450, 100) },
-            { action = "touchUp",   target = Location(1450, 100) },
+            { action = "touchDown", target = Location(1450, 130) },
+            { action = "touchUp",   target = Location(1450, 130) },
             { action = "wait",      target = interval },
             -- 小地圖
             { action = "touchDown", target = Location(2130, 220) },
