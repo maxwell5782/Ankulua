@@ -15,33 +15,13 @@ regionMission = Region(38, 93, 595, 737)
 -- 可用任務0=團隊任務,1=一般任務,2=14任務
 missions = {}
 missions[0] = {}
-missions[0][0] = "14軍神.png"
+missions[0][0] = "聖多指揮官劍.png"
 missions[0][1] = 0
-missions[0][2] = 2
+missions[0][2] = 0
 missions[1] = {}
-missions[1][0] = "韋拉二連.png"
+missions[1][0] = "37仙果.png"
 missions[1][1] = 0
-missions[1][2] = 0
-missions[2] = {}
-missions[2][0] = "聖多研究室.png"
-missions[2][1] = 400
-missions[2][2] = 1
-missions[3] = {}
-missions[3][0] = "韋拉水妖.png"
-missions[3][1] = 0
-missions[3][2] = 1
-missions[4] = {}
-missions[4][0] = "14提督衣.png"
-missions[4][1] = 0
-missions[4][2] = 2
-missions[5] = {}
-missions[5][0] = "14功能室.png"
-missions[5][1] = 0
-missions[5][2] = 2
-missions[6] = {}
-missions[6][0] = "聖多指揮官劍.png"
-missions[6][1] = 400
-missions[6][2] = 0
+missions[1][2] = 1
 
 -- 找圖
 function findImage(image, region)
@@ -196,42 +176,21 @@ while true do
     manualTouch({
         {action = "touchDown", target = Location(1360, 300)},
         {action = "touchUp", target = Location(1360, 300)},
+        {action = "wait", target = interval},
+        {action = "touchDown", target = Location(2100, 650)},-- 追蹤任務
+        {action = "touchUp", target = Location(2100, 650)},
         {action = "wait", target = interval}
     })
 
     goDrink()
 
-    -- 小地圖
+    -- 移到任務地點
     manualTouch({
-        {action = "touchDown", target = Location(2130, 220)},
-        {action = "touchUp", target = Location(2130, 220)},
+        {action = "touchDown", target = Location(2100, 490)},
+        {action = "touchUp", target = Location(2100, 490)},
         {action = "wait", target = interval}
     })
-    -- 地球
-    click(findImage("地球.png", Region(2178, 548, 106, 93)))
-    wait(interval)
-    -- 往下滑一點
-    manualTouch({
-        {action = "touchDown", target = Location(1300, 800)},
-        {action = "touchMove", target = Location(1300, 800 - missions[missionIndex][1])},
-        {action = "touchUp", target = Location(1300, 800 - missions[missionIndex][1])},
-        {action = "wait", target = interval}
-    })
-
-    -- 找戰鬥圖示
-    result = exists("戰鬥.png")
-    if result == nil then
-        -- 關閉行情介面    
-        click(findImage("行情.png", Region(2189, 814, 89, 87)))
-        wait(interval)
-        result = exists("戰鬥.png")
-    end
-    -- 戰鬥
-    click(result)
-    wait(interval)
-    -- 前往  
-    result = exists("前往.png")
-    click(result)
+    click(findImage("前往.png", Region(0, 0, 2340, 1080)))
     wait(interval)
 
     -- 等到打完
