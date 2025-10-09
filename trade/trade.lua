@@ -37,6 +37,7 @@ areas[3] = "東地中海"
 areas[4] = "非洲西岸"
 areas[5] = "加勒比"
 areas[6] = "中南美"
+areas[7] = "非洲東岸"
 -- 港口
 cities = {}
 cities[0] = {}
@@ -231,6 +232,9 @@ function goDrink()
             {action = "wait", target = interval}, -- 請客
             {action = "touchDown", target = Location(1940, 790)},
             {action = "touchUp", target = Location(1940, 790)},
+            {action = "wait", target = interval}, -- 請客
+            {action = "touchDown", target = Location(1940, 790)},
+            {action = "touchUp", target = Location(1940, 790)},
             {action = "wait", target = interval}
         })
     end
@@ -312,7 +316,7 @@ function sellCollect(collect, area, type, port)
         {action = "wait", target = interval}
     })
     -- 指定的海域
-    click(findImage(areas[area] .. ".png", Region(1940, 226, 212, 439)))
+    click(findImage(areas[area] .. ".png", Region(1940, 360, 200, 500)))
     wait(interval)
     -- 指定的港口
     if type == 0 then
