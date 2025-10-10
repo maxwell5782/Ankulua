@@ -22,6 +22,14 @@ missions[1] = {}
 missions[1][0] = "37仙果.png"
 missions[1][1] = 0
 missions[1][2] = 1
+missions[2] = {}
+missions[2][0] = "37風神.png"
+missions[2][1] = 0
+missions[2][2] = 1
+missions[3] = {}
+missions[3][0] = "37火焰炮.png"
+missions[3][1] = 0
+missions[3][2] = 1
 
 -- 找圖
 function findImage(image, region)
