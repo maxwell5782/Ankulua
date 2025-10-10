@@ -421,6 +421,8 @@ addEditNumber("findImageInterval", 5)
 dialogShow("執行設定")
 
 while true do
+    -- 喝酒
+    if (drink) then goDrink() end
     repeat
         -- 找收藏品
         openCollect()
@@ -452,6 +454,8 @@ while true do
 
     -- 回程
     if backTrade then
+        -- 喝酒
+        if (drink) then goDrink() end
         repeat
             -- 找收藏品
             openCollect()
