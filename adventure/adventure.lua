@@ -44,9 +44,9 @@ while true do
     -- 往下移動直到出現腳腳
     repeat
         manualTouch({
-            { action = "touchDown", target = Location(273, 980) },
-            { action = "wait",      target = 2 },
-            { action = "touchUp",   target = Location(273, 980) },
+            { action = "touchDown", target = Location(273, 1050) },
+            { action = "wait",      target = 1 },
+            { action = "touchUp",   target = Location(273, 1050) },
             { action = "wait",      target = interval }
         })
         result = regionFoot:exists("foot.png", AutoWaitTimeout)
