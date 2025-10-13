@@ -90,31 +90,26 @@ end
 function goDrink()
     manualTouch({
         -- 點小地圖
-        { action = "touchDown", target = Location(2130, 220) },
-        { action = "touchUp",   target = Location(2130, 220) },
-        { action = "wait",      target = interval },
-        -- 先滑到上面
-        { action = "touchDown", target = Location(1200, 100) },
-        { action = "touchMove", target = Location(1200, 500) },
-        { action = "touchUp",   target = Location(1200, 500) },
-        { action = "wait",      target = interval }
+        {action = "touchDown", target = Location(2130, 220)},
+        {action = "touchUp", target = Location(2130, 220)},
+        {action = "wait", target = interval}, -- 先滑到上面
+        {action = "touchDown", target = Location(1200, 100)},
+        {action = "touchMove", target = Location(1200, 500)},
+        {action = "touchUp", target = Location(1200, 500)},
+        {action = "wait", target = interval}
     })
     -- 找酒館或休息站
     result = exists("bar.png")
-    if result == nil then
-        result = exists("inn.png")
-    end
+    if result == nil then result = exists("inn.png") end
     if result == nil then -- 兩個找不到的話，滑到下面找
         manualTouch({
-            { action = "touchDown", target = Location(1200, 900) },
-            { action = "touchMove", target = Location(1200, 200) },
-            { action = "touchUp",   target = Location(1200, 200) },
-            { action = "wait",      target = interval }
+            {action = "touchDown", target = Location(1200, 900)},
+            {action = "touchMove", target = Location(1200, 200)},
+            {action = "touchUp", target = Location(1200, 200)},
+            {action = "wait", target = interval}
         })
         result = exists("bar.png")
-        if result == nil then
-            result = exists("inn.png")
-        end
+        if result == nil then result = exists("inn.png") end
     end
     -- 完全找不到就不喝酒了
     if result ~= nil then
@@ -123,24 +118,27 @@ function goDrink()
         click(getLastMatch())
         manualTouch({
             -- 等待走到酒館
-            { action = "wait",      target = 15 },
-            -- 走到酒保位
-            { action = "touchDown", target = Location(265, 720) },
-            { action = "wait",      target = 2.5 },
-            { action = "touchUp",   target = Location(265, 720) },
-            { action = "wait",      target = interval },
-            -- 請客
-            { action = "touchDown", target = Location(1940, 1000) },
-            { action = "touchUp",   target = Location(1940, 1000) },
-            { action = "wait",      target = interval },
-            -- 請客
-            { action = "touchDown", target = Location(1940, 790) },
-            { action = "touchUp",   target = Location(1940, 790) },
-            { action = "wait",      target = interval },
-            -- 請客
-            { action = "touchDown", target = Location(1940, 790) },
-            { action = "touchUp",   target = Location(1940, 790) },
-            { action = "wait",      target = interval }
+            {action = "wait", target = 15}, -- 走到酒保位
+            {action = "touchDown", target = Location(265, 720)},
+            {action = "wait", target = 2.5},
+            {action = "touchUp", target = Location(265, 720)},
+            {action = "wait", target = interval}, -- 請客
+            {action = "touchDown", target = Location(1940, 1000)},
+            {action = "touchUp", target = Location(1940, 1000)},
+            {action = "wait", target = interval}, -- 請客
+            {action = "touchDown", target = Location(1940, 790)},
+            {action = "touchUp", target = Location(1940, 790)},
+            {action = "wait", target = interval}, -- 請客
+            {action = "touchDown", target = Location(1940, 790)},
+            {action = "touchUp", target = Location(1940, 790)},
+            {action = "wait", target = interval}
+        })
+    else
+        -- 關閉小地圖
+        manualTouch({
+            {action = "touchDown", target = Location(2271, 48)},
+            {action = "touchUp", target = Location(2271, 48)},
+            {action = "wait", target = interval}
         })
     end
 end
@@ -157,21 +155,11 @@ while true do
     -- 找指定任務
     result = regionMission:exists(missions[missionIndex][0])
     wait(interval)
-    -- 找不到的話，往下滑找
-    if result == nil then
-        manualTouch({
-            {action = "touchDown", target = Location(350, 660)},
-            {action = "touchMove", target = Location(350, 300)},
-            {action = "touchUp", target = Location(350, 300)},
-            {action = "wait", target = interval}
-        })
+    -- 找不到的話，點更新任務
+    while result == nil do
+        click(findImage("更新任務.png", Region(257, 957, 146, 43)))
         result = regionMission:exists(missions[missionIndex][0])
-        -- 還找不到的話，點更新任務
-        while result == nil do
-            click(findImage("更新任務.png", Region(257, 957, 146, 43)))
-            result = regionMission:exists(missions[missionIndex][0])
-            wait(interval)
-        end
+        wait(interval)
     end
 
     -- 接任務
@@ -185,7 +173,7 @@ while true do
         {action = "touchDown", target = Location(1360, 300)},
         {action = "touchUp", target = Location(1360, 300)},
         {action = "wait", target = interval},
-        {action = "touchDown", target = Location(2100, 650)},-- 追蹤任務
+        {action = "touchDown", target = Location(2100, 650)}, -- 追蹤任務
         {action = "touchUp", target = Location(2100, 650)},
         {action = "wait", target = interval}
     })
@@ -205,7 +193,7 @@ while true do
     sailTil("回報.png", Region(1819, 749, 101, 189))
 
     -- 如果接的任務要回報
-    if missions[missionIndex][2] >= 1 then 
+    if missions[missionIndex][2] >= 1 then
         click(findImage("回報.png", Region(1819, 749, 101, 189)))
         manualTouch({
             {action = "touchDown", target = Location(1360, 700)},
@@ -217,16 +205,16 @@ while true do
         })
     end
 
-    if missions[missionIndex][2] == 2 then 
+    if missions[missionIndex][2] == 2 then
         -- 14特別流程
         -- 點公會
         click(findInMap("公會.png"))
         wait(6)
         manualTouch({
-            { action = "touchDown", target = Location(1200, 200) },
-            { action = "touchMove", target = Location(1450, 200) },
-            { action = "touchUp",   target = Location(1450, 200) },
-            { action = "wait",      target = interval }
+            {action = "touchDown", target = Location(1200, 200)},
+            {action = "touchMove", target = Location(1450, 200)},
+            {action = "touchUp", target = Location(1450, 200)},
+            {action = "wait", target = interval}
         })
         -- 點委託介紹人
         match = findImage("委託介紹人.png", Region(1232, 188, 740, 250))
