@@ -30,6 +30,10 @@ missions[3] = {}
 missions[3][0] = "37火焰炮.png"
 missions[3][1] = 0
 missions[3][2] = 1
+missions[4] = {}
+missions[4][0] = "委拉水妖.png"
+missions[4][1] = 0
+missions[4][2] = 1
 
 -- 找圖
 function findImage(image, region)
@@ -159,7 +163,7 @@ while true do
     while result == nil do
         click(findImage("更新任務.png", Region(257, 957, 146, 43)))
         result = regionMission:exists(missions[missionIndex][0])
-        wait(interval)
+        wait(findImageInterval)
     end
 
     -- 接任務
