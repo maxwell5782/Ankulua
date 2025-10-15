@@ -1,7 +1,6 @@
 -- ========== 設定 ================
 Settings:setCompareDimension(true, 2340)
 Settings:setScriptDimension(true, 2340)
-Settings:set("MinSimilarity", 0.9)
 setImmersiveMode(true)
 autoGameArea(true)
 setManualTouchParameter(20, 1)
@@ -148,14 +147,21 @@ function goDrink()
 end
 
 dialogInit()
+addTextView("任務")
 addRadioGroup("missionIndex", 0)
 for i, mission in pairs(missions) do addRadioButton(mission[0], i) end
-dialogShow("哪個任務")
+newRow()
+addTextView("相似度")
+addEditNumber("MinSimilarity", 0.9)
+dialogShow("")
+
+Settings:set("MinSimilarity", MinSimilarity)
 
 while true do
     -- 點委託任務
     click(findImage("委託任務.png", Region(1829, 973, 232, 51)))
     wait(interval)
+
     -- 找指定任務
     result = regionMission:exists(missions[missionIndex][0])
     wait(interval)
@@ -163,7 +169,7 @@ while true do
     while result == nil do
         click(findImage("更新任務.png", Region(257, 957, 146, 43)))
         result = regionMission:exists(missions[missionIndex][0])
-        wait(findImageInterval)
+        if result == nil then wait(interval) end
     end
 
     -- 接任務
