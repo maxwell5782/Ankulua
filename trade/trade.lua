@@ -156,7 +156,16 @@ end
 function goToPort()
     region = Region(960, 240, 600, 600)
     if region:exists("here.png", AutoWaitTimeout) then
+        -- 已在目標港口，前往交易所
         click(Location(2271, 47))
+        wait(interval)
+        result = findInMap("market.png")
+        if result ~= nil then
+            click(result)
+            wait(interval)
+        else
+            click(Location(2271, 47))
+        end
     else
         if towage then
             -- 拖航過去
