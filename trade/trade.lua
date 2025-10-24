@@ -441,7 +441,7 @@ while true do
         click(collectTable[buyIndex])
         wait(interval)
         -- 找可採購港口
-        match = findImage("port.png", Region(1793, 287, 520, 442))
+        match = findImage("port.png", Region(1793, 287, 520, 842))
         match:setTargetOffset(0, buyPort * 65)
         click(match)
         wait(interval)
@@ -474,7 +474,7 @@ while true do
             click(collectTable[buyIndex2])
             wait(interval)
             -- 找可採購港口
-            match = findImage("port.png", Region(1793, 287, 520, 442))
+            match = findImage("port.png", Region(1793, 287, 520, 842))
             match:setTargetOffset(0, buyPort2 * 65)
             click(match)
             wait(interval)

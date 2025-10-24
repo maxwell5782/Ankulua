@@ -269,7 +269,7 @@ while round < executeTimes do
         })
 
         -- 找可採購港口
-        match = findImage("port.png", Region(1793, 287, 520, 442))
+        match = findImage("port.png", Region(1793, 287, 520, 842))
         match:setTargetOffset(0, offsetY * 65)
         click(match)
         wait(interval)
