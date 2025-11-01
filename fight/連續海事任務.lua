@@ -14,7 +14,7 @@ regionMission = Region(38, 93, 595, 737)
 -- 可用任務0=團隊任務,1=一般任務,2=14任務
 missions = {}
 missions[0] = {}
-missions[0][0] = "聖多指揮官劍.png"
+missions[0][0] = "聖多95炮衣.png"
 missions[0][1] = 0
 missions[0][2] = 0
 missions[1] = {}
