@@ -10,6 +10,7 @@ findImageInterval = 5
 
 -- 任務欄範圍
 regionMission = Region(38, 93, 595, 737)
+regTalk = Region(1819, 591, 101, 353)
 
 -- 可用任務0=團隊任務,1=一般任務,2=14任務
 missions = {}
@@ -126,14 +127,14 @@ function goDrink()
             {action = "wait", target = 2.5},
             {action = "touchUp", target = Location(265, 720)},
             {action = "wait", target = interval}, -- 請客
-            {action = "touchDown", target = Location(1940, 1000)},
-            {action = "touchUp", target = Location(1940, 1000)},
+            {action = "touchDown", target = Location(1940, 900)},
+            {action = "touchUp", target = Location(1940, 900)},
             {action = "wait", target = interval}, -- 請客
-            {action = "touchDown", target = Location(1940, 790)},
-            {action = "touchUp", target = Location(1940, 790)},
+            {action = "touchDown", target = Location(1940, 700)},
+            {action = "touchUp", target = Location(1940, 700)},
             {action = "wait", target = interval}, -- 請客
-            {action = "touchDown", target = Location(1940, 790)},
-            {action = "touchUp", target = Location(1940, 790)},
+            {action = "touchDown", target = Location(1940, 700)},
+            {action = "touchUp", target = Location(1940, 700)},
             {action = "wait", target = interval}
         })
     else
@@ -159,7 +160,7 @@ Settings:set("MinSimilarity", MinSimilarity)
 
 while true do
     -- 點委託任務
-    click(findImage("委託任務.png", Region(1829, 973, 232, 51)))
+    click(findImage("委託任務.png", regTalk))
     wait(interval)
 
     -- 找指定任務
@@ -200,11 +201,11 @@ while true do
     wait(interval)
 
     -- 等到打完
-    sailTil("回報.png", Region(1819, 749, 101, 189))
+    sailTil("回報.png", regTalk)
 
     -- 如果接的任務要回報
     if missions[missionIndex][2] >= 1 then
-        click(findImage("回報.png", Region(1819, 749, 101, 189)))
+        click(findImage("回報.png", regTalk))
         manualTouch({
             {action = "touchDown", target = Location(1360, 700)},
             {action = "touchUp", target = Location(1360, 700)},
