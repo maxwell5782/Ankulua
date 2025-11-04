@@ -8,9 +8,8 @@ setManualTouchParameter(20, 1)
 
 interval = 2
 AutoWaitTimeout = 1
-tmpFile = "tmp.png"
-backFile = "tmp2.png"
 regionTarget = Region(174, 44, 134, 40)
+regionTalk = Region(1900, 800, 200, 200)
 
 -- 商品
 goods = {}
@@ -349,7 +348,7 @@ function sellCollect(collect, area, type, port)
     -- 前往
     click(findImage("go.png", Region(960, 240, 600, 600)))
     -- 航行到交易所
-    click(sailTil("sell.png", Region(1834, 868, 63, 51)))
+    click(sailTil("sell.png", regionTalk))
     manualTouch({
         {action = "wait", target = interval}, -- 全賣
         {action = "touchDown", target = Location(535, 990)},
@@ -403,7 +402,7 @@ while true do
         -- 前往
         goToPort()
         -- 航行到交易所
-        click(sailTil("buy.png", Region(1832, 971, 63, 55)))
+        click(sailTil("buy.png", regionTalk))
         -- 找到目標交易品
         result = findGoods(goods[goGood][0])
     until result ~= nil
@@ -430,7 +429,7 @@ while true do
         -- 前往
         goToPort()
         -- 航行到交易所
-        click(sailTil("buy.png", Region(1832, 971, 63, 55)))
+        click(sailTil("buy.png", regionTalk))
         -- 找到目標交易品
         result = findGoods(goods[backGood][0])
     until result ~= nil
