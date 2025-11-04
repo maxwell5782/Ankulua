@@ -90,6 +90,7 @@ function findInMap(place)
     end
     return result
 end
+
 -- 喝酒
 function goDrink()
     manualTouch({
@@ -103,8 +104,8 @@ function goDrink()
         {action = "wait", target = interval}
     })
     -- 找酒館或休息站
-    result = exists("bar.png")
-    if result == nil then result = exists("inn.png") end
+    result = exists("bar.png", AutoWaitTimeout)
+    if result == nil then result = exists("inn.png", AutoWaitTimeout) end
     if result == nil then -- 兩個找不到的話，滑到下面找
         manualTouch({
             {action = "touchDown", target = Location(1200, 900)},
@@ -112,8 +113,8 @@ function goDrink()
             {action = "touchUp", target = Location(1200, 200)},
             {action = "wait", target = interval}
         })
-        result = exists("bar.png")
-        if result == nil then result = exists("inn.png") end
+        result = exists("bar.png", AutoWaitTimeout)
+        if result == nil then result = exists("inn.png", AutoWaitTimeout) end
     end
     -- 完全找不到就不喝酒了
     if result ~= nil then
@@ -121,27 +122,22 @@ function goDrink()
         -- 有找到，去酒館喝酒
         click(getLastMatch())
         manualTouch({
-            -- 等待走到酒館
-            {action = "wait", target = 15}, -- 走到酒保位
+            {action = "wait", target = 15},
             {action = "touchDown", target = Location(265, 720)},
             {action = "wait", target = 2.5},
             {action = "touchUp", target = Location(265, 720)},
-            {action = "wait", target = interval}, -- 請客
+            {action = "wait", target = interval},
             {action = "touchDown", target = Location(1940, 900)},
             {action = "touchUp", target = Location(1940, 900)},
-            {action = "wait", target = interval}, -- 請客
+            {action = "wait", target = interval},
             {action = "touchDown", target = Location(1940, 700)},
             {action = "touchUp", target = Location(1940, 700)},
-            {action = "wait", target = interval}, -- 請客
+            {action = "wait", target = interval},
             {action = "touchDown", target = Location(1940, 700)},
             {action = "touchUp", target = Location(1940, 700)},
-            {action = "wait", target = interval}
-        })
-    else
-        -- 關閉小地圖
-        manualTouch({
-            {action = "touchDown", target = Location(2271, 48)},
-            {action = "touchUp", target = Location(2271, 48)},
+            {action = "wait", target = interval},
+            {action = "touchDown", target = Location(1940, 700)},
+            {action = "touchUp", target = Location(1940, 700)},
             {action = "wait", target = interval}
         })
     end

@@ -7,6 +7,7 @@ autoGameArea(true)
 setManualTouchParameter(20, 1)
 
 interval = 2
+regTalk = Region(1819, 591, 101, 353)
 
 -- 生產品表
 products = {}
@@ -273,20 +274,22 @@ function goDrink()
         -- 有找到，去酒館喝酒
         click(getLastMatch())
         manualTouch({
-            -- 等待走到酒館
-            {action = "wait", target = 15}, -- 走到酒保位
+            {action = "wait", target = 15},
             {action = "touchDown", target = Location(265, 720)},
             {action = "wait", target = 2.5},
             {action = "touchUp", target = Location(265, 720)},
-            {action = "wait", target = interval}, -- 請客
-            {action = "touchDown", target = Location(1940, 1000)},
-            {action = "touchUp", target = Location(1940, 1000)},
-            {action = "wait", target = interval}, -- 請客
-            {action = "touchDown", target = Location(1940, 790)},
-            {action = "touchUp", target = Location(1940, 790)},
-            {action = "wait", target = interval}, -- 請客
-            {action = "touchDown", target = Location(1940, 790)},
-            {action = "touchUp", target = Location(1940, 790)},
+            {action = "wait", target = interval},
+            {action = "touchDown", target = Location(1940, 900)},
+            {action = "touchUp", target = Location(1940, 900)},
+            {action = "wait", target = interval},
+            {action = "touchDown", target = Location(1940, 700)},
+            {action = "touchUp", target = Location(1940, 700)},
+            {action = "wait", target = interval},
+            {action = "touchDown", target = Location(1940, 700)},
+            {action = "touchUp", target = Location(1940, 700)},
+            {action = "wait", target = interval},
+            {action = "touchDown", target = Location(1940, 700)},
+            {action = "touchUp", target = Location(1940, 700)},
             {action = "wait", target = interval}
         })
     end
@@ -357,7 +360,7 @@ function sellCollect(collect, area, type, port)
         click(findImage("go.png", Region(960, 240, 600, 600)))
     end
     -- 航行到交易所
-    click(sailTil("sell.png", Region(1834, 868, 63, 51)))
+    click(sailTil("sell.png", regTalk))
     manualTouch({
         {action = "wait", target = interval}, -- 全賣
         {action = "touchDown", target = Location(535, 990)},
@@ -465,7 +468,7 @@ while true do
         click(getLastMatch())
         wait(interval)
         -- 賣出
-        click(findImage("sell.png", Region(1834, 868, 63, 51)))
+        click(findImage("sell.png", regTalk))
         -- 全賣
         click(findImage("sellAll.png", Region(503, 964, 68, 48)))
         makeDeal()

@@ -11,6 +11,7 @@ AutoWaitTimeout = 1
 tmpFile = "tmp.png"
 backFile = "tmp2.png"
 regionTarget = Region(174, 44, 134, 40)
+regTalk = Region(1819, 591, 101, 353)
 
 -- 收藏品定位
 collectTable = {}
@@ -227,23 +228,22 @@ function goDrink()
         -- 有找到，去酒館喝酒
         click(getLastMatch())
         manualTouch({
-            -- 等待走到酒館
-            {action = "wait", target = 15}, -- 走到酒保位
+            {action = "wait", target = 15},
             {action = "touchDown", target = Location(265, 720)},
             {action = "wait", target = 2.5},
             {action = "touchUp", target = Location(265, 720)},
-            {action = "wait", target = interval}, -- 請客
-            {action = "touchDown", target = Location(1940, 1000)},
-            {action = "touchUp", target = Location(1940, 1000)},
-            {action = "wait", target = interval}, -- 請客
-            {action = "touchDown", target = Location(1940, 790)},
-            {action = "touchUp", target = Location(1940, 790)},
-            {action = "wait", target = interval}, -- 請客
-            {action = "touchDown", target = Location(1940, 790)},
-            {action = "touchUp", target = Location(1940, 790)},
-            {action = "wait", target = interval}, -- 請客
-            {action = "touchDown", target = Location(1940, 790)},
-            {action = "touchUp", target = Location(1940, 790)},
+            {action = "wait", target = interval},
+            {action = "touchDown", target = Location(1940, 900)},
+            {action = "touchUp", target = Location(1940, 900)},
+            {action = "wait", target = interval},
+            {action = "touchDown", target = Location(1940, 700)},
+            {action = "touchUp", target = Location(1940, 700)},
+            {action = "wait", target = interval},
+            {action = "touchDown", target = Location(1940, 700)},
+            {action = "touchUp", target = Location(1940, 700)},
+            {action = "wait", target = interval},
+            {action = "touchDown", target = Location(1940, 700)},
+            {action = "touchUp", target = Location(1940, 700)},
             {action = "wait", target = interval}
         })
     end
@@ -344,7 +344,7 @@ function sellCollect(collect, area, type, port)
     -- 前往
     click(findImage("go.png", Region(960, 240, 600, 600)))
     -- 航行到交易所
-    click(sailTil("sell.png", Region(1834, 868, 63, 51)))
+    click(sailTil("sell.png", regTalk))
     manualTouch({
         {action = "wait", target = interval}, -- 全賣
         {action = "touchDown", target = Location(535, 990)},
@@ -449,7 +449,7 @@ while true do
         goToPort()
         wait(3)
         -- 航行到交易所
-        click(sailTil("buy.png", Region(1832, 971, 63, 55)))
+        click(sailTil("buy.png", regTalk))
         -- 找到目標交易品
         result = findGoods(tmpFile)
     until result ~= nil
@@ -482,7 +482,7 @@ while true do
             goToPort()
             wait(3)
             -- 航行到交易所
-            click(sailTil("buy.png", Region(1832, 971, 63, 55)))
+            click(sailTil("buy.png", regTalk))
             -- 找到目標交易品
             result = findGoods(backFile)
         until result ~= nil
