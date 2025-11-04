@@ -9,7 +9,7 @@ setManualTouchParameter(20, 1)
 interval = 2
 AutoWaitTimeout = 1
 regionTarget = Region(174, 44, 134, 40)
-regionTalk = Region(1900, 800, 200, 200)
+regionTalk = Region(1800, 640, 500, 300)
 
 -- 商品
 goods = {}
