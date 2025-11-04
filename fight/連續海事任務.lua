@@ -168,8 +168,8 @@ while true do
     -- 找不到的話，點更新任務
     while result == nil do
         click(findImage("更新任務.png", Region(257, 957, 146, 43)))
+        wait(interval)
         result = regionMission:exists(missions[missionIndex][0])
-        if result == nil then wait(interval) end
     end
 
     -- 接任務
