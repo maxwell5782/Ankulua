@@ -56,7 +56,7 @@ while true do
     click(regionFoot:getLastMatch())
     click(findImage("enter.png", Region(2024, 965, 83, 46)))
     Region(1203, 637, 308, 111):existsClick("confirm.png", AutoWaitTimeout)
-    click(findImage("auto.png", Region(2190, 685, 85, 85)))
+    click(findImage("auto.png", Region(2209, 742, 48, 46)))
     click(findImage("start_auto.png", Region(1569, 841, 141, 35)))
     wait(2)
     while true do
@@ -82,5 +82,6 @@ while true do
     click(findImage("confirm.png", Region(1310, 670, 94, 51)))
 
     -- 確認已經離開
-    findImage("land.png", Region(2203, 921, 85, 81))
+    --findImage("land.png", Region(2223, 967, 55, 53))
+    findImage("小地球.png", Region(1973, 979, 43, 41))
 end
