@@ -19,9 +19,9 @@ missions[0][0] = "聖多95炮衣.png"
 missions[0][1] = 0
 missions[0][2] = 0
 missions[1] = {}
-missions[1][0] = "37仙果.png"
+missions[1][0] = "聖多指揮官劍.png"
 missions[1][1] = 0
-missions[1][2] = 1
+missions[1][2] = 0
 missions[2] = {}
 missions[2][0] = "37風神.png"
 missions[2][1] = 0
@@ -31,9 +31,13 @@ missions[3][0] = "37火焰炮.png"
 missions[3][1] = 0
 missions[3][2] = 1
 missions[4] = {}
-missions[4][0] = "委拉水妖.png"
+missions[4][0] = "37仙果.png"
 missions[4][1] = 0
 missions[4][2] = 1
+missions[5] = {}
+missions[5][0] = "開普研究室.png"
+missions[5][1] = 0
+missions[5][2] = 1
 
 -- 找圖
 function findImage(image, region)
