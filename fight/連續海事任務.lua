@@ -38,6 +38,10 @@ missions[5] = {}
 missions[5][0] = "開普研究室.png"
 missions[5][1] = 0
 missions[5][2] = 1
+missions[6] = {}
+missions[6][0] = "聖多會議室.png"
+missions[6][1] = 0
+missions[6][2] = 1
 
 -- 找圖
 function findImage(image, region)
