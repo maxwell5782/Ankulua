@@ -15,37 +15,29 @@ regTalk = Region(1819, 591, 101, 353)
 -- 可用任務0=團隊任務,1=一般任務,2=14任務
 missions = {}
 missions[0] = {}
-missions[0][0] = "聖多95炮衣.png"
+missions[0][0] = "韋拉二連.png"
 missions[0][1] = 0
-missions[0][2] = 0
 missions[1] = {}
 missions[1][0] = "委拉地靈.png"
-missions[1][1] = 0
-missions[1][2] = 1
+missions[1][1] = 1
 missions[2] = {}
 missions[2][0] = "37風神.png"
-missions[2][1] = 0
-missions[2][2] = 1
+missions[2][1] = 1
 missions[3] = {}
 missions[3][0] = "37火焰炮.png"
-missions[3][1] = 0
-missions[3][2] = 1
+missions[3][1] = 1
 missions[4] = {}
 missions[4][0] = "37仙果.png"
-missions[4][1] = 0
-missions[4][2] = 1
+missions[4][1] = 1
 missions[5] = {}
 missions[5][0] = "開普研究室.png"
-missions[5][1] = 0
-missions[5][2] = 1
+missions[5][1] = 1
 missions[6] = {}
 missions[6][0] = "聖多會議室.png"
-missions[6][1] = 0
-missions[6][2] = 1
+missions[6][1] = 1
 missions[7] = {}
 missions[7][0] = "委拉水妖.png"
-missions[7][1] = 0
-missions[7][2] = 1
+missions[7][1] = 1
 
 -- 找圖
 function findImage(image, region)
@@ -212,7 +204,7 @@ while true do
     sailTil("回報.png", regTalk)
 
     -- 如果接的任務要回報
-    if missions[missionIndex][2] >= 1 then
+    if missions[missionIndex][1] >= 1 then
         click(findImage("回報.png", regTalk))
         manualTouch({
             {action = "touchDown", target = Location(1360, 700)},
@@ -224,7 +216,7 @@ while true do
         })
     end
 
-    if missions[missionIndex][2] == 2 then
+    if missions[missionIndex][1] == 2 then
         -- 14特別流程
         -- 點公會
         click(findInMap("公會.png"))
