@@ -21,10 +21,10 @@ missions[1] = {}
 missions[1][0] = "委拉地靈.png"
 missions[1][1] = 1
 missions[2] = {}
-missions[2][0] = "37風神.png"
+missions[2][0] = "委拉水妖.png"
 missions[2][1] = 1
 missions[3] = {}
-missions[3][0] = "37火焰炮.png"
+missions[3][0] = "37風神.png"
 missions[3][1] = 1
 missions[4] = {}
 missions[4][0] = "37仙果.png"
@@ -36,7 +36,7 @@ missions[6] = {}
 missions[6][0] = "聖多會議室.png"
 missions[6][1] = 1
 missions[7] = {}
-missions[7][0] = "委拉水妖.png"
+missions[7][0] = "聖多地靈.png"
 missions[7][1] = 1
 
 -- 找圖

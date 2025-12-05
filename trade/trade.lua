@@ -99,6 +99,7 @@ function sailTil(image, region)
         result = region:exists(image, AutoWaitTimeout)
     until result ~= nil
     toast(string.format("found %s", image))
+    wait(AutoWaitTimeout)
     return region:getLastMatch()
 end
 
