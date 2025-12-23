@@ -156,7 +156,7 @@ end
 
 -- 前往選中的港口
 function goToPort()
-    region = Region(960, 240, 600, 600)
+    region = Region(950, 370, 660, 360)
     if region:exists("here.png", AutoWaitTimeout) then
         -- 已在目標港口，前往交易所
         click(Location(2271, 47))
@@ -171,7 +171,7 @@ function goToPort()
     else
         if towage then
             -- 拖航過去
-            click(findImage("towage.png", region))
+            click(findImage("拖航.png", region))
             click(findImage("confirm.png", region))
         else
             -- 開過去
